@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engineering Services & Architecture Directory — APPIEX</title>
+  <meta name="description" content="Explore APPIEX's 6 core engineering disciplines: Digital Strategy, UI/UX Design, Web & Software Development, AI Development & Automation, SEO & Digital Marketing, and Branding.">
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+
+  <!-- Fonts & CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,400i&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            anton: ['Anton', 'Impact', 'sans-serif'],
+            satoshi: ['Satoshi', 'system-ui', 'sans-serif'],
+            oswald: ['Oswald', 'sans-serif'],
+            cormorant: ['Cormorant Garamond', 'serif'],
+          },
+          colors: {
+            'brand-red': '#DC2626',
+            'brand-red-mid': '#B91C1C',
+            'brand-neon': '#FF2A4D',
+            'brand-pale': '#FEE2E2',
+            'hairline': '#E5E5E5',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-smooth iframe {
+      pointer-events: none;
+    }
+    html, body {
+      background-color: #06070B;
+      color: #FFFFFF;
+      font-family: 'Satoshi', sans-serif;
+    }
+    .btn-pill {
+      border-radius: 9999px;
+      font-family: 'Satoshi', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 280ms var(--ease-spring);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-pill:hover {
+      transform: translateY(-2px);
+    }
+
+    /* 3D Perspective Card Tilt */
+    .card-3d-wrap {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+    .card-3d {
+      transition: transform 320ms var(--ease-spring), box-shadow 320ms ease, border-color 320ms ease;
+      transform-style: preserve-3d;
+    }
+    .card-3d:hover {
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 42, 77, 0.15);
+    }
+
+    /* Floating Pill Navbar */
+    #sticky-nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 1140px;
+      border-radius: 9999px;
+      z-index: 50;
+      background: rgba(11, 13, 20, 0.9);
+      backdrop-filter: blur(32px) saturate(1.8);
+      -webkit-backdrop-filter: blur(32px) saturate(1.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      transition: all 350ms ease;
+    }
+    .nav-link {
+      padding: 6px 14px;
+      border-radius: 9999px;
+      white-space: nowrap;
+      transition: all 220ms ease;
+    }
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #FFFFFF !important;
+    }
+
+    /* Service Filter Pills */
+    .filter-tab {
+      cursor: pointer;
+      transition: all 240ms ease;
+    }
+    .filter-tab.active {
+      background: #FFFFFF;
+      color: #06070B;
+      font-weight: 700;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.35);
+    }
+
+    /* Drawer / Modal */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(12px);
+      z-index: 9100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 300ms ease;
+    }
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #service-details-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -46%) scale(0.95);
+      width: 92%;
+      max-width: 820px;
+      max-height: 88vh;
+      background: #0B0E17;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      z-index: 9200;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 380ms var(--ease-spring), opacity 350ms ease;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 0 0 50px rgba(220, 38, 38, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #service-details-modal.open {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Mobile Nav Overlay */
+    #mobile-nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: #080A12;
+      z-index: 9000;
+      transform: translateX(100%);
+      transition: transform 400ms var(--ease-spring);
+      display: flex;
+      flex-direction: column;
+      padding: 32px;
+    }
+    #mobile-nav-overlay.open {
+      transform: translateX(0);
+    }
+  </style>
+
+  <!-- GSAP & Lenis CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+</head>
+<body class="bg-[#06070B] text-white antialiased selection:bg-brand-red selection:text-white">
+
+  <!-- MODAL OVERLAY -->
+  <div id="modal-overlay" class="drawer-overlay"></div>
+
+  <!-- INTERACTIVE SERVICE DETAIL MODAL -->
+  <div id="service-details-modal" role="dialog" aria-modal="true" aria-labelledby="modal-service-title">
+    <!-- Header -->
+    <div class="p-6 md:p-8 border-b border-white/10 flex items-center justify-between bg-[#0e111a]">
+      <div class="flex items-center space-x-4">
+        <div id="modal-service-icon" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white shadow-lg shrink-0">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span id="modal-service-category" class="font-oswald text-[10px] tracking-[0.2em] text-brand-neon uppercase font-bold">CORE DISCIPLINE</span>
+            <span id="modal-service-badge" class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-white/10 text-white border border-white/20">LIVE BLUEPRINT</span>
+          </div>
+          <h3 id="modal-service-title" class="font-anton text-2xl md:text-3xl uppercase tracking-wide text-white">Digital Strategy & Consulting</h3>
+        </div>
+      </div>
+      <button id="close-modal-btn" aria-label="Close modal" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-brand-neon transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Modal Body (Scrollable) -->
+    <div class="p-6 md:p-8 overflow-y-auto space-y-6 flex-1">
+      <div>
+        <h4 class="font-anton text-lg tracking-wide uppercase text-white mb-2 flex items-center space-x-2">
+          <span class="text-brand-neon">✦</span>
+          <span>EXECUTIVE SCOPE & IMPACT</span>
+        </h4>
+        <p id="modal-service-desc" class="font-satoshi text-sm text-white/80 leading-relaxed">
+          Comprehensive product roadmaps, headless architecture consultation, tech debt eradication, and conversion-optimized biomechanics systems engineered for scale.
+        </p>
+      </div>
+
+      <!-- Deliverables Bento Grid -->
+      <div>
+        <h5 class="font-oswald text-xs uppercase tracking-[0.18em] text-white/60 mb-3 font-semibold">VERIFIED DELIVERABLES & PHASES</h5>
+        <div id="modal-deliverables-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 font-satoshi text-xs text-white/80">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+
+      <!-- Tech Stack & Tools -->
+      <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
+        <span class="font-oswald text-[11px] uppercase tracking-wider text-white/50 block mb-2 font-semibold">PRODUCTION TECH STACK & METHODOLOGY</span>
+        <div id="modal-tech-stack" class="flex flex-wrap gap-2">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <div class="p-6 border-t border-white/10 bg-[#0A0D15] flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs font-satoshi text-white/60 flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span>Lead architects ready for sprint deployment</span>
+      </div>
+      <div class="flex items-center space-x-3 w-full sm:w-auto">
+        <a id="modal-chat-btn" href="https://wa.me/8801977777777?text=Hello%20APPIEX%20Engineering,%20I%20want%20to%20consult%20about%20your%20services" target="_blank" rel="noopener" class="flex-1 sm:flex-none btn-pill bg-white text-black hover:bg-white/90 px-6 py-2.5 text-xs font-bold">
+          INSTANT WHATSAPP CHAT
+        </a>
+        <a href="index.html#contact" class="flex-1 sm:flex-none btn-pill bg-brand-red hover:bg-brand-red-mid text-white px-6 py-2.5 text-xs shadow-lg shadow-brand-red/30 font-bold">
+          BOOK SPRINT
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div id="mobile-nav-overlay">
+    <div class="flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-2">
+        <svg class="h-8 w-auto text-white" viewBox="0 0 240 50" fill="none">
+          <g transform="translate(2, 2)">
+            <path d="M4 32 C10 20, 22 12, 36 8 C30 14, 28 20, 30 26 C26 23, 20 24, 14 28 C22 31, 30 28, 38 20 C34 27, 28 32, 18 35 C27 37, 36 35, 42 26 C38 32, 32 37, 24 39 C34 40, 46 34, 52 22 C56 16, 57 10, 58 4 C50 10, 42 13, 34 11 C44 6, 54 4, 62 1 C56 7, 52 13, 44 18 C52 13, 58 8, 64 2 C60 10, 54 16, 44 22 C52 18, 58 13, 64 7 C62 15, 54 23, 44 28 C38 32, 30 34, 20 35 Z" fill="#DC2626"/>
+          </g>
+          <text x="74" y="34" font-family="'Anton', 'Oswald', sans-serif" font-size="28" font-weight="900" fill="currentColor">APPIEX</text>
+        </svg>
+      </a>
+      <button id="close-mobile-nav" class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="flex flex-col space-y-4 my-auto">
+      <a href="services.html" class="font-anton text-4xl sm:text-5xl uppercase text-brand-neon">SERVICES</a>
+      <a href="refer.html" class="font-anton text-4xl sm:text-5xl uppercase hover:text-brand-neon text-white">REFER</a>
+      <a href="collections.html" class="font-anton text-4xl sm:text-5xl uppercase hover:text-brand-neon text-white">COLLECTIONS</a>
+      <a href="stories.html" class="font-anton text-4xl sm:text-5xl uppercase hover:text-brand-neon text-white">CASE STUDIES</a>
+      <a href="index.html#contact" class="font-anton text-4xl sm:text-5xl uppercase hover:text-brand-neon text-white">CONTACT</a>
+    </div>
+    <span class="font-satoshi text-xs uppercase tracking-widest text-white/80">APPIEX SERVICES · 6 CORE DISCIPLINES</span>
+  </div>
+
+  <!-- FLOATING NAVBAR -->
+  <header id="sticky-nav" class="px-5 sm:px-6 md:px-7 py-3 flex items-center justify-between flex-nowrap">
+    <a href="index.html" class="flex items-center space-x-2 flex-shrink-0" aria-label="APPIEX Home">
+      <svg class="h-[28px] md:h-[32px] w-auto text-white" viewBox="0 0 240 50" fill="none">
+        <g transform="translate(2, 2)">
+          <path d="M4 32 C10 20, 22 12, 36 8 C30 14, 28 20, 30 26 C26 23, 20 24, 14 28 C22 31, 30 28, 38 20 C34 27, 28 32, 18 35 C27 37, 36 35, 42 26 C38 32, 32 37, 24 39 C34 40, 46 34, 52 22 C56 16, 57 10, 58 4 C50 10, 42 13, 34 11 C44 6, 54 4, 62 1 C56 7, 52 13, 44 18 C52 13, 58 8, 64 2 C60 10, 54 16, 44 22 C52 18, 58 13, 64 7 C62 15, 54 23, 44 28 C38 32, 30 34, 20 35 Z" fill="url(#appiexServicesNavG)"/>
+          <polygon points="10,28 22,20 36,24 26,30 14,33" fill="#DC2626"/>
+          <polygon points="26,12 40,6 52,10 42,14" fill="#FF2A4D"/>
+          <circle cx="53" cy="11" r="1.8" fill="#FFFFFF"/>
+          <circle cx="53" cy="11" r="0.9" fill="#FF2A4D"/>
+        </g>
+        <text x="74" y="34" font-family="'Anton', 'Oswald', sans-serif" font-size="28" font-weight="900" letter-spacing="0.08em" fill="currentColor">APPIEX</text>
+        <defs>
+          <linearGradient id="appiexServicesNavG" x1="0" y1="0" x2="64" y2="40" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FF4D6D"/>
+            <stop offset="50%" stop-color="#DC2626"/>
+            <stop offset="100%" stop-color="#991B1B"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </a>
+
+    <!-- Center Links: SERVICES -> REFER -> COLLECTIONS -> CASE STUDIES -> CONTACT -->
+    <nav class="hidden lg:flex items-center space-x-2 xl:space-x-3 font-satoshi text-xs uppercase tracking-[0.14em] font-medium text-white/80 whitespace-nowrap flex-nowrap shrink-0">
+      <a href="services.html" class="nav-link bg-white/15 text-white font-bold whitespace-nowrap">SERVICES</a>
+      <a href="refer.html" class="nav-link text-brand-neon font-bold whitespace-nowrap flex items-center space-x-1">
+        <span>REFER</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-neon animate-pulse"></span>
+      </a>
+      <a href="collections.html" class="nav-link whitespace-nowrap">COLLECTIONS</a>
+      <a href="stories.html" class="nav-link whitespace-nowrap">CASE STUDIES</a>
+      <a href="index.html#contact" class="nav-link whitespace-nowrap">CONTACT</a>
+    </nav>
+
+    <!-- Right Controls -->
+    <div class="flex items-center space-x-3 flex-shrink-0 whitespace-nowrap">
+      <a href="#services-directory" class="hidden sm:inline-flex btn-pill bg-brand-red hover:bg-brand-red-mid text-white px-5 py-2 text-[11px] shadow-lg shadow-brand-red/30 whitespace-nowrap shrink-0">
+        ALL 6 DISCIPLINES
+      </a>
+      <button id="hamburger" aria-label="Menu" class="lg:hidden p-2 flex flex-col space-y-1.5 text-white">
+        <span class="w-5 h-0.5 bg-white"></span>
+        <span class="w-5 h-0.5 bg-white"></span>
+        <span class="w-5 h-0.5 bg-white"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative pt-36 pb-20 px-6 md:px-12 bg-gradient-to-b from-[#080A12] via-[#0E0608] to-[#06070B] border-b border-white/10 overflow-hidden">
+    <!-- Ambient Neon Cyber Glows -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-brand-red/15 blur-[130px] rounded-full pointer-events-none"></div>
+    <div class="absolute top-1/3 right-10 w-[320px] h-[320px] bg-purple-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-10 relative z-10">
+      <div class="space-y-4 max-w-3xl">
+        <div class="inline-flex items-center space-x-2 bg-brand-red/15 border border-brand-red/30 px-4 py-1.5 rounded-full text-brand-neon font-oswald text-xs tracking-[0.2em] uppercase font-bold">
+          <span class="w-2 h-2 rounded-full bg-brand-neon animate-ping"></span>
+          <span>FULL-SPECTRUM DIGITAL ARCHITECTURE & PRODUCTION</span>
+        </div>
+        <h1 class="font-anton text-6xl sm:text-7xl md:text-8xl lg:text-9xl uppercase leading-[0.9] tracking-tight text-white">
+          ENGINEERING <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-neon via-red-400 to-white">DISCIPLINES</span>
+        </h1>
+        <p class="font-satoshi text-base sm:text-lg text-white/70 max-w-2xl font-light leading-relaxed">
+          From headless enterprise commerce and high-impact UI/UX biomechanics to autonomous Gemini AI agent pipelines and search dominance. 6 core disciplines, 1 elite engineering team.
+        </p>
+      </div>
+
+      <!-- Quick Stats Card -->
+      <div class="flex flex-row lg:flex-col gap-3 shrink-0">
+        <div class="px-6 py-4 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl">
+          <span class="font-satoshi text-[11px] uppercase tracking-wider text-white/50 block">Active Production Disciplines</span>
+          <span class="font-anton text-3xl md:text-4xl text-brand-neon">06 DIVISIONS</span>
+        </div>
+        <div class="px-6 py-4 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl">
+          <span class="font-satoshi text-[11px] uppercase tracking-wider text-white/50 block">Global Web Performance</span>
+          <span class="font-anton text-3xl md:text-4xl text-emerald-400">&lt; 0.4s SPEED</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Filter Category Tabs -->
+    <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10">
+      <div class="flex items-center space-x-2 overflow-x-auto pb-2 text-xs font-satoshi font-semibold tracking-wider uppercase no-scrollbar">
+        <button class="filter-tab active px-4 py-2 rounded-full border border-white/20" data-filter="all">ALL DISCIPLINES (6)</button>
+        <a href="#strategy" class="filter-tab px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-white/80 hover:text-white hover:border-amber-500/50 transition">STRATEGY</a>
+        <a href="#uiux" class="filter-tab px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-white/80 hover:text-white hover:border-purple-500/50 transition">UI/UX DESIGN</a>
+        <a href="#development" class="filter-tab px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-white/80 hover:text-white hover:border-blue-500/50 transition">WEB & SOFTWARE</a>
+        <a href="#ai-automation" class="filter-tab px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-white/80 hover:text-white hover:border-teal-500/50 transition">AI & AGENTS</a>
+        <a href="#seo-marketing" class="filter-tab px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-white/80 hover:text-white hover:border-emerald-500/50 transition">SEO & AEO</a>
+        <a href="#branding" class="filter-tab px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-white/80 hover:text-white hover:border-pink-500/50 transition">BRANDING</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 CORE SERVICES DIRECTORY (MATCHES 1ST PICTURE IN DETAIL) -->
+  <section id="services-directory" class="py-24 px-6 md:px-12 max-w-7xl mx-auto space-y-16">
+
+    <!-- 1. Digital Strategy & Consulting -->
+    <div id="strategy" class="service-card-block card-3d-wrap pt-6 scroll-mt-28">
+      <div class="card-3d relative rounded-3xl bg-gradient-to-b from-[#13110E] via-[#0D0B08] to-[#070605] border border-amber-500/30 p-8 md:p-12 overflow-hidden shadow-2xl">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-amber-500/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+          <!-- Left Column -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-orange-500/30 flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 100 20 10 10 0 000-20zm3.5 6.5l-2 5.5-5.5 2 2-5.5 5.5-2z"/></svg>
+              </div>
+              <div>
+                <span class="font-oswald text-xs uppercase tracking-[0.2em] text-amber-400 font-bold">DISCIPLINE 01 · STRATEGY</span>
+                <h2 class="font-anton text-3xl sm:text-4xl md:text-5xl uppercase tracking-wide text-white">Digital Strategy & Consulting</h2>
+              </div>
+            </div>
+
+            <p class="font-satoshi text-base text-white/80 leading-relaxed font-light">
+              Product strategy consulting, technology roadmaps, UX strategy & digital transformation. We help ambitious founders and executives audit their architecture, de-risk multi-million dollar tech debt, and chart ultra-fast deployment roadmaps.
+            </p>
+
+            <!-- Deliverables Check List -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 font-satoshi text-sm text-white/90">
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-amber-400 font-bold">✓</span>
+                <span>Product Strategy & Monetization Roadmaps</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-amber-400 font-bold">✓</span>
+                <span>Enterprise Technology Debt Audits</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-amber-400 font-bold">✓</span>
+                <span>Conversion Biomechanics UX Audits</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-amber-400 font-bold">✓</span>
+                <span>Headless & Cloud Migration Blueprint</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-4">
+              <button onclick="openServiceModal('strategy')" class="btn-pill bg-white text-black hover:bg-amber-400 hover:text-black px-6 py-3 text-xs font-bold transition">
+                VIEW FULL BLUEPRINT
+              </button>
+              <a href="index.html#contact" class="btn-pill bg-white/10 hover:bg-white/20 text-white px-6 py-3 text-xs border border-white/15">
+                REQUEST STRATEGY SESSION
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column Bento Card -->
+          <div class="lg:col-span-5 space-y-4">
+            <div class="p-6 rounded-2xl bg-black/60 border border-amber-500/20 space-y-4">
+              <span class="font-oswald text-xs uppercase tracking-widest text-amber-400 font-bold">TARGET OUTCOMES</span>
+              <div class="space-y-3 font-satoshi text-xs">
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Time-to-Market Reduction</span>
+                  <span class="font-anton text-lg text-amber-400">45% FASTER</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Cloud Infrastructure Cost Savings</span>
+                  <span class="font-anton text-lg text-emerald-400">-32% OPEX</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-white/60">Sprint Velocity Gain</span>
+                  <span class="font-anton text-lg text-white">3.2X VELOCITY</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200/90 text-xs font-satoshi">
+              <span class="font-bold">Lead Strategist:</span> Supervised by Rafsan & Adil with direct experience across 50+ enterprise launches.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. UI/UX Design & Product Design -->
+    <div id="uiux" class="service-card-block card-3d-wrap pt-6 scroll-mt-28">
+      <div class="card-3d relative rounded-3xl bg-gradient-to-b from-[#110E18] via-[#0C0A12] to-[#060509] border border-purple-500/30 p-8 md:p-12 overflow-hidden shadow-2xl">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-purple-500/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 shadow-lg shadow-purple-500/30 flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 5h16M10 10v10"/></svg>
+              </div>
+              <div>
+                <span class="font-oswald text-xs uppercase tracking-[0.2em] text-purple-400 font-bold">DISCIPLINE 02 · DESIGN & UX</span>
+                <h2 class="font-anton text-3xl sm:text-4xl md:text-5xl uppercase tracking-wide text-white">UI/UX Design & Product Design</h2>
+              </div>
+            </div>
+
+            <p class="font-satoshi text-base text-white/80 leading-relaxed font-light">
+              UX research, UI/UX architecture, website design, UX audits & 3D web design. We eliminate cognitive friction, engineering spatial interfaces with tactile 3D cards, micro-animations, and neuromarketing-backed conversion flow.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 font-satoshi text-sm text-white/90">
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-purple-400 font-bold">✓</span>
+                <span>Figma Enterprise Design Systems & Tokens</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-purple-400 font-bold">✓</span>
+                <span>3D Spatial Canvases & R3F Interactions</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-purple-400 font-bold">✓</span>
+                <span>Mobile-First Conversion Funnels</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-purple-400 font-bold">✓</span>
+                <span>Interactive Wireframes & Micro-prototypes</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-4">
+              <button onclick="openServiceModal('uiux')" class="btn-pill bg-white text-black hover:bg-purple-400 hover:text-black px-6 py-3 text-xs font-bold transition">
+                VIEW FULL BLUEPRINT
+              </button>
+              <a href="collections.html" class="btn-pill bg-white/10 hover:bg-white/20 text-white px-6 py-3 text-xs border border-white/15">
+                EXPLORE DESIGN GALLERY
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="p-6 rounded-2xl bg-black/60 border border-purple-500/20 space-y-4">
+              <span class="font-oswald text-xs uppercase tracking-widest text-purple-400 font-bold">CONVERSION BENCHMARKS</span>
+              <div class="space-y-3 font-satoshi text-xs">
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Cart Checkout Completion Lift</span>
+                  <span class="font-anton text-lg text-purple-400">+41.8%</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Average Session Duration</span>
+                  <span class="font-anton text-lg text-white">4.8 MINS</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-white/60">Design Token Reusability</span>
+                  <span class="font-anton text-lg text-emerald-400">100% DRY</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-200/90 text-xs font-satoshi">
+              <span class="font-bold">Design Philosophy:</span> Dark cyberpunk aesthetics, spatial perspective hover tilts, and zero-distraction layout hierarchy.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Web & Software Development -->
+    <div id="development" class="service-card-block card-3d-wrap pt-6 scroll-mt-28">
+      <div class="card-3d relative rounded-3xl bg-gradient-to-b from-[#0B121E] via-[#080D16] to-[#05080E] border border-blue-500/30 p-8 md:p-12 overflow-hidden shadow-2xl">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-500/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 shadow-lg shadow-blue-500/30 flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              </div>
+              <div>
+                <span class="font-oswald text-xs uppercase tracking-[0.2em] text-blue-400 font-bold">DISCIPLINE 03 · SOFTWARE ENGINEERING</span>
+                <h2 class="font-anton text-3xl sm:text-4xl md:text-5xl uppercase tracking-wide text-white">Web & Software Development</h2>
+              </div>
+            </div>
+
+            <p class="font-satoshi text-base text-white/80 leading-relaxed font-light">
+              Custom software, web applications, SaaS platforms, mobile apps & API integrations. Engineered with Next.js 15, Turbopack, Tailwind CSS, high-concurrency Node.js, and headless commerce engines designed for 100,000+ daily visitors.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 font-satoshi text-sm text-white/90">
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-blue-400 font-bold">✓</span>
+                <span>Next.js 15 Server Components & Headless APIs</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-blue-400 font-bold">✓</span>
+                <span>Headless Shopify & WooCommerce Engines</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-blue-400 font-bold">✓</span>
+                <span>Sub-0.4s Global Edge Caching (Cloudflare)</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-blue-400 font-bold">✓</span>
+                <span>Cross-Platform Flutter & React Native Mobile Apps</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-4">
+              <button onclick="openServiceModal('development')" class="btn-pill bg-white text-black hover:bg-blue-400 hover:text-black px-6 py-3 text-xs font-bold transition">
+                VIEW FULL BLUEPRINT
+              </button>
+              <a href="https://watch24bd.com" target="_blank" rel="noopener" class="btn-pill bg-brand-red hover:bg-brand-red-mid text-white px-6 py-3 text-xs shadow-lg shadow-brand-red/30">
+                VIEW LIVE STORE: WATCH24BD.COM ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="p-6 rounded-2xl bg-black/60 border border-blue-500/20 space-y-4">
+              <span class="font-oswald text-xs uppercase tracking-widest text-blue-400 font-bold">PERFORMANCE SPECS</span>
+              <div class="space-y-3 font-satoshi text-xs">
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Core Web Vitals LCP</span>
+                  <span class="font-anton text-lg text-emerald-400">0.38 SECONDS</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Cumulative Layout Shift</span>
+                  <span class="font-anton text-lg text-white">0.00 CLS</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-white/60">Max Concurrent Requests</span>
+                  <span class="font-anton text-lg text-blue-400">25,000 REQ/SEC</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-200/90 text-xs font-satoshi">
+              <span class="font-bold">Engineering Leads:</span> Fayaj (Backend Architecture & APIs) & Rafsan (Full-Stack React/Next.js Core).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. AI Development & Automation (Matches AI AGENTS Badge) -->
+    <div id="ai-automation" class="service-card-block card-3d-wrap pt-6 scroll-mt-28">
+      <div class="card-3d relative rounded-3xl bg-gradient-to-b from-[#08181A] via-[#061214] to-[#040A0B] border border-teal-400/40 p-8 md:p-12 overflow-hidden shadow-2xl">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-teal-400/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400 to-cyan-600 shadow-lg shadow-teal-500/30 flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="font-oswald text-xs uppercase tracking-[0.2em] text-teal-300 font-bold">DISCIPLINE 04 · INTELLIGENCE</span>
+                  <span class="bg-[#082F3E] text-[#38BDF8] border border-[#0284C7]/50 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    AI AGENTS
+                  </span>
+                </div>
+                <h2 class="font-anton text-3xl sm:text-4xl md:text-5xl uppercase tracking-wide text-white">AI Development & Automation</h2>
+              </div>
+            </div>
+
+            <p class="font-satoshi text-base text-white/80 leading-relaxed font-light">
+              AI agent development, Gemini LLM workflows, process automation & chatbots. We build autonomous AI agents that handle multi-step order placement, CRM synchronization, vector search recommendations, and 24/7 client operations.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 font-satoshi text-sm text-white/90">
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-teal-400 font-bold">✓</span>
+                <span>Custom Google Gemini 1.5 / 2.0 LLM Agent Workflows</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-teal-400 font-bold">✓</span>
+                <span>Vector Database Embeddings & Semantic Search</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-teal-400 font-bold">✓</span>
+                <span>Automated Order Dispatch & Inventory Bots</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-teal-400 font-bold">✓</span>
+                <span>WhatsApp & Messenger Autonomous Support AI</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-4">
+              <button onclick="openServiceModal('ai-automation')" class="btn-pill bg-white text-black hover:bg-teal-400 hover:text-black px-6 py-3 text-xs font-bold transition">
+                VIEW FULL BLUEPRINT
+              </button>
+              <a href="index.html#contact" class="btn-pill bg-white/10 hover:bg-white/20 text-white px-6 py-3 text-xs border border-white/15">
+                DEPLOY AN AI AGENT
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="p-6 rounded-2xl bg-black/60 border border-teal-400/20 space-y-4">
+              <span class="font-oswald text-xs uppercase tracking-widest text-teal-300 font-bold">AUTOMATION EFFICIENCY</span>
+              <div class="space-y-3 font-satoshi text-xs">
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Support Ticket Resolution Rate</span>
+                  <span class="font-anton text-lg text-teal-300">84% AUTONOMOUS</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Response Latency</span>
+                  <span class="font-anton text-lg text-emerald-400">&lt; 750ms</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-white/60">Manual Labor Hours Saved / Mo</span>
+                  <span class="font-anton text-lg text-white">160+ HOURS</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-teal-400/10 border border-teal-400/20 text-teal-200/90 text-xs font-satoshi">
+              <span class="font-bold">Safety & Precision:</span> Built with strict prompt sandboxing, role-based guardrails, and programmatic validation.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. SEO & Digital Marketing (Matches GEO & AEO Badge) -->
+    <div id="seo-marketing" class="service-card-block card-3d-wrap pt-6 scroll-mt-28">
+      <div class="card-3d relative rounded-3xl bg-gradient-to-b from-[#0A1811] via-[#07120C] to-[#040A07] border border-emerald-500/30 p-8 md:p-12 overflow-hidden shadow-2xl">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg shadow-emerald-500/30 flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="font-oswald text-xs uppercase tracking-[0.2em] text-emerald-400 font-bold">DISCIPLINE 05 · VISIBILITY</span>
+                  <span class="bg-[#0A3828] text-[#34D399] border border-[#059669]/50 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    GEO & AEO
+                  </span>
+                </div>
+                <h2 class="font-anton text-3xl sm:text-4xl md:text-5xl uppercase tracking-wide text-white">SEO & Digital Marketing</h2>
+              </div>
+            </div>
+
+            <p class="font-satoshi text-base text-white/80 leading-relaxed font-light">
+              Technical SEO, AEO/GEO/LLM optimization, CRO & analytics platforms. We dominate Google Bangladesh SERP positions #1 while optimizing your brand for conversational AI answers (ChatGPT, Perplexity, and Google Gemini Overviews).
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 font-satoshi text-sm text-white/90">
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>Rank #1 SERP Technical Programmatic SEO</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>Generative Engine Optimization (GEO & AEO)</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>JSON-LD Automated Schema Graph Structuring</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>Conversion Rate Optimization (CRO) A/B Testing</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-4">
+              <button onclick="openServiceModal('seo-marketing')" class="btn-pill bg-white text-black hover:bg-emerald-400 hover:text-black px-6 py-3 text-xs font-bold transition">
+                VIEW FULL BLUEPRINT
+              </button>
+              <a href="seo.html" class="btn-pill bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 px-6 py-3 text-xs border border-emerald-500/40">
+                VIEW LIVE AUDIT LAB (WATCH24BD) ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="p-6 rounded-2xl bg-black/60 border border-emerald-500/20 space-y-4">
+              <span class="font-oswald text-xs uppercase tracking-widest text-emerald-400 font-bold">PROVEN TRACK RECORD</span>
+              <div class="space-y-3 font-satoshi text-xs">
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Rank #1 Target Keywords</span>
+                  <span class="font-anton text-lg text-emerald-400">18+ KEYWORDS</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Organic Traffic Growth</span>
+                  <span class="font-anton text-lg text-white">+380%</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-white/60">Organic Sales Attributed</span>
+                  <span class="font-anton text-lg text-brand-neon">৳12.8M BDT</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-200/90 text-xs font-satoshi">
+              <span class="font-bold">Growth Strategist:</span> Directed by Adil (Marketing & Growth Operations) with deep BD local and international SEO mastery.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Branding & Creative Services -->
+    <div id="branding" class="service-card-block card-3d-wrap pt-6 scroll-mt-28">
+      <div class="card-3d relative rounded-3xl bg-gradient-to-b from-[#180A11] via-[#12070D] to-[#0A0407] border border-rose-500/30 p-8 md:p-12 overflow-hidden shadow-2xl">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-rose-500/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 shadow-lg shadow-pink-500/30 flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 5 5 0 015-5c1 0 2-1 2-2a3 3 0 013-3 5 5 0 015 5 4 4 0 01-4 4h-2a2 2 0 00-2 2 3 3 0 01-3 3z"/></svg>
+              </div>
+              <div>
+                <span class="font-oswald text-xs uppercase tracking-[0.2em] text-rose-400 font-bold">DISCIPLINE 06 · BRAND IDENTITY</span>
+                <h2 class="font-anton text-3xl sm:text-4xl md:text-5xl uppercase tracking-wide text-white">Branding & Creative Services</h2>
+              </div>
+            </div>
+
+            <p class="font-satoshi text-base text-white/80 leading-relaxed font-light">
+              Brand strategy, visual identity design, logo design tokens & content strategy. We forge iconic brand identities that command high average order value (AOV), strong customer loyalty, and unforgettable digital prestige.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 font-satoshi text-sm text-white/90">
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-rose-400 font-bold">✓</span>
+                <span>Full Brand Bible & Vector Identity Systems</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-rose-400 font-bold">✓</span>
+                <span>Custom Typography, Palettes & Style Guides</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-rose-400 font-bold">✓</span>
+                <span>3D Packaging Mockups & Product Renders</span>
+              </div>
+              <div class="flex items-center space-x-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                <span class="text-rose-400 font-bold">✓</span>
+                <span>Omnichannel Content Playbooks & Voice</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-4">
+              <button onclick="openServiceModal('branding')" class="btn-pill bg-white text-black hover:bg-rose-400 hover:text-black px-6 py-3 text-xs font-bold transition">
+                VIEW FULL BLUEPRINT
+              </button>
+              <a href="index.html#contact" class="btn-pill bg-white/10 hover:bg-white/20 text-white px-6 py-3 text-xs border border-white/15">
+                COMMISSION BRAND IDENTITY
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <div class="p-6 rounded-2xl bg-black/60 border border-rose-500/20 space-y-4">
+              <span class="font-oswald text-xs uppercase tracking-widest text-rose-400 font-bold">BRAND EQUITY ACCELERATION</span>
+              <div class="space-y-3 font-satoshi text-xs">
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Perceived Brand Value Lift</span>
+                  <span class="font-anton text-lg text-rose-400">+65% AOV</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/10">
+                  <span class="text-white/60">Asset Consistency Score</span>
+                  <span class="font-anton text-lg text-white">99.4%</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-white/60">Turnaround Time</span>
+                  <span class="font-anton text-lg text-emerald-400">10-14 DAYS</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-200/90 text-xs font-satoshi">
+              <span class="font-bold">Creative Guarantee:</span> Unlimited vector scalability, registered SVG assets, and turnkey web design token handoff.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- BOTTOM CALL TO ACTION / CONSULTATION SPRINT -->
+  <section class="py-20 px-6 md:px-12 bg-gradient-to-b from-[#06070B] via-[#0F080A] to-[#06070B] border-t border-white/10">
+    <div class="max-w-5xl mx-auto rounded-3xl bg-gradient-to-r from-brand-red/20 via-black to-brand-neon/15 border border-brand-red/40 p-8 sm:p-14 text-center space-y-6 relative overflow-hidden">
+      <div class="inline-flex items-center space-x-2 bg-brand-red/20 border border-brand-red/40 px-4 py-1.5 rounded-full text-brand-neon font-oswald text-xs tracking-widest uppercase font-bold">
+        <span>READY TO ACCELERATE YOUR DIGITAL PLATFORM?</span>
+      </div>
+      <h2 class="font-anton text-4xl sm:text-5xl md:text-6xl uppercase tracking-tight text-white max-w-3xl mx-auto">
+        SCHEDULE AN ARCHITECTURE AUDIT WITH APPIEX LEAD ENGINEERS
+      </h2>
+      <p class="font-satoshi text-sm sm:text-base text-white/70 max-w-xl mx-auto font-light leading-relaxed">
+        Speak directly with Rafsan, Adil, and Fayaj. We review your codebase, marketing performance, and conversion funnel with zero obligations.
+      </p>
+      <div class="pt-4 flex flex-wrap justify-center items-center gap-4">
+        <a href="index.html#contact" class="btn-pill bg-brand-red hover:bg-brand-red-mid text-white px-8 py-3.5 text-xs shadow-xl shadow-brand-red/40 font-bold">
+          CONTACT APPIEX ARCHITECTS
+        </a>
+        <a href="refer.html" class="btn-pill bg-white text-black hover:bg-white/90 px-8 py-3.5 text-xs font-bold">
+          REFER A CLIENT & EARN UP TO ৳5,000 CASH →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 px-6 md:px-12 border-t border-white/10 text-white/50 text-xs font-satoshi">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-4">
+        <span class="font-anton text-xl tracking-wider text-white">APPIEX</span>
+        <span>© 2026 APPIEX WEB SYSTEMS. ALL RIGHTS RESERVED.</span>
+      </div>
+      <div class="flex items-center space-x-6">
+        <a href="index.html" class="hover:text-white transition">HOME</a>
+        <a href="services.html" class="text-white hover:text-brand-neon transition">SERVICES</a>
+        <a href="refer.html" class="hover:text-brand-neon transition text-brand-neon font-bold">REFER & EARN</a>
+        <a href="seo.html" class="hover:text-white transition">SEO LAB</a>
+        <a href="collections.html" class="hover:text-white transition">COLLECTIONS</a>
+        <a href="stories.html" class="hover:text-white transition">CASE STUDIES</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT & MODAL LOGIC -->
+  <script>
+    // Blueprint Data for Modal
+    const servicesData = {
+      strategy: {
+        title: "Digital Strategy & Consulting",
+        category: "DISCIPLINE 01 · STRATEGY",
+        badge: "ENTERPRISE READY",
+        iconGradient: "from-amber-500 to-orange-600",
+        description: "Our digital strategy consulting provides high-growth brands with concrete architectural roadmaps. We identify tech bottlenecks, eradicate technical debt, and plan conversion biomechanics that give you an insurmountable competitive moat.",
+        deliverables: [
+          "Complete Architecture & Tech Stack Evaluation Report",
+          "Conversion Funnel & Friction Matrix Audit",
+          "12-Month Headless Migration & Cloud Infrastructure Blueprint",
+          "Executive Agile Sprint Sizing & Resource Allocation",
+          "Security, Compliance & Multi-Region Caching Strategy",
+          "Bi-Weekly Executive Consultation & KPI Reviews"
+        ],
+        techStack: ["Next.js Architecture", "AWS / Cloudflare Edge", "System Design Docs", "Figma FigJam", "PostgreSQL", "Jira / Linear", "Datadog APM"]
+      },
+      uiux: {
+        title: "UI/UX Design & Product Design",
+        category: "DISCIPLINE 02 · DESIGN & UX",
+        badge: "3D SPATIAL SYSTEMS",
+        iconGradient: "from-purple-500 to-indigo-600",
+        description: "We craft futuristic, dark-mode and glassmorphic spatial interfaces engineered for extreme conversion rates. Every pixel, micro-interaction, and 3D card tilt is calculated to mesmerize visitors and drive instant checkout.",
+        deliverables: [
+          "Interactive High-Fidelity Figma Design System & Tokens",
+          "3D Spatial Card Tilt, Bento Grids & Micro-Interactions",
+          "Mobile-First Responsive Breakpoints (375px to 4K)",
+          "Neuromarketing Checkout Funnel Optimization",
+          "Design Token Handoff with Tailwind CSS / CSS Variables",
+          "Usability Testing & Heatmap Analysis Protocols"
+        ],
+        techStack: ["Figma Enterprise", "Three.js / R3F", "Spline 3D", "Tailwind CSS", "Framer Motion", "GSAP ScrollTrigger", "Hotjar"]
+      },
+      development: {
+        title: "Web & Software Development",
+        category: "DISCIPLINE 03 · SOFTWARE ENGINEERING",
+        badge: "SUB-0.4s VELOCITY",
+        iconGradient: "from-blue-500 to-cyan-600",
+        description: "Engineered from 3-4 years of high-performance web engineering. We build headless commerce architectures, custom SaaS platforms, and custom software systems capable of powering millions in monthly transactions with zero slowdown.",
+        deliverables: [
+          "Next.js 15 App Router & Turbopack High-Velocity Codebase",
+          "Headless Shopify / WooCommerce Custom Engine Integration",
+          "Cloudflare Edge Network Caching & Sub-40ms TTFB",
+          "PostgreSQL / Supabase Database Architecture with Real-Time Sync",
+          "Multi-currency & Local Payment Gateway (bKash, Nagad, Stripe)",
+          "CI/CD Automated Deployment Pipelines & 99.99% Uptime SLA"
+        ],
+        techStack: ["Next.js 15", "TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL", "Cloudflare Workers", "Shopify Storefront API", "Vercel"]
+      },
+      "ai-automation": {
+        title: "AI Development & Automation",
+        category: "DISCIPLINE 04 · INTELLIGENCE",
+        badge: "AI AGENTS DEPLOYED",
+        iconGradient: "from-teal-400 to-cyan-600",
+        description: "Harness Google Gemini LLMs and autonomous agents to automate customer service, order booking, dynamic recommendations, and multi-step business workflows with 24/7 reliability.",
+        deliverables: [
+          "Autonomous Gemini 1.5 / 2.0 AI Agent Architecture",
+          "WhatsApp & Messenger Automated Sales & Support Bot",
+          "Vector Database Semantic Search for Product Discovery",
+          "Automated Inventory Reorder & Order Fulfillment Workflows",
+          "Role-based Security Guardrails & Strict Prompt Sandboxing",
+          "LLM Latency Caching & Cost Optimization Engine"
+        ],
+        techStack: ["Google Gemini API", "LangChain / LlamaIndex", "Pinecone / pgvector", "Python FastAPI", "Node.js", "OpenAI Whisper", "Redis"]
+      },
+      "seo-marketing": {
+        title: "SEO & Digital Marketing",
+        category: "DISCIPLINE 05 · VISIBILITY",
+        badge: "GEO & AEO OPTIMIZED",
+        iconGradient: "from-emerald-500 to-green-600",
+        description: "Proven dominance in Google SERP rankings (verified with Watch24BD and WatchShopBD). We combine technical Core Web Vitals acceleration with Generative Engine Optimization (GEO) so AI engines cite your brand first.",
+        deliverables: [
+          "Comprehensive Technical SEO Code Audit & Fixes",
+          "Programmatic JSON-LD Schema Graphs (Products, FAQ, Reviews)",
+          "Sub-0.4s LCP Core Web Vitals Optimization",
+          "AEO & GEO Optimization for Perplexity, ChatGPT & Gemini Overviews",
+          "High-Intent E-Commerce Keyword Ranking Roadmap",
+          "Google Search Console & GA4 Custom Conversion Tracking"
+        ],
+        techStack: ["Google Search Console", "Ahrefs / Semrush", "Next.js SSR Schema", "Screaming Frog", "PageSpeed Insights", "GA4", "Cloudflare"]
+      },
+      branding: {
+        title: "Branding & Creative Services",
+        category: "DISCIPLINE 06 · BRAND IDENTITY",
+        badge: "ICONIC PRESTIGE",
+        iconGradient: "from-rose-500 to-pink-600",
+        description: "We create distinctive, memorable visual identities that stand out in crowded markets. From luxury logos and vector marks to custom typography and 3D product renders, we turn products into beloved icons.",
+        deliverables: [
+          "Comprehensive Vector Logo Suite (Primary, Wordmark, Monogram)",
+          "Brand Guidelines & Identity Bible (Typography, Color, Spacing)",
+          "3D Photorealistic Packaging & Product Renders",
+          "Social Media Brand Kits & Advertising Visual Templates",
+          "Copywriting Voice, Taglines & Brand Story Manual",
+          "Ready-to-Code Design Tokens for Instant Web Implementation"
+        ],
+        techStack: ["Adobe Illustrator", "Figma", "Blender 3D", "Photoshop", "Cinema 4D", "Keynote", "SVG Optimizers"]
+      }
+    };
+
+    // Modal Control Functions
+    const modalOverlay = document.getElementById('modal-overlay');
+    const serviceModal = document.getElementById('service-details-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    function openServiceModal(key) {
+      const data = servicesData[key];
+      if (!data) return;
+
+      document.getElementById('modal-service-title').textContent = data.title;
+      document.getElementById('modal-service-category').textContent = data.category;
+      document.getElementById('modal-service-badge').textContent = data.badge;
+      document.getElementById('modal-service-desc').textContent = data.description;
+
+      // Update Icon Gradient
+      const iconWrap = document.getElementById('modal-service-icon');
+      iconWrap.className = `w-14 h-14 rounded-2xl bg-gradient-to-br ${data.iconGradient} flex items-center justify-center text-white shadow-lg shrink-0`;
+
+      // Update Deliverables Grid
+      const deliverablesGrid = document.getElementById('modal-deliverables-grid');
+      deliverablesGrid.innerHTML = data.deliverables.map(item => `
+        <div class="flex items-start space-x-2.5 p-3 rounded-xl bg-white/[0.04] border border-white/5">
+          <span class="text-brand-neon font-bold text-sm shrink-0">✓</span>
+          <span>${item}</span>
+        </div>
+      `).join('');
+
+      // Update Tech Stack
+      const techStackContainer = document.getElementById('modal-tech-stack');
+      techStackContainer.innerHTML = data.techStack.map(tech => `
+        <span class="px-2.5 py-1 rounded-full bg-white/10 text-white/90 text-[11px] font-mono border border-white/10">${tech}</span>
+      `).join('');
+
+      // Update WhatsApp URL
+      const chatBtn = document.getElementById('modal-chat-btn');
+      chatBtn.href = `https://wa.me/8801977777777?text=Hello%20APPIEX%20Engineering,%20I%20am%20interested%20in%20your%20${encodeURIComponent(data.title)}%20discipline.`;
+
+      // Open Modal
+      modalOverlay.classList.add('open');
+      serviceModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeServiceModal() {
+      modalOverlay.classList.remove('open');
+      serviceModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeServiceModal);
+    if (modalOverlay) modalOverlay.addEventListener('click', closeServiceModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeServiceModal();
+    });
+
+    // Mobile Navigation Controls
+    const hamburger = document.getElementById('hamburger');
+    const closeMobileNav = document.getElementById('close-mobile-nav');
+    const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+
+    if (hamburger && mobileNavOverlay) {
+      hamburger.addEventListener('click', () => {
+        mobileNavOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+    if (closeMobileNav && mobileNavOverlay) {
+      closeMobileNav.addEventListener('click', () => {
+        mobileNavOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+
+    // 3D Perspective Card Tilt
+    document.querySelectorAll('.card-3d').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xPct = (x / rect.width) - 0.5;
+        const yPct = (y / rect.height) - 0.5;
+        const rotateY = xPct * 8;
+        const rotateX = -yPct * 8;
+        card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
+
+    // Initialize Buttery Smooth Lenis Scroll Engine
+    let lenis;
+    if (typeof Lenis !== 'undefined') {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1.1,
+        touchMultiplier: 2,
+        infinite: false
+      });
+      window.lenis = lenis;
+
+      lenis.on('scroll', () => {
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.update();
+        }
+      });
+
+      if (typeof gsap !== 'undefined') {
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+      } else {
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+      }
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const targetId = this.getAttribute('href');
+          if (targetId && targetId !== '#') {
+            const targetEl = document.querySelector(targetId);
+            if (targetEl) {
+              e.preventDefault();
+              lenis.scrollTo(targetEl, { offset: -70, duration: 1.2 });
+            }
+          }
+        });
+      });
+    }
+
+    // GSAP ScrollTrigger Animations for service cards
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.utils.toArray('.service-card-block').forEach((block) => {
+        gsap.fromTo(block,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: block,
+              start: 'top 82%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+      });
+    }
+  </script>
+</body>
+</html>

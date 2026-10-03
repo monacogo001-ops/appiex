@@ -1,0 +1,2767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APPIEX — Hungry For More | Nitro Elite Web Systems</title>
+  <meta name="description" content="The code doesn't train. It hunts. Nitro Elite Web Systems — the lightest, highest-converting website architectures APPIEX has ever built.">
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+
+  <!-- Preconnect Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com">
+
+  <!-- Google Fonts: Anton, Oswald, Cormorant Garamond -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Fontshare: Satoshi -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,400i&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            anton: ['Anton', 'Impact', 'sans-serif'],
+            satoshi: ['Satoshi', 'system-ui', 'sans-serif'],
+            oswald: ['Oswald', 'sans-serif'],
+            cormorant: ['Cormorant Garamond', 'serif'],
+          },
+          colors: {
+            'brand-red': '#DC2626',
+            'brand-red-mid': '#B91C1C',
+            'brand-neon': '#FF2A4D',
+            'brand-pale': '#FEE2E2',
+            'text-primary': '#0A0A0A',
+            'text-muted': '#6B6B6B',
+            'text-faint': '#ADADAD',
+            'section-dark': '#0A0A0A',
+            'hairline': '#E5E5E5',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <style>
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
+    :root {
+      --brand-red: #DC2626;
+      --brand-red-mid: #B91C1C;
+      --brand-neon: #FF2A4D;
+      --brand-pale: #FEE2E2;
+      --text-primary: #0A0A0A;
+      --text-muted: #6B6B6B;
+      --text-faint: #ADADAD;
+      --section-dark: #0A0A0A;
+      --hairline: #E5E5E5;
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    *:focus-visible {
+      outline: 2px solid #DC2626;
+      outline-offset: 2px;
+    }
+
+    html {
+      overflow-x: clip;
+    }
+
+    body {
+      font-family: 'Satoshi', sans-serif;
+      background-color: #0A0A0A;
+      color: #0A0A0A;
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* SVG Grain Overlay */
+    #grain-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* Button Pill */
+    .btn-pill {
+      border-radius: 9999px;
+      font-family: 'Satoshi', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 250ms var(--ease-spring);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+    .btn-pill:hover {
+      transform: translateY(-1px);
+    }
+
+    .nav-link {
+      white-space: nowrap;
+    }
+
+    /* Section Padding */
+    .section-pad {
+      padding: clamp(100px, 12vw, 180px) 0;
+    }
+
+    /* Premium Divider */
+    .premium-divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, #DC2626 0%, rgba(220, 38, 38, 0) 100%);
+      margin-bottom: 24px;
+    }
+
+    /* Preloader */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 500ms ease, visibility 500ms ease;
+    }
+    #preloader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    @keyframes logoFadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes loadBar {
+      0% { width: 0; }
+      100% { width: 240px; }
+    }
+
+    .preloader-logo {
+      animation: logoFadeIn 600ms ease-out 200ms forwards;
+      opacity: 0;
+    }
+    .preloader-bar-fill {
+      animation: loadBar 1000ms cubic-bezier(0.16, 1, 0.3, 1) 400ms forwards;
+      width: 0;
+    }
+
+    /* Floating Pill Navbar */
+    #sticky-nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-60px);
+      width: calc(100% - 32px);
+      max-width: 1120px;
+      border-radius: 9999px;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 400ms var(--ease-spring), opacity 400ms ease, background 350ms ease, border-color 350ms ease;
+    }
+    #sticky-nav.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    #sticky-nav.glass {
+      background: rgba(10, 8, 8, 0.75);
+      backdrop-filter: blur(32px) saturate(1.8);
+      -webkit-backdrop-filter: blur(32px) saturate(1.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      color: #FFFFFF;
+    }
+    #sticky-nav.glass.scrolled-far {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+      color: #0A0A0A;
+    }
+
+    /* Capsule Pill Hover on Navbar (No underline/bottom line) */
+    .nav-link {
+      position: relative;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      white-space: nowrap;
+      transition: all 220ms ease;
+    }
+    .nav-link:hover, .nav-link:focus {
+      background: rgba(255, 255, 255, 0.16);
+      color: #FFFFFF !important;
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.1);
+    }
+    #sticky-nav.scrolled-far .nav-link:hover,
+    #sticky-nav.scrolled-far .nav-link:focus {
+      background: rgba(0, 0, 0, 0.08);
+      color: #0A0A0A !important;
+      box-shadow: none;
+    }
+
+    /* Left-to-Right Button Hover Animations */
+    .btn-anim-live {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #0A0A0A;
+      color: #FFFFFF;
+      border: 1px solid #0A0A0A;
+      transition: all 300ms ease;
+    }
+    .btn-anim-live::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #FFFFFF;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+    }
+    .btn-anim-live:hover::before, .btn-anim-live:active::before {
+      transform: scaleX(1);
+    }
+    .btn-anim-live .btn-text-content {
+      position: relative;
+      z-index: 2;
+      transition: color 250ms ease;
+    }
+    .btn-anim-live:hover .btn-text-content, .btn-anim-live:active .btn-text-content {
+      color: #0A0A0A !important;
+    }
+
+    .btn-anim-stack {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: #0A0A0A;
+      border: 1px solid #0A0A0A;
+      transition: all 300ms ease;
+    }
+    .btn-anim-stack::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #DC2626;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+    }
+    .btn-anim-stack:hover::before, .btn-anim-stack:active::before {
+      transform: scaleX(1);
+    }
+    .btn-anim-stack:hover, .btn-anim-stack:active {
+      border-color: #DC2626;
+    }
+    .btn-anim-stack .btn-text-content {
+      position: relative;
+      z-index: 2;
+      transition: color 250ms ease;
+    }
+    .btn-anim-stack:hover .btn-text-content, .btn-anim-stack:active .btn-text-content {
+      color: #FFFFFF !important;
+    }
+
+    /* Announce Marquee - Strictly 1 Line */
+    @keyframes announceTicker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .announce-track {
+      display: flex;
+      flex-wrap: nowrap !important;
+      white-space: nowrap !important;
+      width: max-content;
+      animation: announceTicker 30s linear infinite;
+    }
+    .announce-track span, .announce-track div {
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+    .announce-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Manifesto Marquee - Strictly 1 Line */
+    @keyframes marqueeMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .manifesto-track {
+      display: flex;
+      flex-wrap: nowrap !important;
+      white-space: nowrap !important;
+      width: max-content;
+      animation: marqueeMove 28s linear infinite;
+    }
+    .manifesto-track span, .manifesto-track div {
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+    .manifesto-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Client Ticker - Strictly 1 Line */
+    .athlete-track {
+      display: flex;
+      flex-wrap: nowrap !important;
+      white-space: nowrap !important;
+      width: max-content;
+      animation: marqueeMove 35s linear infinite;
+    }
+    .athlete-track span, .athlete-track div {
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+    .athlete-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Product Cards 3D Tilt */
+    .product-card {
+      transition: transform 300ms var(--ease-spring), box-shadow 300ms ease;
+      position: relative;
+    }
+    .product-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 0;
+      background: #DC2626;
+      transition: width 350ms var(--ease-spring);
+    }
+    .product-card:hover::after {
+      width: 100%;
+    }
+
+    /* Overlays & Drawers */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 350ms ease;
+    }
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100dvh;
+      width: min(450px, 100vw);
+      background: #0C0C0C;
+      z-index: 9100;
+      transform: translateX(100%);
+      transition: transform 380ms var(--ease-spring);
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: -10px 0 50px rgba(0, 0, 0, 0.85);
+    }
+    #cart-drawer.open {
+      transform: translateX(0);
+    }
+
+    #size-sheet {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      width: min(620px, 94vw);
+      max-height: 88vh;
+      overflow-y: auto;
+      background: #0C0C0C;
+      border-radius: 24px 24px 0 0;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-bottom: none;
+      z-index: 9200;
+      transform: translateX(-50%) translateY(110%);
+      transition: transform 380ms var(--ease-spring);
+      box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(220, 38, 38, 0.2);
+    }
+    #size-sheet.open {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #search-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #0C0C0C;
+      z-index: 9000;
+      transform: translateY(-100%);
+      transition: transform 380ms var(--ease-spring);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+    }
+    #search-panel.open {
+      transform: translateY(0);
+    }
+
+    #mobile-nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: #DC2626;
+      z-index: 90;
+      transform: translateY(-100%);
+      transition: transform 500ms var(--ease-spring);
+    }
+    #mobile-nav-overlay.open {
+      transform: translateY(0);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0A0A0A; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #DC2626; }
+
+    .hero-word {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(40px, 8.5vw, 140px);
+      line-height: 0.9;
+      color: #FFFFFF;
+      letter-spacing: 0.04em;
+      text-shadow: 0 4px 32px rgba(220, 38, 38, 0.35);
+    }
+
+    /* Ultra-Smooth 3D Services Mega-Menu Dropdown */
+    #services-mega-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-14px) scale(0.97);
+      pointer-events: none;
+      transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1), transform 280ms cubic-bezier(0.16, 1, 0.3, 1), visibility 280ms cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: top center;
+    }
+    #services-mega-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    #services-mega-menu, #services-mega-menu * {
+      white-space: normal;
+    }
+    .service-bento-tile {
+      transition: transform 250ms var(--ease-spring), border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
+    }
+    .service-bento-tile:hover {
+      transform: translateY(-2px) scale(1.01);
+    }
+  </style>
+</head>
+<body class="bg-[#0A0A0A] text-[#0A0A0A] antialiased selection:bg-brand-red selection:text-white">
+
+  <!-- 1. PRELOADER -->
+  <div id="preloader" role="status" aria-label="Loading">
+    <!-- Center Logo & Progress Bar -->
+    <div class="flex flex-col items-center justify-center space-y-4">
+      <div class="preloader-logo flex items-center space-x-3">
+        <svg class="h-12 w-auto text-[#0A0A0A]" viewBox="0 0 240 50" fill="none">
+          <g transform="translate(2, 2)">
+            <path d="M4 32 C10 20, 22 12, 36 8 C30 14, 28 20, 30 26 C26 23, 20 24, 14 28 C22 31, 30 28, 38 20 C34 27, 28 32, 18 35 C27 37, 36 35, 42 26 C38 32, 32 37, 24 39 C34 40, 46 34, 52 22 C56 16, 57 10, 58 4 C50 10, 42 13, 34 11 C44 6, 54 4, 62 1 C56 7, 52 13, 44 18 C52 13, 58 8, 64 2 C60 10, 54 16, 44 22 C52 18, 58 13, 64 7 C62 15, 54 23, 44 28 C38 32, 30 34, 20 35 Z" fill="#DC2626"/>
+            <polygon points="10,28 22,20 36,24 26,30 14,33" fill="#DC2626"/>
+            <polygon points="26,12 40,6 52,10 42,14" fill="#FF2A4D"/>
+            <circle cx="53" cy="11" r="1.8" fill="#FFFFFF"/>
+            <circle cx="53" cy="11" r="0.9" fill="#FF2A4D"/>
+          </g>
+          <text x="74" y="34" font-family="'Anton', 'Oswald', sans-serif" font-size="28" font-weight="900" fill="currentColor">APPIEX</text>
+        </svg>
+      </div>
+
+      <div class="w-[260px] h-[3px] bg-[#EAEAEA] overflow-hidden rounded-full relative">
+        <div id="preloader-bar-fill" class="h-full bg-brand-red rounded-full w-0 transition-[width] duration-75"></div>
+      </div>
+    </div>
+
+    <!-- Bottom-Right 0 to 100% Counter (Marked Area) -->
+    <div class="absolute bottom-8 right-8 md:bottom-12 md:right-14 text-right flex flex-col items-end z-20">
+      <div id="preloader-counter" class="font-anton text-7xl sm:text-8xl md:text-9xl tracking-tight select-none flex items-baseline leading-none">
+        <span id="loader-num-box"><span class="text-[#DC2626]">0</span></span>
+        <span id="loader-pct-sign" class="text-[#DC2626] text-3xl sm:text-4xl md:text-5xl font-satoshi font-bold ml-1">%</span>
+      </div>
+      <span class="font-satoshi text-[10px] sm:text-xs text-[#737373] tracking-[0.25em] uppercase font-semibold mt-1">
+        LOADING WEB ARCHITECTURES
+      </span>
+    </div>
+  </div>
+
+  <!-- 2. SVG GRAIN OVERLAY -->
+  <svg id="grain-overlay" aria-hidden="true">
+    <filter id="grainFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#grainFilter)"/>
+  </svg>
+
+  <!-- OVERLAYS FOR MODALS -->
+  <div id="modal-overlay" class="drawer-overlay z-[8900]"></div>
+
+  <!-- CART DRAWER -->
+  <aside id="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping bag" class="flex flex-col text-white">
+    <!-- Header -->
+    <div class="p-6 border-b border-white/10 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <svg class="h-6 w-auto text-brand-neon" viewBox="0 0 240 50" fill="none">
+          <g transform="translate(2, 2)">
+            <path d="M4 32 C10 20, 22 12, 36 8 C30 14, 28 20, 30 26 C26 23, 20 24, 14 28 C22 31, 30 28, 38 20 C34 27, 28 32, 18 35 C27 37, 36 35, 42 26 C38 32, 32 37, 24 39 C34 40, 46 34, 52 22 C56 16, 57 10, 58 4 C50 10, 42 13, 34 11 C44 6, 54 4, 62 1 C56 7, 52 13, 44 18 C52 13, 58 8, 64 2 C60 10, 54 16, 44 22 C52 18, 58 13, 64 7 C62 15, 54 23, 44 28 C38 32, 30 34, 20 35 Z" fill="#DC2626"/>
+            <circle cx="53" cy="11" r="1.8" fill="#FFFFFF"/>
+          </g>
+          <text x="74" y="34" font-family="'Anton', 'Oswald', sans-serif" font-size="28" font-weight="900" fill="currentColor">APPIEX</text>
+        </svg>
+        <span class="font-oswald text-xs tracking-[0.16em] uppercase text-brand-neon">YOUR ORDER BAG (<span id="cart-drawer-count">0</span>)</span>
+      </div>
+      <button id="close-cart-btn" aria-label="Close cart" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-brand-neon transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Items List -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+
+    <!-- Empty State -->
+    <div id="cart-empty" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center">
+      <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-white/30 mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      </div>
+      <h3 class="font-anton text-2xl tracking-wide uppercase mb-1">YOUR BAG IS EMPTY</h3>
+      <p class="font-satoshi text-sm text-text-muted mb-6 max-w-xs">Select a high-speed website architecture to begin.</p>
+      <a href="#product-grid" onclick="closeCart()" class="btn-pill bg-brand-red text-white px-6 py-3 text-xs tracking-[0.14em]">EXPLORE WEBSITES</a>
+    </div>
+
+    <!-- Footer -->
+    <div id="cart-footer" class="p-6 border-t border-white/10 bg-[#090909] space-y-4">
+      <div class="flex items-center justify-between font-satoshi text-sm">
+        <span class="text-text-muted">Subtotal (Commercial License Included)</span>
+        <span id="cart-subtotal" class="font-oswald text-xl font-bold text-white">৳0</span>
+      </div>
+      <p class="font-satoshi text-[11px] text-text-faint">Instant GitHub Repo + Production Cloud Hosting Setup.</p>
+      <button id="checkout-btn" class="w-full btn-pill bg-brand-red hover:bg-brand-red-mid text-white py-4 font-bold text-sm tracking-[0.12em] shadow-lg shadow-brand-red/30">
+        PROCEED TO SECURE CHECKOUT
+      </button>
+    </div>
+  </aside>
+
+  <!-- PROJECT DETAILS & ARCHITECTURE MODAL -->
+  <div id="size-sheet" role="dialog" aria-modal="true" aria-label="Project details" class="p-6 md:p-8 text-white">
+    <!-- Header -->
+    <div class="flex items-start justify-between pb-4 border-b border-white/10 mb-4">
+      <div>
+        <div class="flex items-center space-x-2 mb-1">
+          <span class="font-oswald text-[10px] tracking-[0.2em] text-brand-neon uppercase font-bold">FLAGSHIP ARCHITECTURE</span>
+          <span id="size-sheet-badge" class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-brand-red/20 text-brand-neon border border-brand-red/40">LIVE PRODUCTION</span>
+        </div>
+        <h4 id="size-sheet-title" class="font-anton text-2xl md:text-3xl tracking-wide uppercase text-white">TIMEDUNE</h4>
+        <div class="flex items-center space-x-3 mt-0.5">
+          <span id="size-sheet-price" class="font-oswald text-lg font-bold text-white/90">৳19,999</span>
+          <span id="size-sheet-category" class="font-satoshi text-xs text-white/50">Luxury Horology · 3D Store</span>
+        </div>
+      </div>
+      <button id="close-size-sheet-btn" aria-label="Close" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Live Website URL Bar & Quick Link -->
+    <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10 mb-4 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5 min-w-0 pr-3">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+        <span class="font-mono text-xs text-white/80 truncate" id="size-sheet-url">https://timedune.vercel.app</span>
+      </div>
+      <a id="size-sheet-visit-link" href="https://timedune.vercel.app" target="_blank" rel="noopener noreferrer" class="btn-pill bg-brand-red hover:bg-brand-red-mid text-white text-[11px] font-bold tracking-wider px-3.5 py-1.5 shrink-0 flex items-center space-x-1 shadow-md transition-all">
+        <span>VISIT LIVE SITE</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+      </a>
+    </div>
+
+    <!-- Description -->
+    <p id="size-sheet-desc" class="font-satoshi text-xs text-white/70 leading-relaxed mb-4">
+      Next-generation luxury e-commerce experience featuring interactive 3D timepiece rendering, silky smooth GSAP animations, and sub-0.3s headless checkout velocity.
+    </p>
+
+    <!-- Key Performance Metrics Grid -->
+    <div class="grid grid-cols-3 gap-2.5 p-3 rounded-xl bg-black/50 border border-white/10 text-center mb-4">
+      <div class="p-1.5 rounded-lg bg-white/[0.02]">
+        <span class="font-anton text-xl text-brand-neon block" id="size-sheet-metric1">99+</span>
+        <span class="font-mono text-[9px] text-white/50 uppercase tracking-wider">PERFORMANCE</span>
+      </div>
+      <div class="p-1.5 rounded-lg bg-white/[0.02]">
+        <span class="font-anton text-xl text-brand-neon block" id="size-sheet-metric2">0.3s</span>
+        <span class="font-mono text-[9px] text-white/50 uppercase tracking-wider">LCP SPEED</span>
+      </div>
+      <div class="p-1.5 rounded-lg bg-white/[0.02]">
+        <span class="font-anton text-xl text-brand-neon block" id="size-sheet-metric3">0.00</span>
+        <span class="font-mono text-[9px] text-white/50 uppercase tracking-wider">CLS STABILITY</span>
+      </div>
+    </div>
+
+    <!-- Tech Stack Tags -->
+    <div class="mb-5">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-satoshi text-xs uppercase tracking-[0.14em] text-white/60 font-medium">CORE ARCHITECTURE & TECH STACK</span>
+        <a href="stories.html" class="font-satoshi text-[11px] text-brand-neon hover:underline">View Architecture Case Study →</a>
+      </div>
+      <div id="size-picker-grid" class="flex flex-wrap gap-1.5">
+        <!-- Badges dynamically populated -->
+      </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="flex flex-col sm:flex-row gap-2.5 pt-2 border-t border-white/10">
+      <a id="size-sheet-primary-visit" href="https://timedune.vercel.app" target="_blank" rel="noopener noreferrer" class="flex-1 btn-pill bg-brand-red hover:bg-brand-red-mid text-white py-3.5 font-bold text-xs tracking-[0.14em] text-center shadow-lg shadow-brand-red/30 transition-all flex items-center justify-center space-x-2">
+        <span>OPEN LIVE WEBSITE</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+      </a>
+      <a href="https://wa.me/8801700000000?text=Hi%20APPIEX,%20I%20want%20a%20website%20architecture%20like%20this" target="_blank" rel="noopener noreferrer" class="flex-1 btn-pill border border-white/20 hover:border-brand-neon text-white py-3.5 font-bold text-xs tracking-[0.14em] text-center hover:bg-white/5 transition-all flex items-center justify-center space-x-1.5">
+        <span>GET ARCHITECTURE LIKE THIS</span>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- SEARCH PANEL -->
+  <div id="search-panel" role="dialog" aria-modal="true" aria-label="Search catalog" class="p-6 md:p-10 text-white">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center justify-between pb-6">
+        <div class="flex items-center space-x-3 text-brand-neon">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span class="font-oswald text-xs tracking-[0.2em] uppercase text-white/60">LIVE ARCHITECTURE SEARCH</span>
+        </div>
+        <button id="close-search-btn" aria-label="Close search" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="relative mb-8">
+        <input id="search-input" type="text" placeholder="SEARCH WEBSITES, STACKS, ADD-ONS..." aria-label="Search catalog" class="w-full bg-transparent border-b-2 border-white/20 pb-3 font-anton text-2xl md:text-4xl text-white uppercase placeholder-white/20 focus:outline-none focus:border-brand-neon transition-colors">
+      </div>
+
+      <div id="search-results" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[50vh] overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <!-- MOBILE FULLSCREEN OVERLAY -->
+  <div id="mobile-nav-overlay" class="flex flex-col justify-between p-8 text-white">
+    <div class="flex items-center justify-between">
+      <svg class="h-8 w-auto text-white" viewBox="0 0 240 50" fill="none">
+        <g transform="translate(2, 2)">
+          <path d="M4 32 C10 20, 22 12, 36 8 C30 14, 28 20, 30 26 C26 23, 20 24, 14 28 C22 31, 30 28, 38 20 C34 27, 28 32, 18 35 C27 37, 36 35, 42 26 C38 32, 32 37, 24 39 C34 40, 46 34, 52 22 C56 16, 57 10, 58 4 C50 10, 42 13, 34 11 C44 6, 54 4, 62 1 C56 7, 52 13, 44 18 C52 13, 58 8, 64 2 C60 10, 54 16, 44 22 C52 18, 58 13, 64 7 C62 15, 54 23, 44 28 C38 32, 30 34, 20 35 Z" fill="#FFFFFF"/>
+        </g>
+        <text x="74" y="34" font-family="'Anton', 'Oswald', sans-serif" font-size="28" font-weight="900" fill="currentColor">APPIEX</text>
+      </svg>
+      <button id="close-mobile-nav" aria-label="Close menu" class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="flex flex-col space-y-3.5 my-auto overflow-y-auto max-h-[70vh] pr-2">
+      <!-- Mobile Services Accordion -->
+      <div>
+        <button id="mobile-services-btn" class="w-full flex items-center justify-between text-left font-anton text-4xl sm:text-5xl uppercase hover:text-black transition-colors">
+          <span>SERVICES</span>
+          <svg id="mobile-services-chevron" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div id="mobile-services-menu" class="hidden flex-col space-y-2 pt-3 pb-1 pl-2">
+          <a href="services.html#strategy" class="mobile-sublink flex items-center space-x-2.5 text-white/90 hover:text-white font-satoshi text-sm font-semibold">
+            <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+            <span>Digital Strategy & Consulting</span>
+          </a>
+          <a href="services.html#uiux" class="mobile-sublink flex items-center space-x-2.5 text-white/90 hover:text-white font-satoshi text-sm font-semibold">
+            <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+            <span>UI/UX & Product Design</span>
+          </a>
+          <a href="services.html#development" class="mobile-sublink flex items-center space-x-2.5 text-white/90 hover:text-white font-satoshi text-sm font-semibold">
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+            <span>Web & Software Development</span>
+          </a>
+          <a href="services.html#ai-automation" class="mobile-sublink flex items-center space-x-2.5 text-white/90 hover:text-white font-satoshi text-sm font-semibold">
+            <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+            <span>AI Development & Automation</span>
+          </a>
+          <a href="services.html#seo-marketing" class="mobile-sublink flex items-center space-x-2.5 text-white/90 hover:text-white font-satoshi text-sm font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>SEO & Digital Marketing</span>
+          </a>
+          <a href="services.html#branding" class="mobile-sublink flex items-center space-x-2.5 text-white/90 hover:text-white font-satoshi text-sm font-semibold">
+            <span class="w-2 h-2 rounded-full bg-pink-500"></span>
+            <span>Branding & Creative Services</span>
+          </a>
+        </div>
+      </div>
+      <a href="refer.html" class="mobile-nav-link font-anton text-4xl sm:text-5xl uppercase hover:text-black transition-colors text-brand-neon">REFER</a>
+      <a href="collections.html" class="mobile-nav-link font-anton text-4xl sm:text-5xl uppercase hover:text-black transition-colors">COLLECTIONS</a>
+      <a href="stories.html" class="mobile-nav-link font-anton text-4xl sm:text-5xl uppercase hover:text-black transition-colors">CASE STUDIES</a>
+      <a href="#contact" class="mobile-nav-link font-anton text-4xl sm:text-5xl uppercase hover:text-black transition-colors">CONTACT</a>
+    </div>
+    <div class="pt-6 border-t border-white/20 flex items-center justify-between font-satoshi text-xs uppercase tracking-widest text-white/80">
+      <span>NITRO ELITE WEB DESIGNS</span>
+      <span>© 2026 APPIEX</span>
+    </div>
+  </div>
+
+  <!-- 3. FLOATING PILL NAVBAR -->
+  <nav id="sticky-nav" class="glass visible" role="navigation" aria-label="Main navigation">
+    <div class="h-[52px] md:h-[58px] px-5 md:px-7 flex items-center justify-between w-full">
+      <!-- Left Logo -->
+      <a href="index.html" class="flex items-center space-x-2 flex-shrink-0" aria-label="APPIEX Home">
+        <svg class="h-[28px] md:h-[32px] w-auto transition-colors duration-300" viewBox="0 0 240 50" fill="none">
+          <g transform="translate(2, 2)">
+            <path d="M4 32 C10 20, 22 12, 36 8 C30 14, 28 20, 30 26 C26 23, 20 24, 14 28 C22 31, 30 28, 38 20 C34 27, 28 32, 18 35 C27 37, 36 35, 42 26 C38 32, 32 37, 24 39 C34 40, 46 34, 52 22 C56 16, 57 10, 58 4 C50 10, 42 13, 34 11 C44 6, 54 4, 62 1 C56 7, 52 13, 44 18 C52 13, 58 8, 64 2 C60 10, 54 16, 44 22 C52 18, 58 13, 64 7 C62 15, 54 23, 44 28 C38 32, 30 34, 20 35 Z" fill="url(#appiexNavGrad)"/>
+            <polygon points="10,28 22,20 36,24 26,30 14,33" fill="#DC2626"/>
+            <polygon points="26,12 40,6 52,10 42,14" fill="#FF2A4D"/>
+            <circle cx="53" cy="11" r="1.8" fill="#FFFFFF"/>
+            <circle cx="53" cy="11" r="0.9" fill="#FF2A4D"/>
+          </g>
+          <text x="74" y="34" font-family="'Anton', 'Oswald', sans-serif" font-size="28" font-weight="900" letter-spacing="0.08em" fill="currentColor">APPIEX</text>
+          <defs>
+            <linearGradient id="appiexNavGrad" x1="0" y1="0" x2="64" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FF4D6D"/>
+              <stop offset="50%" stop-color="#DC2626"/>
+              <stop offset="100%" stop-color="#991B1B"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </a>
+
+      <!-- Center Links (Desktop) - Strictly 1 Line with Capsule Hover -->
+      <div class="hidden lg:flex items-center space-x-2 xl:space-x-3 font-satoshi font-medium text-[12px] tracking-[0.14em] uppercase whitespace-nowrap flex-nowrap shrink-0">
+        <!-- SERVICES Menu Trigger & Popup -->
+        <div id="services-nav-container" class="relative">
+          <button id="services-nav-btn" class="nav-link whitespace-nowrap flex items-center space-x-1.5 focus:outline-none" aria-expanded="false" aria-haspopup="true">
+            <span>SERVICES</span>
+            <svg id="services-nav-chevron" class="w-3 h-3 text-current/70 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+
+          <!-- SERVICES Mega-Menu Popup (Clean White Compact Design with Headlines Only) -->
+          <div id="services-mega-menu" class="absolute top-full left-0 md:left-1/2 md:-translate-x-[42%] mt-3 w-[580px] max-w-[92vw] bg-white border border-black/10 rounded-2xl p-4 sm:p-5 shadow-[0_25px_65px_rgba(0,0,0,0.12),0_4px_16px_rgba(0,0,0,0.06)] z-[100] text-left normal-case tracking-normal isolate">
+            <!-- Top Status Bar -->
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-black/[0.08] relative z-10">
+              <div class="flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-brand-red"></span>
+                <span class="font-mono text-[10px] tracking-[0.18em] text-[#737373] uppercase font-bold">APPIEX SYSTEM ARCHITECTURE · 6 ENGINES</span>
+              </div>
+              <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-mono text-emerald-700 font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>ALL SYSTEMS ACTIVE</span>
+              </div>
+            </div>
+
+            <!-- 6 Compact Headline Cards Grid (Clean White, Headline Only) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 relative z-10">
+              <!-- Service 1: Digital Strategy & Consulting -->
+              <a href="services.html#strategy" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 100 20 10 10 0 000-20zm3.5 6.5l-2 5.5-5.5 2 2-5.5 5.5-2z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="font-mono text-[9px] tracking-wider text-amber-700 uppercase font-bold block leading-none mb-1">01 // STRATEGY</span>
+                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
+                    Digital Strategy & Consulting
+                  </h4>
+                </div>
+                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
+              </a>
+
+              <!-- Service 2: UI/UX Design & Product Design -->
+              <a href="services.html#uiux" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/25 text-purple-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 5h16M10 10v10"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="font-mono text-[9px] tracking-wider text-purple-700 uppercase font-bold block leading-none mb-1">02 // 3D & UI/UX</span>
+                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
+                    UI/UX Design & Product Design
+                  </h4>
+                </div>
+                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
+              </a>
+
+              <!-- Service 3: Web & Software Development -->
+              <a href="services.html#development" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/25 text-cyan-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="font-mono text-[9px] tracking-wider text-cyan-700 uppercase font-bold block leading-none mb-1">03 // FULL-STACK</span>
+                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
+                    Web & Software Development
+                  </h4>
+                </div>
+                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
+              </a>
+
+              <!-- Service 4: AI Development & Automation -->
+              <a href="services.html#ai-automation" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-lg bg-teal-500/10 border border-teal-500/25 text-teal-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center space-x-1.5 mb-1">
+                    <span class="font-mono text-[9px] tracking-wider text-teal-700 uppercase font-bold leading-none">04 // AI AGENTS</span>
+                    <span class="bg-sky-100 text-sky-700 border border-sky-300 text-[8px] font-bold px-1 rounded uppercase leading-tight">NEW</span>
+                  </div>
+                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
+                    AI Development & Automation
+                  </h4>
+                </div>
+                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
+              </a>
+
+              <!-- Service 5: SEO & Digital Marketing -->
+              <a href="services.html#seo-marketing" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center space-x-1.5 mb-1">
+                    <span class="font-mono text-[9px] tracking-wider text-emerald-700 uppercase font-bold leading-none">05 // VISIBILITY</span>
+                    <span class="bg-emerald-100 text-emerald-700 border border-emerald-300 text-[8px] font-bold px-1 rounded uppercase leading-tight">GEO & AEO</span>
+                  </div>
+                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
+                    SEO & Digital Marketing
+                  </h4>
+                </div>
+                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
+              </a>
+
+              <!-- Service 6: Branding & Creative Services -->
+              <a href="services.html#branding" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-lg bg-rose-500/10 border border-rose-500/25 text-rose-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 5 5 0 015-5c1 0 2-1 2-2a3 3 0 013-3 5 5 0 015 5 4 4 0 01-4 4h-2a2 2 0 00-2 2 3 3 0 01-3 3z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="font-mono text-[9px] tracking-wider text-rose-700 uppercase font-bold block leading-none mb-1">06 // BRANDING</span>
+                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
+                    Branding & Creative Services
+                  </h4>
+                </div>
+                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
+              </a>
+            </div>
+
+            <!-- Bottom Action HUD -->
+            <div class="mt-3 pt-2.5 border-t border-black/[0.08] flex items-center justify-between text-xs font-satoshi relative z-10">
+              <span class="text-[#737373] tracking-wider uppercase font-mono text-[10px] font-semibold">⚡ SUB-0.4s PRODUCTION PERFORMANCE</span>
+              <a href="services.html" class="btn-pill bg-[#0A0A0A] hover:bg-brand-red text-white font-bold text-[10px] tracking-wider uppercase px-3.5 py-1.5 transition-all flex items-center space-x-1.5 shadow-sm">
+                <span>VIEW FULL DIRECTORY</span>
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="refer.html" class="nav-link whitespace-nowrap text-brand-neon font-bold flex items-center space-x-1">
+          <span>REFER</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-neon animate-pulse"></span>
+        </a>
+        <a href="collections.html" class="nav-link whitespace-nowrap">COLLECTIONS</a>
+        <a href="stories.html" class="nav-link whitespace-nowrap">CASE STUDIES</a>
+        <a href="#contact" class="nav-link whitespace-nowrap">CONTACT</a>
+      </div>
+
+      <!-- Right Controls -->
+      <div class="flex items-center space-x-3 md:space-x-4 flex-shrink-0 whitespace-nowrap">
+        <!-- Search Button -->
+        <button id="search-btn" aria-label="Search" class="p-2 rounded-full hover:bg-white/10 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </button>
+
+        <!-- Get Website CTA -->
+        <a href="#product-grid" class="hidden md:inline-flex btn-pill bg-brand-red hover:bg-brand-red-mid text-white px-5 py-2 text-[11px] font-bold shadow-md shadow-brand-red/30 whitespace-nowrap shrink-0">
+          GET A WEBSITE
+        </a>
+
+        <!-- Hamburger Button (Mobile) -->
+        <button id="hamburger" aria-label="Open menu" class="lg:hidden p-2 flex flex-col justify-center items-center space-y-1.5 focus:outline-none">
+          <span class="block w-[22px] h-[1.5px] bg-current transition-all"></span>
+          <span class="block w-[22px] h-[1.5px] bg-current transition-all"></span>
+          <span class="block w-[22px] h-[1.5px] bg-current transition-all"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT WRAPPER -->
+  <main id="main-content" class="opacity-0 transition-opacity duration-700">
+
+    <!-- 5. HERO VIDEO SECTION (Autoplay in Background, No Scroll HUD) -->
+    <section id="hero-canvas-section" class="relative w-full min-h-[92vh] md:min-h-screen bg-black overflow-hidden flex items-center justify-center">
+      <div id="hero-sticky" class="relative w-full h-[92vh] md:h-screen overflow-hidden bg-black flex items-center justify-center">
+        <!-- Developer Coding Video (Auto-Playing Continuously in Background) -->
+        <video id="hero-video" src="./assets/developer-coding.mp4" autoplay loop muted playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover block opacity-85"></video>
+
+        <!-- Dynamic Dark Vignette & Cyber Flare -->
+        <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black via-black/35 to-black/75"></div>
+        <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.65)_100%)]"></div>
+
+      </div>
+    </section>
+
+    <!-- 6. ANNOUNCE BAR (Marquee Ticker with Icons - Strictly 1 Line) -->
+    <section aria-label="Announcement Bar" class="h-[38px] md:h-[42px] bg-[#0A0A0A] text-white overflow-hidden border-y border-white/10 relative z-20 whitespace-nowrap flex items-center">
+      <div class="announce-track h-full items-center flex flex-nowrap whitespace-nowrap">
+        <div class="inline-flex items-center space-x-8 px-6 font-satoshi text-[11px] uppercase tracking-[0.06em] whitespace-nowrap flex-nowrap shrink-0">
+          <span class="inline-flex items-center space-x-2 whitespace-nowrap shrink-0">
+            <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <span class="whitespace-nowrap">INSTANT GITHUB SOURCE CODE & FULL DEPLOYMENT SETUP</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-white/40 shrink-0"></span>
+          <span class="inline-flex items-center space-x-2 whitespace-nowrap shrink-0">
+            <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="whitespace-nowrap">30-DAY 100% SATISFACTION REFUND GUARANTEE</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-white/40 shrink-0"></span>
+          <span class="inline-flex items-center space-x-2 whitespace-nowrap shrink-0">
+            <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            <span class="whitespace-nowrap">99+ PAGESPEED & SUB-SECOND 0.4S LOAD TIME</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-white/40 shrink-0"></span>
+          <span class="inline-flex items-center space-x-2 whitespace-nowrap shrink-0">
+            <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+            <span class="whitespace-nowrap">ENTERPRISE 256-BIT ENCRYPTED CHECKOUT</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-white/40 shrink-0"></span>
+        </div>
+
+        <!-- Duplicate for seamless infinite loop -->
+        <div aria-hidden="true" class="inline-flex items-center space-x-8 px-6 font-satoshi text-[11px] uppercase tracking-[0.06em] whitespace-nowrap flex-nowrap shrink-0">
+          <span class="inline-flex items-center space-x-2 whitespace-nowrap shrink-0">
+            <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <span class="whitespace-nowrap">INSTANT GITHUB SOURCE CODE & FULL DEPLOYMENT SETUP</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-white/40 shrink-0"></span>
+          <span class="inline-flex items-center space-x-2 whitespace-nowrap shrink-0">
+            <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="whitespace-nowrap">30-DAY 100% SATISFACTION REFUND GUARANTEE</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-white/40 shrink-0"></span>
+          <span class="inline-flex items-center space-x-2 whitespace-nowrap shrink-0">
+            <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            <span class="whitespace-nowrap">99+ PAGESPEED & SUB-SECOND 0.4S LOAD TIME</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-white/40 shrink-0"></span>
+          <span class="inline-flex items-center space-x-2 whitespace-nowrap shrink-0">
+            <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+            <span class="whitespace-nowrap">ENTERPRISE 256-BIT ENCRYPTED CHECKOUT</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-white/40 shrink-0"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. PRODUCT INTRO SECTION (bg-white, Extra Gap Removed) -->
+    <section id="product-intro" class="bg-white text-[#0A0A0A] pt-8 md:pt-10 pb-4 md:pb-6 px-6 md:px-12 lg:px-20 overflow-hidden">
+      <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+        <!-- Left Copy (55%) -->
+        <div class="w-full lg:w-[55%] space-y-7">
+          <div class="inline-flex items-center space-x-2 bg-brand-pale text-brand-red px-4 py-1.5 rounded-full font-satoshi font-semibold text-xs tracking-[0.12em] uppercase">
+            <span>NEW ARCHITECTURES — SPRING 2026</span>
+          </div>
+
+          <h1 class="font-anton text-[46px] sm:text-[68px] lg:text-[92px] leading-[0.9] tracking-[0.02em] uppercase overflow-hidden">
+            <span class="stagger-word inline-block">NITRO</span>
+            <span class="stagger-word inline-block">ELITE</span>
+            <br>
+            <span class="stagger-word inline-block text-brand-red">WEB</span>
+            <span class="stagger-word inline-block">DESIGNS</span>
+          </h1>
+
+          <p id="intro-paragraph-box" class="font-satoshi text-[17px] text-text-muted leading-[1.7] max-w-xl min-h-[92px]">
+            <span id="intro-typing-text">Engineered from 3-4 years of experience in high-performance web engineering, modern conversion biomechanics, and ultra-fast digital design. The lightest, fastest web architectures APPIEX has ever built. Zero compromises on velocity.</span><span id="intro-typing-cursor" class="inline-block w-[2px] h-[17px] bg-brand-red ml-0.5 align-middle animate-pulse"></span>
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="https://www.watch24bd.com" target="_blank" rel="noopener noreferrer" class="btn-anim-live px-8 py-4 rounded-full font-satoshi font-bold text-xs tracking-[0.14em] uppercase shadow-lg">
+              <span class="btn-text-content flex items-center space-x-2">
+                <span>EXPLORE LIVE</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </span>
+            </a>
+            <a href="running.html" class="btn-anim-stack px-8 py-4 rounded-full font-satoshi font-bold text-xs tracking-[0.14em] uppercase shadow-sm">
+              <span class="btn-text-content">
+                EXPLORE TECH STACK
+              </span>
+            </a>
+          </div>
+
+          <div class="pt-2 flex items-center space-x-3 text-text-faint font-satoshi text-xs">
+            <svg class="w-4 h-4 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span>Full GitHub Repo Access · 30-Day Money-Back Guarantee</span>
+          </div>
+        </div>
+
+        <!-- Right 3D Visual (45%) -->
+        <div class="w-full lg:w-[45%] flex items-center justify-center relative">
+          <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_60%_50%,#FEE2E2_0%,transparent_68%)] pointer-events-none"></div>
+          <div class="relative z-10 w-full max-w-[540px] transform hover:scale-105 transition-transform duration-500 cursor-pointer" onclick="openSizeSheet('obsidian')">
+            <img src="./images/web_obsidian_black.png?v=dune_final" alt="APPIEX Nitro Commerce 3D Mockup" class="w-full h-auto object-contain filter drop-shadow-[0_40px_80px_rgba(220,38,38,0.22)] -rotate-3 -translate-y-2 hover:rotate-0 transition-transform duration-700 ease-out rounded-2xl">
+            <div class="absolute bottom-2 right-4 bg-black/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-brand-red/40 text-white font-oswald text-xs tracking-wider flex items-center space-x-2 shadow-lg">
+              <span class="w-2 h-2 rounded-full bg-brand-neon animate-ping"></span>
+              <span>CLICK FOR TECH SPECS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. PRODUCT SHOWCASE GRID (bg-white) -->
+    <section id="product-grid" class="bg-white border-t border-hairline pt-6 pb-12 px-4 md:px-8 lg:px-12">
+      <div class="max-w-7xl mx-auto mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4 overflow-hidden">
+        <div id="flagship-title-block">
+          <span class="font-oswald text-xs tracking-[0.2em] text-brand-red uppercase font-semibold">OUR BEST 3 PROJECTS</span>
+          <h2 class="font-anton text-4xl md:text-6xl uppercase tracking-tight text-text-primary">THE 2026 EDITIONS</h2>
+        </div>
+        <p id="flagship-desc-block" class="font-satoshi text-text-muted text-sm max-w-md">
+          Tested and validated in international high-volume launches. Every millisecond shaved for maximum conversion thrust.
+        </p>
+      </div>
+
+      <!-- 3-Column Grid with Hairline Borders -->
+      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-[2px] bg-hairline border border-hairline">
+
+        <!-- Card 1: TimeDune -->
+        <article class="product-card bg-white flex flex-col justify-between group cursor-pointer" data-product-id="timedune" onclick="openSizeSheet('timedune')">
+          <div class="h-[52vh] min-h-[340px] bg-[#F5F5F5] flex items-center justify-center p-6 overflow-hidden relative">
+            <div class="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full font-satoshi text-[10px] uppercase font-bold tracking-widest border border-white/20">
+              BESTSELLER
+            </div>
+            <div class="absolute top-4 right-4 bg-brand-red/10 border border-brand-red/30 text-brand-red px-2.5 py-0.5 rounded-full font-mono text-[9px] font-bold flex items-center space-x-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>timedune.vercel.app</span>
+            </div>
+            <img src="./images/web_obsidian_black.png?v=dune_final" alt="TimeDune - Luxury Horology" class="w-[88%] h-auto object-contain transition-transform duration-500 ease-out group-hover:scale-108 group-hover:-rotate-2 drop-shadow-xl rounded-xl">
+          </div>
+          <div class="p-7 border-t border-hairline flex flex-col space-y-3 bg-white">
+            <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-red uppercase font-bold">HEADLESS E-COMMERCE · 3D STORE</span>
+            <div class="flex items-center justify-between">
+              <h3 class="font-satoshi font-bold text-lg text-text-primary">TIMEDUNE</h3>
+              <span class="font-oswald font-bold text-xl text-text-primary">৳19,999</span>
+            </div>
+            <p class="font-satoshi text-xs text-text-muted">timedune.vercel.app · Sub-0.3s Checkout</p>
+            <button class="add-to-cart-btn btn-pill border border-text-primary hover:bg-brand-red hover:border-brand-red hover:text-white text-text-primary py-3 w-full text-xs font-bold tracking-[0.12em] mt-2 transition-all flex items-center justify-center space-x-1.5" data-product-id="timedune">
+              <span>VIEW DETAILS</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 2: MamunWiFi -->
+        <article class="product-card bg-white flex flex-col justify-between group cursor-pointer" data-product-id="mamunwifi" onclick="openSizeSheet('mamunwifi')">
+          <div class="h-[52vh] min-h-[340px] bg-[#F5F5F5] flex items-center justify-center p-6 overflow-hidden relative">
+            <div class="absolute top-4 left-4 bg-brand-red text-white px-3 py-1 rounded-full font-satoshi text-[10px] uppercase font-bold tracking-widest">
+              LIVE PORTAL
+            </div>
+            <div class="absolute top-4 right-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 px-2.5 py-0.5 rounded-full font-mono text-[9px] font-bold flex items-center space-x-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>mamunwifi.net</span>
+            </div>
+            <img src="./images/web_arctic_white.png" alt="MamunWiFi - ISP Automation" class="w-[88%] h-auto object-contain transition-transform duration-500 ease-out group-hover:scale-108 group-hover:-rotate-2 drop-shadow-xl rounded-xl">
+          </div>
+          <div class="p-7 border-t border-hairline flex flex-col space-y-3 bg-white">
+            <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-red uppercase font-bold">SAAS DASHBOARD · ISP BILLING PORTAL</span>
+            <div class="flex items-center justify-between">
+              <h3 class="font-satoshi font-bold text-lg text-text-primary">MAMUNWIFI</h3>
+              <span class="font-oswald font-bold text-xl text-text-primary">৳17,499</span>
+            </div>
+            <p class="font-satoshi text-xs text-text-muted">mamunwifi.net · MikroTik API & Real-time Telemetry</p>
+            <button class="add-to-cart-btn btn-pill border border-text-primary hover:bg-brand-red hover:border-brand-red hover:text-white text-text-primary py-3 w-full text-xs font-bold tracking-[0.12em] mt-2 transition-all flex items-center justify-center space-x-1.5" data-product-id="mamunwifi">
+              <span>VIEW DETAILS</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 3: WatchShopBD -->
+        <article class="product-card bg-white flex flex-col justify-between group cursor-pointer" data-product-id="watchshopbd" onclick="openSizeSheet('watchshopbd')">
+          <div class="h-[52vh] min-h-[340px] bg-[#F5F5F5] flex items-center justify-center p-6 overflow-hidden relative">
+            <div class="absolute top-4 left-4 bg-amber-600 text-white px-3 py-1 rounded-full font-satoshi text-[10px] uppercase font-bold tracking-widest">
+              FLAGSHIP COMMERCE
+            </div>
+            <div class="absolute top-4 right-4 bg-brand-red/10 border border-brand-red/30 text-brand-red px-2.5 py-0.5 rounded-full font-mono text-[9px] font-bold flex items-center space-x-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>watchshopbd.com</span>
+            </div>
+            <img src="./images/web_savanna_gold.png" alt="WatchShopBD - Timepiece Commerce" class="w-[88%] h-auto object-contain transition-transform duration-500 ease-out group-hover:scale-108 group-hover:-rotate-2 drop-shadow-xl rounded-xl">
+          </div>
+          <div class="p-7 border-t border-hairline flex flex-col space-y-3 bg-white">
+            <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-red uppercase font-bold">3D CREATIVE STUDIO · TIMEPIECE MARKETPLACE</span>
+            <div class="flex items-center justify-between">
+              <h3 class="font-satoshi font-bold text-lg text-text-primary">WATCHSHOPBD</h3>
+              <span class="font-oswald font-bold text-xl text-text-primary">৳21,999</span>
+            </div>
+            <p class="font-satoshi text-xs text-text-muted">watchshopbd.com · Algolia Search & Edge Commerce</p>
+            <button class="add-to-cart-btn btn-pill border border-text-primary hover:bg-brand-red hover:border-brand-red hover:text-white text-text-primary py-3 w-full text-xs font-bold tracking-[0.12em] mt-2 transition-all flex items-center justify-center space-x-1.5" data-product-id="watchshopbd">
+              <span>VIEW DETAILS</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 9. BENEFITS SECTION (bg-white, Extra Gap Removed) -->
+    <section id="benefits-section" class="bg-white py-10 md:py-14 px-6 md:px-12 border-t border-hairline">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-8 md:mb-10 space-y-3">
+          <span class="font-oswald text-xs tracking-[0.2em] text-brand-red uppercase font-bold">WHY APPIEX WEB SYSTEMS</span>
+          <h2 class="font-anton text-4xl sm:text-6xl md:text-7xl uppercase text-text-primary tracking-tight">ENGINEERED TO CONVERT.</h2>
+          <div class="w-16 h-1 bg-brand-red mx-auto mt-4"></div>
+        </div>
+
+        <!-- 4 Benefit Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          <!-- Benefit 1 -->
+          <div class="benefit-card flex flex-col p-6 rounded-2xl bg-[#FAFAFA] border border-hairline hover:border-brand-red/40 hover:shadow-lg transition-all">
+            <div class="w-16 h-16 rounded-full bg-brand-pale text-brand-red flex items-center justify-center mb-6">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <h3 class="font-satoshi font-bold text-lg text-text-primary mb-2">Full-Length 3D Motion</h3>
+            <p class="font-satoshi text-sm text-text-muted leading-relaxed">
+              Curved 3D perspectives and GSAP ScrollTrigger timelines engineered for instantaneous visitor engagement.
+            </p>
+          </div>
+
+          <!-- Benefit 2 -->
+          <div class="benefit-card flex flex-col p-6 rounded-2xl bg-[#FAFAFA] border border-hairline hover:border-brand-red/40 hover:shadow-lg transition-all">
+            <div class="w-16 h-16 rounded-full bg-brand-pale text-brand-red flex items-center justify-center mb-6">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 class="font-satoshi font-bold text-lg text-text-primary mb-2">0.4s Ultra-Light</h3>
+            <p class="font-satoshi text-sm text-text-muted leading-relaxed">
+              The lightest web architecture APPIEX has ever built. Zero bloat, instant hydration, and 99+ PageSpeed score.
+            </p>
+          </div>
+
+          <!-- Benefit 3 -->
+          <div class="benefit-card flex flex-col p-6 rounded-2xl bg-[#FAFAFA] border border-hairline hover:border-brand-red/40 hover:shadow-lg transition-all">
+            <div class="w-16 h-16 rounded-full bg-brand-pale text-brand-red flex items-center justify-center mb-6">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+            </div>
+            <h3 class="font-satoshi font-bold text-lg text-text-primary mb-2">NITRO™ Edge Cloud</h3>
+            <p class="font-satoshi text-sm text-text-muted leading-relaxed">
+              Global edge caching delivering 87% faster time-to-first-byte (TTFB) across North America, Europe, and Asia.
+            </p>
+          </div>
+
+          <!-- Benefit 4 -->
+          <div class="benefit-card flex flex-col p-6 rounded-2xl bg-[#FAFAFA] border border-hairline hover:border-brand-red/40 hover:shadow-lg transition-all">
+            <div class="w-16 h-16 rounded-full bg-brand-pale text-brand-red flex items-center justify-center mb-6">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <h3 class="font-satoshi font-bold text-lg text-text-primary mb-2">Lockdown Security</h3>
+            <p class="font-satoshi text-sm text-text-muted leading-relaxed">
+              Zero-vulnerability static architecture with Content Security Policies, TLS 1.3, and automated SSL certs.
+            </p>
+          </div>
+        </div>
+
+        <!-- Trust Strip -->
+        <div class="max-w-3xl mx-auto border border-hairline rounded-full py-4 px-8 flex flex-col sm:flex-row items-center justify-around gap-4 bg-white shadow-sm">
+          <div class="flex items-center space-x-2 text-text-primary font-satoshi text-xs font-semibold uppercase tracking-wider">
+            <svg class="w-4 h-4 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>30-Day Money-Back Guarantee</span>
+          </div>
+          <div class="hidden sm:block w-px h-4 bg-hairline"></div>
+          <div class="flex items-center space-x-2 text-text-primary font-satoshi text-xs font-semibold uppercase tracking-wider">
+            <svg class="w-4 h-4 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span>Instant GitHub Repo Transfer</span>
+          </div>
+          <div class="hidden sm:block w-px h-4 bg-hairline"></div>
+          <div class="flex items-center space-x-2 text-text-primary font-satoshi text-xs font-semibold uppercase tracking-wider">
+            <svg class="w-4 h-4 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span>Secure 256-Bit Checkout</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. CLIENT / ARCHITECT TRUST TICKER (44px, #0A0A0A) -->
+    <section aria-label="Client Trust Ticker" class="h-[44px] bg-[#0A0A0A] text-white overflow-hidden border-y border-white/10 flex items-center relative z-20">
+      <div class="athlete-track">
+        <div class="inline-flex items-center space-x-10 px-6 font-satoshi text-xs uppercase tracking-[0.14em]">
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>TRUSTED BY 50+ HIGH-GROWTH STARTUPS</span></span>
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>OVER $120M+ PROCESSED ON APPIEX STORES</span></span>
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>#1 FASTEST LOAD TIMES IN TECHBENCH 2025</span></span>
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>"THE FASTEST PLATFORM WE HAVE EVER DEPLOYED" — ADIL (MARKETING LEAD)</span></span>
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>11 YEARS OF UI/UX PERFORMANCE R&D</span></span>
+        </div>
+        <div aria-hidden="true" class="inline-flex items-center space-x-10 px-6 font-satoshi text-xs uppercase tracking-[0.14em]">
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>TRUSTED BY 50+ HIGH-GROWTH STARTUPS</span></span>
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>OVER $120M+ PROCESSED ON APPIEX STORES</span></span>
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>#1 FASTEST LOAD TIMES IN TECHBENCH 2025</span></span>
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>"THE FASTEST PLATFORM WE HAVE EVER DEPLOYED" — ADIL (MARKETING LEAD)</span></span>
+          <span class="inline-flex items-center space-x-2"><span class="text-brand-red">★</span><span>11 YEARS OF UI/UX PERFORMANCE R&D</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. FOREST VISUAL BREAK (Black Panther in Grass with Red Dusk) -->
+    <section id="forest-section" class="relative min-h-[90vh] lg:min-h-[100vh] w-full overflow-hidden bg-black flex items-end">
+      <div id="forest-bg" class="absolute inset-0 w-full h-[120%] -top-[10%] bg-cover bg-center" style="background-image: url('./assets/Puma in Tall Grass.png');"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-transparent to-black/40"></div>
+
+      <div id="forest-content" class="relative z-10 p-6 sm:p-10 lg:p-16 max-w-3xl space-y-5 pb-10 sm:pb-14">
+        <div class="premium-divider !mb-3"></div>
+        <h2 id="forest-title" class="font-anton text-4xl sm:text-6xl lg:text-7xl text-white uppercase leading-[0.92] tracking-tight">
+          <span class="inline-block forest-title-word">WHAT</span> <span class="inline-block forest-title-word">WE</span> <br>
+          <span class="inline-block forest-title-word text-brand-neon">CONVERT.</span>
+        </h2>
+        <p id="forest-desc" class="font-cormorant italic text-lg sm:text-xl lg:text-2xl text-white/85 font-light max-w-xl leading-snug">
+          Turning clicks into high-margin conversion and market authority. We engineer sub-second web architectures and automated SEO engines that capture high-intent buyers and outrank competition.
+        </p>
+        <div id="forest-buttons" class="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
+          <a href="collections.html" class="forest-action-btn btn-pill bg-brand-red hover:bg-brand-red-mid text-white px-6 sm:px-7 py-3 sm:py-3.5 text-xs font-bold tracking-[0.14em] shadow-lg shadow-brand-red/30">
+            OUR PROJECTS →
+          </a>
+          <a href="seo.html" class="forest-action-btn btn-pill border border-white/70 hover:border-brand-neon hover:text-brand-neon text-white px-6 sm:px-7 py-3 sm:py-3.5 text-xs font-bold tracking-[0.14em]">
+            SEO PROJECTS
+          </a>
+          <a href="stories.html" class="forest-action-btn btn-pill text-white/70 hover:text-white px-4 sm:px-5 py-3 sm:py-3.5 text-xs tracking-wider">
+            CASE STUDIES →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. SNARL SECTION (Cyber Panther Energy) -->
+    <section id="snarl-section" class="min-h-[70vh] bg-[#0A0A0A] flex flex-col lg:flex-row items-center border-t border-white/10 overflow-hidden">
+      <!-- Left 55% Visual -->
+      <div class="w-full lg:w-[55%] h-[50vh] lg:h-[70vh] relative overflow-hidden">
+        <img src="./assets/puma-snarl.png" alt="Cyber Predator Snarl" class="w-full h-full object-cover">
+        <div class="absolute inset-0 pointer-events-none shadow-[inset_-60px_0_80px_rgba(10,10,10,0.95)]"></div>
+        <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent lg:hidden"></div>
+      </div>
+
+      <!-- Right 45% Copy -->
+      <div id="snarl-copy" class="w-full lg:w-[45%] p-8 sm:p-14 lg:p-16 flex flex-col justify-center space-y-6">
+        <div>
+          <div class="premium-divider"></div>
+          <span class="font-oswald text-xs tracking-[0.2em] text-brand-neon uppercase font-semibold">PREDATORY SPEED</span>
+          <h2 class="font-anton text-4xl sm:text-5xl lg:text-6xl text-white uppercase leading-[0.92] mt-2 mb-4">
+            THIS IS WHAT <br><span class="text-brand-neon">SPEED LOOKS</span> <br>LIKE.
+          </h2>
+          <p class="font-satoshi text-base text-white/60 leading-relaxed max-w-lg mb-8">
+            APPIEX architectures don't negotiate with server latency. They don't ask permission from bloated backend frameworks. Uncompromising client-side velocity forged in modern web engineering.
+          </p>
+          <a href="#product-grid" class="btn-pill border border-brand-red text-brand-neon hover:bg-brand-red hover:text-white px-8 py-3.5 text-xs tracking-[0.14em] font-bold">
+            UNLEASH YOUR PLATFORM →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13. PUMAS IN JUNGLE (Black Panthers in Mist) -->
+    <section id="jungle-section" class="relative h-[80vh] w-full overflow-hidden bg-black flex items-end">
+      <div id="jungle-bg" class="absolute inset-0 w-full h-[130%] -top-[15%] bg-cover bg-center" style="background-image: url('./assets/Pumas in Jungle.png');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/40"></div>
+
+      <div id="jungle-content" class="relative z-10 p-8 sm:p-14 lg:p-20 max-w-2xl space-y-4">
+        <span class="font-oswald text-xs tracking-[0.2em] text-brand-neon uppercase font-bold">THE PACK MENTALITY</span>
+        <h2 class="font-anton text-4xl sm:text-6xl text-white uppercase leading-[0.92]">
+          BUILD TOGETHER. <br><span class="text-brand-neon">LEAD ALONE.</span>
+        </h2>
+        <p class="font-cormorant italic text-lg sm:text-xl text-white/75 font-light">
+          In the startup arena, the code pack moves as one. On the metrics board, the victory belongs to your company.
+        </p>
+      </div>
+    </section>
+
+    <!-- 14. ATHLETE / FOUNDER CAROUSEL (#athlete-section, #0A0A0A) -->
+    <section id="athlete-section" class="bg-[#0A0A0A] py-20 px-6 md:px-12 text-white border-t border-white/10">
+      <div class="max-w-7xl mx-auto">
+        <!-- Section Header with Arrows -->
+        <div class="flex items-end justify-between mb-12">
+          <div>
+            <span class="font-oswald text-xs tracking-[0.2em] text-brand-neon uppercase font-semibold">TESTED IN PRODUCTION</span>
+            <h2 class="font-anton text-4xl sm:text-6xl uppercase tracking-tight">THE CREATORS & LEADERS</h2>
+          </div>
+          <!-- Carousel Arrows (Desktop) -->
+          <div class="hidden md:flex items-center space-x-3">
+            <button id="carousel-prev" aria-label="Previous" class="w-12 h-12 rounded-full border border-white/20 hover:border-brand-neon hover:text-brand-neon flex items-center justify-center transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button id="carousel-next" aria-label="Next" class="w-12 h-12 rounded-full border border-white/20 hover:border-brand-neon hover:text-brand-neon flex items-center justify-center transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Snap-scroll Container -->
+        <div id="athlete-carousel" class="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 scrollbar-none">
+          <!-- Card 1: Rafsan (Full Stack) -->
+          <div class="w-[340px] sm:w-[380px] h-[500px] flex-shrink-0 snap-start relative rounded-2xl overflow-hidden border border-white/10 group">
+            <img src="./images/athlete_1.png" alt="Rafsan Full Stack Architect" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 flex flex-col justify-end">
+              <span class="font-satoshi text-[11px] text-brand-neon uppercase tracking-wider font-bold mb-1">LEAD FULL STACK ARCHITECT</span>
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-anton text-2xl uppercase tracking-wide">RAFSAN</h3>
+                <span class="px-3 py-1 rounded-full bg-brand-red font-oswald text-xs font-bold text-white tracking-wider">FULL STACK · 99 SPEED</span>
+              </div>
+              <p class="font-cormorant italic text-sm text-white/80 font-light leading-snug">
+                "Engineered end-to-end full stack architectures from reactive 3D interfaces to edge routing. Our clients saw conversion jump by 340% in two weeks."
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: Adil (Marketing) -->
+          <div class="w-[340px] sm:w-[380px] h-[500px] flex-shrink-0 snap-start relative rounded-2xl overflow-hidden border border-white/10 group">
+            <img src="./images/athlete_2.png" alt="Adil Head of Marketing" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 flex flex-col justify-end">
+              <span class="font-satoshi text-[11px] text-brand-neon uppercase tracking-wider font-bold mb-1">HEAD OF MARKETING & GROWTH</span>
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-anton text-2xl uppercase tracking-wide">ADIL</h3>
+                <span class="px-3 py-1 rounded-full bg-brand-red font-oswald text-xs font-bold text-white tracking-wider">GROWTH · 4.2X ROAS</span>
+              </div>
+              <p class="font-cormorant italic text-sm text-white/80 font-light leading-snug">
+                "Every millisecond shaved translates directly into revenue. Our organic marketing and ad conversions surged by over 400% on APPIEX engines."
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Fayaj (Backend) -->
+          <div class="w-[340px] sm:w-[380px] h-[500px] flex-shrink-0 snap-start relative rounded-2xl overflow-hidden border border-white/10 group">
+            <img src="./images/athlete_3.png" alt="Fayaj Backend Architect" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 flex flex-col justify-end">
+              <span class="font-satoshi text-[11px] text-brand-neon uppercase tracking-wider font-bold mb-1">HEAD OF BACKEND & EDGE CLOUD</span>
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-anton text-2xl uppercase tracking-wide">FAYAJ</h3>
+                <span class="px-3 py-1 rounded-full bg-brand-red font-oswald text-xs font-bold text-white tracking-wider">BACKEND · 0.02S TTFB</span>
+              </div>
+              <p class="font-cormorant italic text-sm text-white/80 font-light leading-snug">
+                "High-concurrency serverless microservices and edge database replication handling millions of requests with zero downtime."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indicator Dots -->
+        <div id="athlete-dots" class="flex items-center justify-center space-x-2 mt-8">
+          <button class="w-8 h-1.5 rounded-full bg-brand-red transition-all" data-idx="0"></button>
+          <button class="w-2.5 h-1.5 rounded-full bg-white/30 hover:bg-white/60 transition-all" data-idx="1"></button>
+          <button class="w-2.5 h-1.5 rounded-full bg-white/30 hover:bg-white/60 transition-all" data-idx="2"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15. ESSENTIALS GRID: WEB ACCESSORIES & PERFORMANCE MODULES -->
+    <section id="essentials" class="bg-[#F5F5F5] text-text-primary section-pad px-6 md:px-12 border-t border-hairline">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex items-end justify-between mb-12">
+          <div>
+            <span class="font-oswald text-xs tracking-[0.2em] text-brand-red uppercase font-semibold">WEB ACCESSORIES & ADD-ONS</span>
+            <h2 class="font-anton text-4xl sm:text-6xl uppercase tracking-tight">THE ESSENTIALS</h2>
+          </div>
+          <a href="collections.html" class="hidden md:inline-flex items-center font-satoshi font-semibold text-xs tracking-[0.14em] uppercase text-text-primary hover:text-brand-red transition">
+            VIEW ALL MODULES →
+          </a>
+        </div>
+
+        <!-- 3 Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-[2px] bg-hairline border border-hairline">
+
+          <!-- Accessory 1: Cloud Turbo -->
+          <article class="essentials-card relative h-[520px] overflow-hidden group cursor-pointer" onclick="openSizeSheet('savanna')">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('./images/acc_cloud_turbo.png');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white">
+              <div>
+                <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-neon uppercase">EDGE HARDWARE ADD-ON</span>
+                <h3 class="font-satoshi font-bold text-lg">CLOUD TURBO BLADE</h3>
+                <span class="font-oswald text-sm text-white/70">৳14,999 · INSTANT CDN</span>
+              </div>
+              <button class="add-to-cart-btn font-satoshi font-bold text-xs uppercase tracking-widest text-brand-neon hover:underline" data-product-id="savanna">
+                QUICK ADD →
+              </button>
+            </div>
+          </article>
+
+          <!-- Accessory 2: UI Component Kit -->
+          <article class="essentials-card relative h-[520px] overflow-hidden group cursor-pointer" onclick="openSizeSheet('obsidian')">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('./images/acc_ui_kit.png');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white">
+              <div>
+                <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-neon uppercase">DESIGN SYSTEM</span>
+                <h3 class="font-satoshi font-bold text-lg">3D COMPONENT MATRIX</h3>
+                <span class="font-oswald text-sm text-white/70">৳14,999 · 200+ WIDGETS</span>
+              </div>
+              <button class="add-to-cart-btn font-satoshi font-bold text-xs uppercase tracking-widest text-brand-neon hover:underline" data-product-id="obsidian">
+                QUICK ADD →
+              </button>
+            </div>
+          </article>
+
+          <!-- Accessory 3: Security Shield Suite -->
+          <article class="essentials-card relative h-[520px] overflow-hidden group cursor-pointer" onclick="openSizeSheet('arctic')">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('./images/acc_security_shield.png');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white">
+              <div>
+                <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-neon uppercase">CYBER SECURITY</span>
+                <h3 class="font-satoshi font-bold text-lg">BIOMETRIC SHIELD SUITE</h3>
+                <span class="font-oswald text-sm text-white/70">৳14,999 · ZERO TRUST</span>
+              </div>
+              <button class="add-to-cart-btn font-satoshi font-bold text-xs uppercase tracking-widest text-brand-neon hover:underline" data-product-id="arctic">
+                QUICK ADD →
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 16. SUSTAINABILITY & PERFORMANCE STRIP (Red #DC2626, height: 180px) -->
+    <section id="sustainability" aria-label="Performance Milestones" class="min-h-[180px] bg-brand-red text-white py-12 px-6 flex items-center border-y border-brand-red-mid">
+      <div class="max-w-7xl mx-auto w-full grid grid-cols-2 lg:grid-cols-4 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-white/20">
+        <!-- Counter 1 -->
+        <div class="text-center px-4 pt-4 lg:pt-0">
+          <div class="font-anton text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white mb-1">
+            <span class="stat-counter" data-target="99" data-suffix="+">0</span>+
+          </div>
+          <span class="font-satoshi text-xs text-white/80 uppercase tracking-wider font-medium">PAGESPEED SCORE</span>
+        </div>
+
+        <!-- Counter 2 -->
+        <div class="text-center px-4 pt-4 lg:pt-0">
+          <div class="font-anton text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white mb-1">
+            <span class="stat-counter" data-target="2028" data-suffix="">2024</span>
+          </div>
+          <span class="font-satoshi text-xs text-white/80 uppercase tracking-wider font-medium">CARBON NEUTRAL CLOUD</span>
+        </div>
+
+        <!-- Counter 3 -->
+        <div class="text-center px-4 pt-4 lg:pt-0">
+          <div class="font-anton text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white mb-1">
+            <span class="stat-counter" data-target="100" data-suffix="%">0</span>%
+          </div>
+          <span class="font-satoshi text-xs text-white/80 uppercase tracking-wider font-medium">CLEAN COMPONENT CODE</span>
+        </div>
+
+        <!-- Counter 4 -->
+        <div class="text-center px-4 pt-4 lg:pt-0">
+          <div class="font-anton text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white mb-1">
+            99.99%
+          </div>
+          <span class="font-satoshi text-xs text-white/80 uppercase tracking-wider font-medium">ENTERPRISE UPTIME SLA</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 17. REFER & EARN PARTNER PROGRAM SECTION (#final-cta) -->
+    <section id="final-cta" class="bg-[#0A0A0A] text-white section-pad px-6 md:px-12 border-t border-white/10 relative overflow-hidden">
+      <!-- Ambient Cyber Glows -->
+      <div class="absolute -top-32 left-10 w-[500px] h-[500px] bg-brand-red/10 blur-[130px] rounded-full pointer-events-none"></div>
+      <div class="absolute -bottom-32 right-10 w-[450px] h-[450px] bg-emerald-500/10 blur-[130px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
+        <!-- Left Visual: Stylish Boy Developer with Cyber Badges (50%) -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center">
+          <div class="relative w-full max-w-[500px] rounded-3xl overflow-hidden border border-white/15 bg-[#12131C] shadow-[0_25px_60px_rgba(220,38,38,0.25)] group transform hover:scale-[1.02] transition-transform duration-500">
+            <img src="./images/boy_developer.jpg" alt="APPIEX Lead Tech Developer" class="w-full h-auto object-cover filter contrast-[1.05] brightness-95 group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/20 pointer-events-none"></div>
+            
+            <!-- Floating Cyber Badge: Offer -->
+            <div class="absolute top-4 right-4 bg-emerald-500 text-black font-oswald text-xs px-3.5 py-1.5 rounded-full uppercase tracking-widest font-bold shadow-lg shadow-emerald-500/40 flex items-center space-x-1.5">
+              <span>★</span>
+              <span>INSTANT BKASH / NAGAD PAYOUT</span>
+            </div>
+
+            <!-- Bottom Live Architecture Badge -->
+            <div class="absolute bottom-5 left-5 right-5 bg-black/85 backdrop-blur-md p-4 rounded-2xl border border-emerald-500/40 text-white flex items-center justify-between shadow-2xl">
+              <div>
+                <span class="font-oswald text-[10px] tracking-[0.2em] text-emerald-400 uppercase font-bold block">PARTNER & AFFILIATE LEAD</span>
+                <span class="font-anton text-lg uppercase tracking-wide">RAFSAN · APPIEX LABS</span>
+              </div>
+              <div class="flex items-center space-x-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full font-oswald text-xs font-bold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>৳5,000 / REFERRAL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Copy: Refer & Earn Program Offer (50%) -->
+        <div class="w-full lg:w-1/2 space-y-6">
+          <div class="premium-divider"></div>
+          
+          <div class="inline-flex items-center space-x-2 bg-emerald-500/15 border border-emerald-500/30 px-3.5 py-1.5 rounded-full text-emerald-400 font-oswald text-xs tracking-[0.16em] uppercase font-bold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>APPIEX PARTNER NETWORK · REFER & EARN CASH</span>
+          </div>
+
+          <h2 class="font-anton text-4xl sm:text-6xl lg:text-7xl uppercase leading-[0.95] tracking-tight">
+            REFER A CLIENT. <br>
+            <span class="text-brand-neon">EARN UP TO ৳5,000 CASH.</span>
+          </h2>
+
+          <!-- Price & Savings Bento -->
+          <div class="inline-flex flex-wrap items-center gap-4 sm:gap-6 p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10">
+            <div>
+              <span class="text-[11px] text-white/50 uppercase tracking-widest block font-medium">Standard Web Deal</span>
+              <span class="text-2xl sm:text-3xl font-anton text-white tracking-wide">৳3,000</span>
+            </div>
+            <div class="w-px h-10 bg-white/10 hidden sm:block"></div>
+            <div>
+              <span class="text-[11px] text-brand-neon uppercase tracking-widest font-bold block">Nitro Commerce Deal</span>
+              <span class="text-3xl sm:text-4xl font-anton text-brand-neon tracking-wide">৳5,000</span>
+            </div>
+            <div class="w-px h-10 bg-white/10 hidden sm:block"></div>
+            <div>
+              <span class="text-[11px] text-emerald-400 uppercase tracking-widest font-bold block">Enterprise Custom</span>
+              <span class="text-2xl sm:text-3xl font-anton text-emerald-400 tracking-wide">20% COMM</span>
+            </div>
+          </div>
+
+          <p class="font-satoshi text-base text-white/70 leading-relaxed max-w-[48ch]">
+            Know a business founder, ecommerce brand, or startup looking for an ultra-fast modern website? Introduce them to APPIEX. For every project successfully closed, you earn an instant cash reward deposited directly to your <strong class="text-white">bKash, Nagad, or Bank account</strong> within 24 hours. Zero coding or technical work needed from you.
+          </p>
+
+          <!-- Free Inclusions Checklist -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-satoshi text-xs text-white/80 pt-1">
+            <div class="flex items-center space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Instant Payout via bKash, Nagad or Bank</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Zero Minimum Threshold — Paid Per Deal</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>100% Real-Time Project Deal Transparency</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Free Partner Pitch Kit & Live 3D Demos</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-4 pt-3">
+            <a href="refer.html" class="btn-pill bg-brand-red hover:bg-brand-red-mid text-white px-8 py-4 text-xs tracking-[0.14em] font-bold shadow-lg shadow-brand-red/30 flex items-center space-x-2">
+              <span>START REFERRING & EARN CASH</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+            <a href="refer.html#calculator" class="btn-pill border border-white/40 hover:border-brand-neon hover:text-brand-neon text-white px-8 py-4 text-xs tracking-[0.14em]">
+              CALCULATE COMMISSIONS →
+            </a>
+          </div>
+
+          <!-- Trust Micro Row -->
+          <div class="pt-6 border-t border-white/10 flex flex-wrap items-center gap-6 font-satoshi text-[11px] text-white/50 uppercase tracking-wider">
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>৳3,000 - ৳5,000 Per Deal</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>24-Hour Instant Payout</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>Zero Technical Work Needed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 18. EMAIL CAPTURE SECTION (bg-white) -->
+    <section id="email-section" class="bg-white text-text-primary py-24 md:py-36 px-6 text-center border-t border-hairline">
+      <div class="max-w-[600px] mx-auto space-y-6">
+        <div class="inline-flex items-center space-x-2 bg-brand-pale text-brand-red px-4 py-1.5 rounded-full font-satoshi font-semibold text-xs tracking-[0.14em] uppercase">
+          <span>JOIN THE DEVELOPER PACK</span>
+        </div>
+
+        <h2 class="font-anton text-4xl sm:text-6xl md:text-7xl uppercase leading-[0.92] tracking-tight">
+          FIRST TO BUILD. <br><span class="text-brand-red">FIRST TO SCALE.</span>
+        </h2>
+
+        <p class="font-cormorant italic text-lg sm:text-xl text-text-muted font-light">
+          Exclusive template drops. Founder performance intel. Biomechanics of high-converting web applications.
+        </p>
+
+        <!-- Form -->
+        <form id="email-form" class="mt-8 flex flex-col sm:flex-row items-center gap-3 pt-4" onsubmit="event.preventDefault(); submitEmail();">
+          <input id="email-input" type="email" required placeholder="ENTER YOUR WORK EMAIL" aria-label="Email address" class="w-full bg-transparent border-b-2 border-[#0A0A0A] py-3.5 px-2 font-satoshi text-sm uppercase placeholder-text-muted focus:outline-none focus:border-brand-red transition-colors">
+          <button type="submit" class="w-full sm:w-auto btn-pill bg-brand-red hover:bg-brand-red-mid text-white px-8 py-3.5 text-xs tracking-[0.14em] flex-shrink-0 font-bold">
+            JOIN PACK
+          </button>
+        </form>
+
+        <div id="email-success" class="hidden flex items-center justify-center space-x-2 text-brand-red font-satoshi text-sm font-semibold pt-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>You're in. Welcome to the pack.</span>
+        </div>
+
+        <p class="font-satoshi text-[10px] text-text-faint tracking-wider uppercase pt-4">
+          By joining you agree to our Commercial License & Privacy Terms. Unsubscribe anytime.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 19. EDITORIAL FOOTER (bg-[#0A0A0A]) -->
+  <footer id="contact" class="bg-[#0A0A0A] text-white border-t border-[#1C1C1C] overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <!-- Massive Display Header -->
+      <div class="pt-16 sm:pt-24 pb-12 border-b border-[#1C1C1C]">
+        <span class="font-oswald text-xs tracking-[0.22em] text-brand-neon uppercase font-semibold">HUNGRY FOR MORE — WEB ARCHITECTURES 2026</span>
+        <h2 class="font-anton text-[56px] sm:text-[96px] lg:text-[144px] uppercase leading-[0.88] tracking-tight text-white mt-2">
+          MADE <br>FOR THE <br><span class="text-brand-neon">HUNT.</span>
+        </h2>
+      </div>
+
+      <!-- 4-Column Navigation Grid -->
+      <div class="py-16 grid grid-cols-2 md:grid-cols-4 gap-10 border-b border-[#141414]">
+        <!-- Col 1: Platforms -->
+        <div class="space-y-4">
+          <h4 class="font-satoshi font-semibold text-[11px] text-[#555555] uppercase tracking-[0.18em]">PLATFORMS</h4>
+          <ul class="space-y-3 font-satoshi text-sm text-[#888888]">
+            <li><a href="men.html" class="hover:text-white transition">E-Commerce Speed Stores</a></li>
+            <li><a href="women.html" class="hover:text-white transition">SaaS & Application Portals</a></li>
+            <li><a href="running.html" class="hover:text-white transition">3D Interactive Spikes</a></li>
+            <li><a href="collections.html" class="hover:text-white transition">Web Accessories & Cloud</a></li>
+            <li><a href="stories.html" class="hover:text-white transition">Performance Lab</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 2: Company -->
+        <div class="space-y-4">
+          <h4 class="font-satoshi font-semibold text-[11px] text-[#555555] uppercase tracking-[0.18em]">COMPANY</h4>
+          <ul class="space-y-3 font-satoshi text-sm text-[#888888]">
+            <li><a href="stories.html" class="hover:text-white transition">About APPIEX Systems</a></li>
+            <li><a href="stories.html" class="hover:text-white transition">UI/UX Biomechanics</a></li>
+            <li><a href="collections.html" class="hover:text-white transition">Carbon Neutral Hosting</a></li>
+            <li><a href="stories.html" class="hover:text-white transition">Press & Releases</a></li>
+            <li><a href="stories.html" class="hover:text-white transition">Careers</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Support -->
+        <div class="space-y-4">
+          <h4 class="font-satoshi font-semibold text-[11px] text-[#555555] uppercase tracking-[0.18em]">SUPPORT</h4>
+          <ul class="space-y-3 font-satoshi text-sm text-[#888888]">
+            <li><a href="#" onclick="alert('Order & Repo Tracking: Check your confirmation email for immediate GitHub access.')" class="hover:text-white transition">Repo Access</a></li>
+            <li><a href="#" onclick="alert('Licensing: 100% royalty-free commercial license with every purchase.')" class="hover:text-white transition">Commercial License</a></li>
+            <li><a href="#" onclick="alert('Tech Guide: Next.js 15, Tailwind, Three.js documentation included.')" class="hover:text-white transition">Tech Stack Guide</a></li>
+            <li><a href="#" onclick="alert('Contact Us: support@appiex.com | Priority developer hotline.')" class="hover:text-white transition">Contact Us</a></li>
+            <li><a href="#" onclick="alert('FAQ: All architectures pass 99+ Google PageSpeed audits.')" class="hover:text-white transition">FAQ</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Follow -->
+        <div class="space-y-4">
+          <h4 class="font-satoshi font-semibold text-[11px] text-[#555555] uppercase tracking-[0.18em]">FOLLOW</h4>
+          <div class="space-y-3 font-satoshi text-sm text-[#888888]">
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="flex items-center space-x-3 group hover:text-white transition">
+              <div class="w-8 h-8 rounded-full border border-[#2A2A2A] flex items-center justify-center group-hover:border-brand-neon group-hover:text-brand-neon transition">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </div>
+              <span>Instagram</span>
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener" class="flex items-center space-x-3 group hover:text-white transition">
+              <div class="w-8 h-8 rounded-full border border-[#2A2A2A] flex items-center justify-center group-hover:border-brand-neon group-hover:text-brand-neon transition">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              </div>
+              <span>GitHub Repos</span>
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" class="flex items-center space-x-3 group hover:text-white transition">
+              <div class="w-8 h-8 rounded-full border border-[#2A2A2A] flex items-center justify-center group-hover:border-brand-neon group-hover:text-brand-neon transition">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </div>
+              <span>X / Twitter</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="py-7 flex flex-col md:flex-row items-center justify-between gap-4 font-satoshi text-xs text-[#555555]">
+        <div class="flex items-center space-x-4">
+          <svg class="h-5 w-auto text-white/40" viewBox="0 0 240 50" fill="none">
+            <g transform="translate(2, 2)">
+              <path d="M4 32 C10 20, 22 12, 36 8 C30 14, 28 20, 30 26 C26 23, 20 24, 14 28 C22 31, 30 28, 38 20 C34 27, 28 32, 18 35 C27 37, 36 35, 42 26 C38 32, 32 37, 24 39 C34 40, 46 34, 52 22 C56 16, 57 10, 58 4 C50 10, 42 13, 34 11 C44 6, 54 4, 62 1 C56 7, 52 13, 44 18 C52 13, 58 8, 64 2 C60 10, 54 16, 44 22 C52 18, 58 13, 64 7 C62 15, 54 23, 44 28 C38 32, 30 34, 20 35 Z" fill="#DC2626"/>
+            </g>
+            <text x="74" y="34" font-family="'Anton', 'Oswald', sans-serif" font-size="28" font-weight="900" fill="currentColor">APPIEX</text>
+          </svg>
+          <div class="flex items-center space-x-3">
+            <a href="#" class="hover:text-white transition">Commercial License</a>
+            <span>·</span>
+            <a href="#" class="hover:text-white transition">Privacy Policy</a>
+            <span>·</span>
+            <a href="#" class="hover:text-white transition">Security & SLA</a>
+          </div>
+        </div>
+        <div>
+          <span>© 2026 APPIEX SE · High-Performance Web Architectures</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CLIENT-SIDE SCRIPT & CART SYSTEM -->
+  <script>
+    (function () {
+      // Products Catalog: Web Platforms (Our Best 3 Projects)
+      const PRODUCTS = {
+        timedune: {
+          id: 'timedune',
+          name: 'TIMEDUNE LUXURY COMMERCE',
+          domain: 'timedune.vercel.app',
+          url: 'https://timedune.vercel.app',
+          category: 'HEADLESS E-COMMERCE · 3D STORE',
+          color: 'timedune.vercel.app · Sub-0.3s Checkout',
+          price: 19999,
+          badge: 'BESTSELLER',
+          img: './images/web_obsidian_black.png?v=dune_final',
+          desc: 'High-conversion luxury timepiece e-commerce architecture engineered with interactive 3D watch viewing, silk-smooth GSAP micro-interactions, instantaneous page transitions, and sub-0.3s headless checkout velocity.',
+          metrics: { perf: '99+', lcp: '0.3s', cls: '0.00' },
+          stacks: ['Next.js 15', 'Tailwind CSS', 'GSAP Motion', 'Three.js 3D', 'Stripe / bKash', 'Vercel Edge']
+        },
+        mamunwifi: {
+          id: 'mamunwifi',
+          name: 'MAMUNWIFI ISP AUTOMATION',
+          domain: 'mamunwifi.net',
+          url: 'https://mamunwifi.net',
+          category: 'SAAS DASHBOARD · ISP BILLING PORTAL',
+          color: 'mamunwifi.net · MikroTik API & Real-time Telemetry',
+          price: 17499,
+          badge: 'LIVE PORTAL',
+          img: './images/web_arctic_white.png',
+          desc: 'High-throughput enterprise ISP network automation and subscriber portal with live MikroTik router sync, automated bill collection via bKash/Nagad PGW, bandwidth telemetry, and instant user provisioning.',
+          metrics: { perf: '98+', lcp: '0.4s', cls: '99.99%' },
+          stacks: ['React + Vite', 'Node.js / Express', 'MikroTik API', 'PostgreSQL', 'Tailwind CSS', 'bKash / Nagad PGW']
+        },
+        watchshopbd: {
+          id: 'watchshopbd',
+          name: 'WATCHSHOPBD COMMERCE ENGINE',
+          domain: 'watchshopbd.com',
+          url: 'https://watchshopbd.com',
+          category: '3D CREATIVE STUDIO · TIMEPIECE MARKETPLACE',
+          color: 'watchshopbd.com · Algolia Search & Edge Commerce',
+          price: 21999,
+          badge: 'FLAGSHIP COMMERCE',
+          img: './images/web_savanna_gold.png',
+          desc: 'Premier Bangladeshi multi-brand timepiece commerce ecosystem engineered with instant Algolia faceted search, real-time multi-branch inventory tracking, ultra-fast mobile checkout, and automated SEO schema indexing.',
+          metrics: { perf: '99+', lcp: '0.35s', cls: '100% SEO' },
+          stacks: ['Next.js 15', 'Tailwind CSS', 'Algolia Search', 'Cart Engine', 'Cloudflare CDN', 'JSON-LD Schema']
+        },
+        // Compatibility Aliases
+        obsidian: {
+          id: 'timedune',
+          name: 'TIMEDUNE LUXURY COMMERCE',
+          domain: 'timedune.vercel.app',
+          url: 'https://timedune.vercel.app',
+          category: 'HEADLESS E-COMMERCE · 3D STORE',
+          color: 'timedune.vercel.app · Sub-0.3s Checkout',
+          price: 19999,
+          badge: 'BESTSELLER',
+          img: './images/web_obsidian_black.png?v=dune_final',
+          desc: 'High-conversion luxury timepiece e-commerce architecture engineered with interactive 3D watch viewing, silk-smooth GSAP micro-interactions, instantaneous page transitions, and sub-0.3s headless checkout velocity.',
+          metrics: { perf: '99+', lcp: '0.3s', cls: '0.00' },
+          stacks: ['Next.js 15', 'Tailwind CSS', 'GSAP Motion', 'Three.js 3D', 'Stripe / bKash', 'Vercel Edge']
+        },
+        arctic: {
+          id: 'mamunwifi',
+          name: 'MAMUNWIFI ISP AUTOMATION',
+          domain: 'mamunwifi.net',
+          url: 'https://mamunwifi.net',
+          category: 'SAAS DASHBOARD · ISP BILLING PORTAL',
+          color: 'mamunwifi.net · MikroTik API & Real-time Telemetry',
+          price: 17499,
+          badge: 'LIVE PORTAL',
+          img: './images/web_arctic_white.png',
+          desc: 'High-throughput enterprise ISP network automation and subscriber portal with live MikroTik router sync, automated bill collection via bKash/Nagad PGW, bandwidth telemetry, and instant user provisioning.',
+          metrics: { perf: '98+', lcp: '0.4s', cls: '99.99%' },
+          stacks: ['React + Vite', 'Node.js / Express', 'MikroTik API', 'PostgreSQL', 'Tailwind CSS', 'bKash / Nagad PGW']
+        },
+        savanna: {
+          id: 'watchshopbd',
+          name: 'WATCHSHOPBD COMMERCE ENGINE',
+          domain: 'watchshopbd.com',
+          url: 'https://watchshopbd.com',
+          category: '3D CREATIVE STUDIO · TIMEPIECE MARKETPLACE',
+          color: 'watchshopbd.com · Algolia Search & Edge Commerce',
+          price: 21999,
+          badge: 'FLAGSHIP COMMERCE',
+          img: './images/web_savanna_gold.png',
+          desc: 'Premier Bangladeshi multi-brand timepiece commerce ecosystem engineered with instant Algolia faceted search, real-time multi-branch inventory tracking, ultra-fast mobile checkout, and automated SEO schema indexing.',
+          metrics: { perf: '99+', lcp: '0.35s', cls: '100% SEO' },
+          stacks: ['Next.js 15', 'Tailwind CSS', 'Algolia Search', 'Cart Engine', 'Cloudflare CDN', 'JSON-LD Schema']
+        }
+      };
+
+      // Tech Stack options for the specification sheet
+      const SIZES = [
+        'Next.js 15',
+        'React + Vite',
+        'Tailwind + Astro',
+        'Full-Stack Node',
+        'Shopify Liquid',
+        'WordPress Headless',
+        'HTML5 Canvas',
+        'SaaS Enterprise'
+      ];
+
+      // ==========================================
+      // BUTTERY SMOOTH SCROLL (LENIS + GSAP)
+      // ==========================================
+      let lenis;
+      if (typeof Lenis !== 'undefined') {
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          gestureOrientation: 'vertical',
+          smoothWheel: true,
+          wheelMultiplier: 1.1,
+          touchMultiplier: 2,
+          infinite: false
+        });
+
+        lenis.on('scroll', () => {
+          if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.update();
+          }
+        });
+
+        if (typeof gsap !== 'undefined') {
+          gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+          });
+          gsap.ticker.lagSmoothing(0);
+        } else {
+          function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+          }
+          requestAnimationFrame(raf);
+        }
+
+        // Support anchor smooth scrolling (including #contact)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId !== '#') {
+              const targetEl = document.querySelector(targetId);
+              if (targetEl) {
+                e.preventDefault();
+                lenis.scrollTo(targetEl, { offset: -60, duration: 1.2 });
+              }
+            }
+          });
+        });
+      }
+
+      // Persistent Cart
+      let cart = [];
+      try {
+        const saved = localStorage.getItem('appiex_cart_red');
+        if (saved) cart = JSON.parse(saved);
+      } catch (e) {
+        cart = [];
+      }
+
+      function saveCart() {
+        try {
+          localStorage.setItem('appiex_cart_red', JSON.stringify(cart));
+        } catch (e) {}
+      }
+
+      let pendingProductId = 'obsidian';
+      let selectedSize = null;
+
+      // DOM Elements
+      const preloader = document.getElementById('preloader');
+      const mainContent = document.getElementById('main-content');
+      const stickyNav = document.getElementById('sticky-nav');
+      const navLogoImg = document.getElementById('nav-logo-img');
+      const cartBadge = document.getElementById('cart-badge');
+      const cartDrawer = document.getElementById('cart-drawer');
+      const cartDrawerCount = document.getElementById('cart-drawer-count');
+      const cartItemsContainer = document.getElementById('cart-items-container');
+      const cartEmpty = document.getElementById('cart-empty');
+      const cartFooter = document.getElementById('cart-footer');
+      const cartSubtotal = document.getElementById('cart-subtotal');
+      const modalOverlay = document.getElementById('modal-overlay');
+      const sizeSheet = document.getElementById('size-sheet');
+      const sizeSheetTitle = document.getElementById('size-sheet-title');
+      const sizeSheetPrice = document.getElementById('size-sheet-price');
+      const sizePickerGrid = document.getElementById('size-picker-grid');
+      const confirmAddCartBtn = document.getElementById('confirm-add-cart-btn');
+      const searchPanel = document.getElementById('search-panel');
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+      const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+      const hamburger = document.getElementById('hamburger');
+
+      // Preloader Lifecycle with 0 to 100% Color-Shifting Counter
+      const loaderNumBox = document.getElementById('loader-num-box');
+      const loaderPctSign = document.getElementById('loader-pct-sign');
+      const preloaderBarFill = document.getElementById('preloader-bar-fill');
+      const loaderDuration = 1800; // ms
+      const loaderStart = performance.now();
+
+      function updateLoaderUI(val) {
+        if (!loaderNumBox) return;
+        if (val < 10) {
+          loaderNumBox.innerHTML = `<span class="text-[#DC2626]">${val}</span>`;
+          if (loaderPctSign) loaderPctSign.className = 'text-[#DC2626] text-3xl sm:text-4xl md:text-5xl font-satoshi font-bold ml-1';
+        } else if (val < 100) {
+          const s = String(val);
+          loaderNumBox.innerHTML = `<span class="text-[#0A0A0A]">${s[0]}</span><span class="text-[#DC2626]">${s[1]}</span>`;
+          if (loaderPctSign) loaderPctSign.className = 'text-[#DC2626] text-3xl sm:text-4xl md:text-5xl font-satoshi font-bold ml-1';
+        } else {
+          loaderNumBox.innerHTML = `<span class="text-[#DC2626]">100</span>`;
+          if (loaderPctSign) loaderPctSign.className = 'text-[#DC2626] text-3xl sm:text-4xl md:text-5xl font-satoshi font-bold ml-1';
+        }
+        if (preloaderBarFill) {
+          preloaderBarFill.style.width = val + '%';
+        }
+      }
+
+      function stepLoader(now) {
+        const elapsed = now - loaderStart;
+        const progress = Math.min(elapsed / loaderDuration, 1);
+        const currentVal = Math.floor(progress * 100);
+        updateLoaderUI(currentVal);
+
+        if (progress < 1) {
+          requestAnimationFrame(stepLoader);
+        } else {
+          updateLoaderUI(100);
+          setTimeout(() => {
+            if (preloader) preloader.classList.add('fade-out');
+            if (mainContent) mainContent.classList.remove('opacity-0');
+            setTimeout(() => {
+              if (preloader) preloader.style.display = 'none';
+            }, 500);
+          }, 300);
+        }
+      }
+      requestAnimationFrame(stepLoader);
+
+      // Cart Functions
+      function renderCart() {
+        const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+        if (cartBadge) {
+          if (totalItems > 0) {
+            cartBadge.style.display = 'flex';
+            cartBadge.textContent = totalItems;
+          } else {
+            cartBadge.style.display = 'none';
+          }
+        }
+
+        if (cartDrawerCount) cartDrawerCount.textContent = totalItems;
+        if (cartSubtotal) cartSubtotal.textContent = '৳' + subtotal.toLocaleString('en-BD');
+
+        if (cart.length === 0) {
+          cartItemsContainer.innerHTML = '';
+          cartEmpty.classList.remove('hidden');
+          cartFooter.classList.add('hidden');
+          return;
+        }
+
+        cartEmpty.classList.add('hidden');
+        cartFooter.classList.remove('hidden');
+
+        cartItemsContainer.innerHTML = cart.map(item => `
+          <div class="flex items-center gap-4 bg-white/5 p-3 rounded-xl border border-white/10">
+            <div class="w-20 h-20 bg-black/40 rounded-lg p-2 flex items-center justify-center flex-shrink-0">
+              <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain rounded">
+            </div>
+            <div class="flex-1 min-w-0">
+              <h4 class="font-satoshi font-bold text-sm truncate text-white">${item.name}</h4>
+              <p class="font-satoshi text-xs text-white/50">${item.color} · <span class="text-brand-neon font-semibold">${item.size}</span></p>
+              <div class="font-oswald font-bold text-sm text-white mt-1">৳${item.price.toLocaleString('en-BD')}</div>
+              <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center space-x-2">
+                  <button onclick="window.appiexChangeQty('${item.id}', -1)" class="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-xs hover:border-brand-neon hover:text-brand-neon transition">−</button>
+                  <span class="font-satoshi text-xs font-bold text-white px-1">${item.qty}</span>
+                  <button onclick="window.appiexChangeQty('${item.id}', 1)" class="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-xs hover:border-brand-neon hover:text-brand-neon transition">+</button>
+                </div>
+                <button onclick="window.appiexRemoveItem('${item.id}')" class="text-white/40 hover:text-brand-neon text-xs transition">Remove</button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        saveCart();
+      }
+
+      window.appiexChangeQty = function (itemId, delta) {
+        const item = cart.find(i => i.id === itemId);
+        if (!item) return;
+        item.qty += delta;
+        if (item.qty <= 0) {
+          cart = cart.filter(i => i.id !== itemId);
+        }
+        renderCart();
+      };
+
+      window.appiexRemoveItem = function (itemId) {
+        cart = cart.filter(i => i.id !== itemId);
+        renderCart();
+      };
+
+      function addToCart(productId, size) {
+        const prod = PRODUCTS[productId] || PRODUCTS.obsidian;
+        const itemId = `${productId}_${size.replace(/[^a-zA-Z0-9]/g, '')}`;
+        const existing = cart.find(i => i.id === itemId);
+
+        if (existing) {
+          existing.qty += 1;
+        } else {
+          cart.push({
+            id: itemId,
+            productId: prod.id,
+            name: prod.name,
+            color: prod.color,
+            price: prod.price,
+            img: prod.img,
+            size: size,
+            qty: 1
+          });
+        }
+
+        renderCart();
+        openCart();
+      }
+
+      function openCart() {
+        closeSizeSheet();
+        closeSearch();
+        if (lenis) lenis.stop();
+        cartDrawer.classList.add('open');
+        modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCart() {
+        cartDrawer.classList.remove('open');
+        if (!sizeSheet.classList.contains('open') && !searchPanel.classList.contains('open')) {
+          modalOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+          if (lenis) lenis.start();
+        }
+      }
+
+      window.closeCart = closeCart;
+
+      // Tech Stack & Project Details Modal
+      function openSizeSheet(productId) {
+        pendingProductId = productId;
+        const prod = PRODUCTS[productId] || PRODUCTS.timedune || PRODUCTS.obsidian;
+
+        if (sizeSheetTitle) sizeSheetTitle.textContent = prod.name;
+        if (sizeSheetPrice) sizeSheetPrice.textContent = `৳${prod.price.toLocaleString('en-BD')}`;
+
+        const sizeSheetBadge = document.getElementById('size-sheet-badge');
+        if (sizeSheetBadge) sizeSheetBadge.textContent = prod.badge || 'LIVE ARCHITECTURE';
+
+        const sizeSheetCategory = document.getElementById('size-sheet-category');
+        if (sizeSheetCategory) sizeSheetCategory.textContent = prod.category || '';
+
+        const sizeSheetUrl = document.getElementById('size-sheet-url');
+        if (sizeSheetUrl) sizeSheetUrl.textContent = prod.url;
+
+        const sizeSheetVisitLink = document.getElementById('size-sheet-visit-link');
+        if (sizeSheetVisitLink) sizeSheetVisitLink.href = prod.url;
+
+        const sizeSheetPrimaryVisit = document.getElementById('size-sheet-primary-visit');
+        if (sizeSheetPrimaryVisit) sizeSheetPrimaryVisit.href = prod.url;
+
+        const sizeSheetDesc = document.getElementById('size-sheet-desc');
+        if (sizeSheetDesc) sizeSheetDesc.textContent = prod.desc;
+
+        const m1 = document.getElementById('size-sheet-metric1');
+        const m2 = document.getElementById('size-sheet-metric2');
+        const m3 = document.getElementById('size-sheet-metric3');
+        if (m1 && prod.metrics) m1.textContent = prod.metrics.perf;
+        if (m2 && prod.metrics) m2.textContent = prod.metrics.lcp;
+        if (m3 && prod.metrics) m3.textContent = prod.metrics.cls;
+
+        if (sizePickerGrid) {
+          const stacks = prod.stacks || SIZES;
+          sizePickerGrid.innerHTML = stacks.map(s => `
+            <span class="py-1.5 px-3 rounded-lg border border-white/15 bg-white/[0.04] font-mono text-[11px] font-semibold text-white/90 text-center">
+              ${s}
+            </span>
+          `).join('');
+        }
+
+        if (confirmAddCartBtn) {
+          confirmAddCartBtn.disabled = false;
+          confirmAddCartBtn.classList.remove('opacity-30', 'cursor-not-allowed');
+          confirmAddCartBtn.textContent = 'VISIT LIVE SITE';
+        }
+
+        closeCart();
+        closeSearch();
+        if (lenis) lenis.stop();
+        sizeSheet.classList.add('open');
+        modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSizeSheet() {
+        sizeSheet.classList.remove('open');
+        if (!cartDrawer.classList.contains('open') && !searchPanel.classList.contains('open')) {
+          modalOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+          if (lenis) lenis.start();
+        }
+      }
+
+      if (confirmAddCartBtn) {
+        confirmAddCartBtn.addEventListener('click', () => {
+          const prod = PRODUCTS[pendingProductId] || PRODUCTS.timedune;
+          if (prod && prod.url) window.open(prod.url, '_blank');
+          closeSizeSheet();
+        });
+      }
+
+      window.openSizeSheet = openSizeSheet;
+      window.closeSizeSheet = closeSizeSheet;
+
+      // Wire all Add to Cart / View Details buttons
+      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const pId = btn.getAttribute('data-product-id') || 'timedune';
+          openSizeSheet(pId);
+        });
+      });
+
+      // Search Panel
+      function openSearch() {
+        closeCart();
+        closeSizeSheet();
+        if (lenis) lenis.stop();
+        searchPanel.classList.add('open');
+        modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => searchInput.focus(), 250);
+        renderSearchResults('');
+      }
+
+      function closeSearch() {
+        searchPanel.classList.remove('open');
+        if (!cartDrawer.classList.contains('open') && !sizeSheet.classList.contains('open')) {
+          modalOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+          if (lenis) lenis.start();
+        }
+      }
+
+      function renderSearchResults(query) {
+        const q = query.toLowerCase().trim();
+        const seenIds = new Set();
+        const items = Object.values(PRODUCTS).filter(p => {
+          if (seenIds.has(p.id)) return false;
+          seenIds.add(p.id);
+          return (
+            p.name.toLowerCase().includes(q) ||
+            p.color.toLowerCase().includes(q) ||
+            (p.domain && p.domain.toLowerCase().includes(q)) ||
+            q === ''
+          );
+        });
+
+        searchResults.innerHTML = items.map(p => `
+          <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10 hover:border-brand-neon/50 transition cursor-pointer" onclick="openSizeSheet('${p.id}')">
+            <div class="w-14 h-14 bg-black/40 rounded p-1 flex-shrink-0">
+              <img src="${p.img}" alt="${p.name}" class="w-full h-full object-contain rounded">
+            </div>
+            <div class="flex-1 min-w-0">
+              <h5 class="font-satoshi font-bold text-xs truncate text-white">${p.name}</h5>
+              <p class="font-satoshi text-[11px] text-white/50">${p.color}</p>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-oswald text-xs font-bold text-white">৳${p.price.toLocaleString('en-BD')}</span>
+                <span class="text-[10px] text-brand-neon font-bold uppercase tracking-wider">+ ADD</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      searchInput.addEventListener('input', (e) => {
+        renderSearchResults(e.target.value);
+      });
+
+      // Wire Modal Controls
+      const navCartBtn = document.getElementById('cart-btn');
+      if (navCartBtn) navCartBtn.addEventListener('click', openCart);
+      const closeCartBtn = document.getElementById('close-cart-btn');
+      if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
+      document.getElementById('close-size-sheet-btn').addEventListener('click', closeSizeSheet);
+      document.getElementById('search-btn').addEventListener('click', openSearch);
+      document.getElementById('close-search-btn').addEventListener('click', closeSearch);
+      modalOverlay.addEventListener('click', () => {
+        closeCart();
+        closeSizeSheet();
+        closeSearch();
+      });
+
+      // Checkout Demo
+      document.getElementById('checkout-btn').addEventListener('click', () => {
+        alert('Checkout Ready!\n\nThis is a portfolio demonstration for APPIEX — zero real monetary transactions.');
+      });
+
+      // Global Escape Key Listener
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeCart();
+          closeSizeSheet();
+          closeSearch();
+          if (servicesMegaMenu) {
+            servicesMegaMenu.classList.remove('open');
+            if (servicesChevron) servicesChevron.style.transform = 'rotate(0deg)';
+            if (servicesNavBtn) servicesNavBtn.setAttribute('aria-expanded', 'false');
+          }
+          mobileNavOverlay.classList.remove('open');
+          if (lenis) lenis.start();
+        }
+      });
+
+      // Services Mega-Menu Desktop Interaction (Ultra-Smooth Spring Animation)
+      const servicesNavContainer = document.getElementById('services-nav-container');
+      const servicesNavBtn = document.getElementById('services-nav-btn');
+      const servicesMegaMenu = document.getElementById('services-mega-menu');
+      const servicesChevron = document.getElementById('services-nav-chevron');
+      let servicesHideTimer = null;
+
+      function openServicesMenu() {
+        if (servicesHideTimer) {
+          clearTimeout(servicesHideTimer);
+          servicesHideTimer = null;
+        }
+        if (servicesMegaMenu) {
+          servicesMegaMenu.classList.add('open');
+          if (servicesChevron) servicesChevron.style.transform = 'rotate(180deg)';
+          if (servicesNavBtn) servicesNavBtn.setAttribute('aria-expanded', 'true');
+        }
+      }
+
+      function closeServicesMenu() {
+        if (servicesHideTimer) clearTimeout(servicesHideTimer);
+        servicesHideTimer = setTimeout(() => {
+          if (servicesMegaMenu) {
+            servicesMegaMenu.classList.remove('open');
+            if (servicesChevron) servicesChevron.style.transform = 'rotate(0deg)';
+            if (servicesNavBtn) servicesNavBtn.setAttribute('aria-expanded', 'false');
+          }
+        }, 180);
+      }
+
+      if (servicesNavContainer && servicesMegaMenu) {
+        servicesNavContainer.addEventListener('mouseenter', openServicesMenu);
+        servicesNavContainer.addEventListener('mouseleave', closeServicesMenu);
+
+        if (servicesNavBtn) {
+          servicesNavBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const isOpen = servicesMegaMenu.classList.contains('open');
+            if (isOpen) {
+              if (servicesHideTimer) clearTimeout(servicesHideTimer);
+              servicesMegaMenu.classList.remove('open');
+              if (servicesChevron) servicesChevron.style.transform = 'rotate(0deg)';
+              servicesNavBtn.setAttribute('aria-expanded', 'false');
+            } else {
+              openServicesMenu();
+            }
+          });
+        }
+
+        // Close on click outside
+        document.addEventListener('click', (e) => {
+          if (!servicesNavContainer.contains(e.target)) {
+            if (servicesMegaMenu && servicesMegaMenu.classList.contains('open')) {
+              servicesMegaMenu.classList.remove('open');
+              if (servicesChevron) servicesChevron.style.transform = 'rotate(0deg)';
+              if (servicesNavBtn) servicesNavBtn.setAttribute('aria-expanded', 'false');
+            }
+          }
+        });
+      }
+
+      // Mobile Services Accordion
+      const mobileServicesBtn = document.getElementById('mobile-services-btn');
+      const mobileServicesMenu = document.getElementById('mobile-services-menu');
+      const mobileServicesChevron = document.getElementById('mobile-services-chevron');
+      if (mobileServicesBtn && mobileServicesMenu) {
+        mobileServicesBtn.addEventListener('click', () => {
+          const isClosed = mobileServicesMenu.classList.contains('hidden');
+          if (isClosed) {
+            mobileServicesMenu.classList.remove('hidden');
+            mobileServicesMenu.classList.add('flex');
+            if (mobileServicesChevron) mobileServicesChevron.style.transform = 'rotate(180deg)';
+          } else {
+            mobileServicesMenu.classList.add('hidden');
+            mobileServicesMenu.classList.remove('flex');
+            if (mobileServicesChevron) mobileServicesChevron.style.transform = 'rotate(0deg)';
+          }
+        });
+
+        document.querySelectorAll('.mobile-sublink').forEach(link => {
+          link.addEventListener('click', () => {
+            mobileNavOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+            if (lenis) lenis.start();
+          });
+        });
+      }
+
+      // Mobile Hamburger
+      hamburger.addEventListener('click', () => {
+        mobileNavOverlay.classList.toggle('open');
+        const isOpen = mobileNavOverlay.classList.contains('open');
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+        if (lenis) {
+          if (isOpen) lenis.stop();
+          else lenis.start();
+        }
+      });
+      document.getElementById('close-mobile-nav').addEventListener('click', () => {
+        mobileNavOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+        if (lenis) lenis.start();
+      });
+
+      // Email capture
+      window.submitEmail = function () {
+        document.getElementById('email-form').classList.add('hidden');
+        document.getElementById('email-success').classList.remove('hidden');
+      };
+
+      // Athlete Carousel Snap Controls
+      const athleteCarousel = document.getElementById('athlete-carousel');
+      const prevBtn = document.getElementById('carousel-prev');
+      const nextBtn = document.getElementById('carousel-next');
+      const dots = document.querySelectorAll('#athlete-dots button');
+
+      if (prevBtn && nextBtn && athleteCarousel) {
+        prevBtn.addEventListener('click', () => {
+          athleteCarousel.scrollBy({ left: -360, behavior: 'smooth' });
+        });
+        nextBtn.addEventListener('click', () => {
+          athleteCarousel.scrollBy({ left: 360, behavior: 'smooth' });
+        });
+
+        athleteCarousel.addEventListener('scroll', () => {
+          const index = Math.round(athleteCarousel.scrollLeft / 360);
+          dots.forEach((dot, idx) => {
+            if (idx === index) {
+              dot.classList.remove('bg-white/30', 'w-2.5');
+              dot.classList.add('bg-brand-red', 'w-8');
+            } else {
+              dot.classList.remove('bg-brand-red', 'w-8');
+              dot.classList.add('bg-white/30', 'w-2.5');
+            }
+          });
+        });
+
+        dots.forEach((dot, idx) => {
+          dot.addEventListener('click', () => {
+            athleteCarousel.scrollTo({ left: idx * 360, behavior: 'smooth' });
+          });
+        });
+      }
+
+      // 3D Card Tilt Interaction
+      document.querySelectorAll('.product-card, .essentials-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const xPct = (x / rect.width) - 0.5;
+          const yPct = (y / rect.height) - 0.5;
+          const rotateY = xPct * 14;
+          const rotateX = -yPct * 14;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+      });
+
+      // Initial Cart Render
+      renderCart();
+
+      // ==========================================
+      // HERO DEVELOPER CODING VIDEO ENGINE (CONTINUOUS AUTOPLAY)
+      // ==========================================
+      const heroVideo = document.getElementById('hero-video');
+      if (heroVideo) {
+        heroVideo.muted = true;
+        heroVideo.loop = true;
+        heroVideo.play().catch(() => {});
+      }
+
+      // ==========================================
+      // GSAP & SCROLLTRIGGER TIMELINES
+      // ==========================================
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!prefersReduced && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Sticky nav background adapt on scrolling down to light content
+        ScrollTrigger.create({
+          trigger: '#product-intro',
+          start: 'top 80px',
+          onEnter: () => stickyNav.classList.add('scrolled-far'),
+          onLeaveBack: () => stickyNav.classList.remove('scrolled-far')
+        });
+
+        // 1. NITRO ELITE WEB DESIGNS: Slower, cinematic bottom-to-top scroll scrub
+        gsap.fromTo('#product-intro .stagger-word', 
+          { y: 120, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.28,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#product-intro',
+              start: 'top 85%',
+              end: 'top 25%',
+              scrub: 2.8
+            }
+          }
+        );
+
+        // 1b. Intro paragraph: Continuous smooth typewriter re-typing on up & down scroll
+        const introFullText = "Engineered from 3-4 years of experience in high-performance web engineering, modern conversion biomechanics, and ultra-fast digital design. The lightest, fastest web architectures APPIEX has ever built. Zero compromises on velocity.";
+        let typingTimer = null;
+        let isTypingActive = false;
+
+        function startTypewriterAnimation() {
+          const textEl = document.getElementById('intro-typing-text');
+          const cursorEl = document.getElementById('intro-typing-cursor');
+          if (!textEl) return;
+          if (typingTimer) clearTimeout(typingTimer);
+          textEl.textContent = '';
+          if (cursorEl) cursorEl.style.display = 'inline-block';
+          let charIndex = 0;
+          isTypingActive = true;
+
+          function stepChar() {
+            if (!isTypingActive) return;
+            if (charIndex < introFullText.length) {
+              textEl.textContent += introFullText[charIndex];
+              charIndex++;
+              typingTimer = setTimeout(stepChar, 20); // Smooth slower typing
+            } else {
+              if (cursorEl) {
+                setTimeout(() => { if (isTypingActive) cursorEl.style.display = 'none'; }, 1400);
+              }
+            }
+          }
+          stepChar();
+        }
+
+        ScrollTrigger.create({
+          trigger: '#intro-paragraph-box',
+          start: 'top 85%',
+          onEnter: () => startTypewriterAnimation(),
+          onEnterBack: () => startTypewriterAnimation(),
+          onLeaveBack: () => {
+            isTypingActive = false;
+            if (typingTimer) clearTimeout(typingTimer);
+            const textEl = document.getElementById('intro-typing-text');
+            if (textEl) textEl.textContent = '';
+          }
+        });
+
+        // 2. FLAGSHIP PLATFORMS / THE 2026 EDITIONS: Slower Left-to-Right Entrance (Reversible)
+        gsap.fromTo('#flagship-title-block', 
+          { x: -90, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1.4,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#product-grid',
+              start: 'top 80%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        // 2b. Description: Slower Right-to-Left Entrance (Reversible)
+        gsap.fromTo('#flagship-desc-block',
+          { x: 90, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1.4,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#product-grid',
+              start: 'top 80%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        // 2c. Cards: Slower Bottom-to-Top Fade Entrance (Reversible)
+        gsap.fromTo('.product-card',
+          { y: 75, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.22,
+            duration: 1.3,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#product-grid',
+              start: 'top 75%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        // 3. WHAT WE CONVERT: Slower Reveal Animations (Reversible)
+        gsap.fromTo('.forest-title-word',
+          { y: 65, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.18,
+            duration: 1.4,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#forest-section',
+              start: 'top 75%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        gsap.fromTo('#forest-desc',
+          { x: -45, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1.4,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#forest-section',
+              start: 'top 70%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        gsap.fromTo('.forest-action-btn',
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.16,
+            duration: 1.2,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#forest-section',
+              start: 'top 65%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        gsap.to('#forest-bg', {
+          backgroundPositionY: '70%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#forest-section',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
+
+        // 4. BENEFITS: Slower Entrance (Reversible)
+        gsap.fromTo('.benefit-card', 
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.16,
+            duration: 1.2,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#benefits-section',
+              start: 'top 75%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        // 5. SNARL SECTION (Reversible)
+        gsap.fromTo('#snarl-copy',
+          { x: 50, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1.4,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#snarl-section',
+              start: 'top 70%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        gsap.to('#jungle-bg', {
+          backgroundPositionY: '70%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#jungle-section',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
+
+        gsap.fromTo('.essentials-card', 
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.18,
+            duration: 1.2,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#essentials',
+              start: 'top 75%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        // 6. SPECIAL DISCOUNT & FREE SEO SECTION (#final-cta)
+        gsap.fromTo('#final-cta',
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.3,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: '#final-cta',
+              start: 'top 80%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+
+        let countersAnimated = false;
+        ScrollTrigger.create({
+          trigger: '#sustainability',
+          start: 'top 80%',
+          onEnter: () => {
+            if (countersAnimated) return;
+            countersAnimated = true;
+
+            document.querySelectorAll('.stat-counter').forEach(el => {
+              const target = parseInt(el.getAttribute('data-target'), 10);
+              const startVal = target === 2028 ? 2020 : 0;
+              const duration = 1400;
+              const startTime = performance.now();
+
+              function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(startVal + (target - startVal) * easeOut);
+                el.textContent = current;
+                if (progress < 1) {
+                  requestAnimationFrame(update);
+                }
+              }
+              requestAnimationFrame(update);
+            });
+          }
+        });
+
+      } else {
+        stickyNav.classList.add('visible');
+      }
+
+    })();
+  </script>
+  <!-- FIREBASE FIRESTORE & STORAGE BACKEND (WatchShop Integration) -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+  <script src="./firebase-backend.js"></script>
+</body>
+</html>

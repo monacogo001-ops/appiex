@@ -1,0 +1,21 @@
+{
+  "name": "appiex",
+  "version": "2.0.0",
+  "description": "APPIEX — High-Velocity Web Architectures & E-Commerce Platforms",
+  "main": "index.html",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo Build completed"
+  },
+  "keywords": [
+    "appiex",
+    "web-engineering",
+    "headless-commerce",
+    "3d-motion",
+    "nextjs",
+    "firebase"
+  ],
+  "author": "APPIEX Engineering",
+  "license": "MIT"
+}
