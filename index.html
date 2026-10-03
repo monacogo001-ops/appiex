@@ -49,6 +49,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <!-- APPIEX High-Velocity Lossless Video Engine -->
+  <script src="./hero-video-store.js"></script>
 
   <style>
     html.lenis, html.lenis body {
@@ -2784,12 +2786,46 @@
         heroVideo.muted = true;
         heroVideo.loop = true;
 
-        // 1. Instant Local Persistence Check (Zero-delay startup)
-        const savedHeroVideo = localStorage.getItem('appiex_hero_video');
-        const savedHeroPoster = localStorage.getItem('appiex_hero_poster');
-        if (savedHeroVideo) {
-          heroVideo.src = savedHeroVideo;
-          if (savedHeroPoster) heroVideo.poster = savedHeroPoster;
+        // 1. Lossless Local Binary Stream (IndexedDB 100% Quality, Zero-Lag)
+        async function initHeroVideoSource() {
+          if (window.AppiexVideoStore && window.AppiexVideoStore.getHeroVideo) {
+            try {
+              const record = await window.AppiexVideoStore.getHeroVideo();
+              if (record && record.blob) {
+                const blobUrl = URL.createObjectURL(record.blob);
+                heroVideo.src = blobUrl;
+                if (record.poster) heroVideo.poster = record.poster;
+                heroVideo.play().catch(() => {});
+                console.log('⚡ APPIEX Hero Video loaded from Lossless Store:', record.name);
+                return;
+              }
+            } catch (err) {
+              console.warn('IndexedDB hero video notice:', err);
+            }
+          }
+
+          // Fallback to localStorage saved URL
+          const savedHeroVideo = localStorage.getItem('appiex_hero_video');
+          const savedHeroPoster = localStorage.getItem('appiex_hero_poster');
+          if (savedHeroVideo) {
+            heroVideo.src = savedHeroVideo;
+            if (savedHeroPoster) heroVideo.poster = savedHeroPoster;
+            heroVideo.play().catch(() => {});
+          }
+        }
+
+        initHeroVideoSource();
+
+        // Cross-tab instant video synchronization
+        if (window.AppiexVideoStore && window.AppiexVideoStore.onVideoChange) {
+          window.AppiexVideoStore.onVideoChange((evt) => {
+            if (evt.type === 'HERO_VIDEO_CLEARED') {
+              heroVideo.src = './assets/developer-coding.mp4';
+              heroVideo.play().catch(() => {});
+            } else {
+              initHeroVideoSource();
+            }
+          });
         }
 
         // 2. Real-Time Cloud Firestore Sync (Multi-Device Auto Update)
@@ -2800,7 +2836,9 @@
               db.collection('site_settings').doc('hero_video').onSnapshot((doc) => {
                 if (doc.exists && doc.data().url) {
                   const data = doc.data();
-                  if (heroVideo.src !== data.url) {
+                  // Only override if no local custom lossless video is active
+                  const hasCustomLocal = localStorage.getItem('appiex_has_custom_video');
+                  if (!hasCustomLocal && heroVideo.src !== data.url) {
                     heroVideo.src = data.url;
                     if (data.poster) heroVideo.poster = data.poster;
                     heroVideo.play().catch(() => {});
