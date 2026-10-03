@@ -209,6 +209,7 @@
   window.AppiexBackend = {
     init: initFirebase,
     submitInquiry,
+    saveInquiry: submitInquiry,
     submitOrder,
     uploadStorageAsset,
     showToast,
@@ -216,6 +217,7 @@
     getStorage: () => storage,
     config: firebaseConfig
   };
+  window.appiexBackend = window.AppiexBackend;
 
   // Run init on DOM load or immediately
   if (document.readyState === 'loading') {

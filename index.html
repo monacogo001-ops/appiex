@@ -948,8 +948,8 @@
     <!-- 5. HERO VIDEO SECTION (Autoplay in Background, No Scroll HUD) -->
     <section id="hero-canvas-section" class="relative w-full min-h-[92vh] md:min-h-screen bg-black overflow-hidden flex items-center justify-center">
       <div id="hero-sticky" class="relative w-full h-[92vh] md:h-screen overflow-hidden bg-black flex items-center justify-center">
-        <!-- Developer Coding Video (Auto-Playing Continuously in Background) -->
-        <video id="hero-video" src="./assets/developer-coding.mp4" autoplay loop muted playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover block opacity-85"></video>
+        <!-- Developer Coding Video (Auto-Playing Continuously in Background with Anti-Lag GPU Acceleration) -->
+        <video id="hero-video" src="./assets/developer-coding.mp4" autoplay loop muted playsinline webkit-playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover block opacity-85 transition-opacity duration-700" style="transform: translateZ(0); will-change: transform;"></video>
 
         <!-- Dynamic Dark Vignette & Cyber Flare -->
         <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black via-black/35 to-black/75"></div>
@@ -1909,6 +1909,11 @@
             <a href="#" class="hover:text-white transition">Privacy Policy</a>
             <span>·</span>
             <a href="#" class="hover:text-white transition">Security & SLA</a>
+            <span>·</span>
+            <a href="admin.html" class="text-brand-red hover:underline font-bold flex items-center space-x-1">
+              <span>ADMIN PANEL</span>
+              <span>↗</span>
+            </a>
           </div>
         </div>
         <div>
@@ -2770,13 +2775,70 @@
       renderCart();
 
       // ==========================================
-      // HERO DEVELOPER CODING VIDEO ENGINE (CONTINUOUS AUTOPLAY)
+      // HERO HIGH-FIDELITY VIDEO & ANTI-LAG GPU ENGINE
       // ==========================================
       const heroVideo = document.getElementById('hero-video');
+      const heroCanvasSection = document.getElementById('hero-canvas-section');
+
       if (heroVideo) {
         heroVideo.muted = true;
         heroVideo.loop = true;
-        heroVideo.play().catch(() => {});
+
+        // 1. Instant Local Persistence Check (Zero-delay startup)
+        const savedHeroVideo = localStorage.getItem('appiex_hero_video');
+        const savedHeroPoster = localStorage.getItem('appiex_hero_poster');
+        if (savedHeroVideo) {
+          heroVideo.src = savedHeroVideo;
+          if (savedHeroPoster) heroVideo.poster = savedHeroPoster;
+        }
+
+        // 2. Real-Time Cloud Firestore Sync (Multi-Device Auto Update)
+        function initHeroCloudSync() {
+          if (window.AppiexBackend && window.AppiexBackend.getDb) {
+            const db = window.AppiexBackend.getDb();
+            if (db) {
+              db.collection('site_settings').doc('hero_video').onSnapshot((doc) => {
+                if (doc.exists && doc.data().url) {
+                  const data = doc.data();
+                  if (heroVideo.src !== data.url) {
+                    heroVideo.src = data.url;
+                    if (data.poster) heroVideo.poster = data.poster;
+                    heroVideo.play().catch(() => {});
+                  }
+                }
+              }, (err) => {
+                console.warn('Hero video cloud sync notice:', err);
+              });
+            }
+          }
+        }
+
+        if (document.readyState === 'complete') {
+          initHeroCloudSync();
+        } else {
+          window.addEventListener('load', initHeroCloudSync);
+        }
+
+        // 3. Anti-Lag GPU Auto-Pause via IntersectionObserver
+        // Pauses video when scrolled out of view to free 100% GPU frame budget
+        if (heroCanvasSection && 'IntersectionObserver' in window) {
+          const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                heroVideo.play().catch(() => {});
+              } else {
+                heroVideo.pause();
+              }
+            });
+          }, { threshold: 0.05 });
+          heroObserver.observe(heroCanvasSection);
+        } else {
+          heroVideo.play().catch(() => {});
+        }
+
+        heroVideo.addEventListener('loadeddata', () => {
+          heroVideo.style.opacity = '0.85';
+        });
       }
 
       // ==========================================
