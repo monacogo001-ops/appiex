@@ -417,17 +417,33 @@
       position: fixed;
       bottom: 0;
       left: 50%;
-      width: min(620px, 94vw);
-      max-height: 88vh;
+      width: min(680px, 94vw);
+      max-height: 86vh;
       overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
       background: #0C0C0C;
       border-radius: 24px 24px 0 0;
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       border-bottom: none;
       z-index: 9200;
       transform: translateX(-50%) translateY(110%);
       transition: transform 380ms var(--ease-spring);
-      box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(220, 38, 38, 0.2);
+      box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(220, 38, 38, 0.25);
+    }
+    #size-sheet::-webkit-scrollbar {
+      width: 6px;
+    }
+    #size-sheet::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    #size-sheet::-webkit-scrollbar-thumb {
+      background: rgba(220, 38, 38, 0.6);
+      border-radius: 3px;
+    }
+    #size-sheet::-webkit-scrollbar-thumb:hover {
+      background: rgba(220, 38, 38, 1);
     }
     #size-sheet.open {
       transform: translateX(-50%) translateY(0);
@@ -596,7 +612,7 @@
   </aside>
 
   <!-- PROJECT DETAILS & ARCHITECTURE MODAL -->
-  <div id="size-sheet" role="dialog" aria-modal="true" aria-label="Project details" class="p-6 md:p-8 text-white">
+  <div id="size-sheet" role="dialog" aria-modal="true" aria-label="Project details" class="p-6 md:p-8 text-white" data-lenis-prevent="true">
     <!-- Header -->
     <div class="flex items-start justify-between pb-4 border-b border-white/10 mb-4">
       <div>
@@ -606,7 +622,6 @@
         </div>
         <h4 id="size-sheet-title" class="font-anton text-2xl md:text-3xl tracking-wide uppercase text-white">TIMEDUNE</h4>
         <div class="flex items-center space-x-3 mt-0.5">
-          <span id="size-sheet-price" class="font-oswald text-lg font-bold text-white/90">৳19,999</span>
           <span id="size-sheet-category" class="font-satoshi text-xs text-white/50">Luxury Horology · 3D Store</span>
         </div>
       </div>
@@ -633,41 +648,78 @@
     </p>
 
     <!-- Key Performance Metrics Grid -->
-    <div class="grid grid-cols-3 gap-2.5 p-3 rounded-xl bg-black/50 border border-white/10 text-center mb-4">
+    <div class="grid grid-cols-4 gap-2 p-3 rounded-xl bg-black/60 border border-white/10 text-center mb-4">
       <div class="p-1.5 rounded-lg bg-white/[0.02]">
-        <span class="font-anton text-xl text-brand-neon block" id="size-sheet-metric1">99+</span>
-        <span class="font-mono text-[9px] text-white/50 uppercase tracking-wider">PERFORMANCE</span>
+        <span class="font-anton text-lg sm:text-xl text-brand-neon block" id="size-sheet-metric1">99+</span>
+        <span class="font-mono text-[8px] text-white/50 uppercase tracking-wider">PERF</span>
       </div>
       <div class="p-1.5 rounded-lg bg-white/[0.02]">
-        <span class="font-anton text-xl text-brand-neon block" id="size-sheet-metric2">0.3s</span>
-        <span class="font-mono text-[9px] text-white/50 uppercase tracking-wider">LCP SPEED</span>
+        <span class="font-anton text-lg sm:text-xl text-brand-neon block" id="size-sheet-metric2">0.3s</span>
+        <span class="font-mono text-[8px] text-white/50 uppercase tracking-wider">LCP</span>
       </div>
       <div class="p-1.5 rounded-lg bg-white/[0.02]">
-        <span class="font-anton text-xl text-brand-neon block" id="size-sheet-metric3">0.00</span>
-        <span class="font-mono text-[9px] text-white/50 uppercase tracking-wider">CLS STABILITY</span>
+        <span class="font-anton text-lg sm:text-xl text-brand-neon block" id="size-sheet-metric3">0.00</span>
+        <span class="font-mono text-[8px] text-white/50 uppercase tracking-wider">CLS</span>
+      </div>
+      <div class="p-1.5 rounded-lg bg-white/[0.02]">
+        <span class="font-anton text-lg sm:text-xl text-emerald-400 block" id="size-sheet-metric4">18ms</span>
+        <span class="font-mono text-[8px] text-white/50 uppercase tracking-wider">TTFB</span>
+      </div>
+    </div>
+
+    <!-- Engineering Highlights Section -->
+    <div class="mb-4">
+      <span class="font-satoshi text-[11px] uppercase tracking-[0.14em] text-white/60 font-semibold block mb-2">ENGINEERING BLUEPRINT & HIGHLIGHTS</span>
+      <div id="size-sheet-highlights" class="space-y-2">
+        <!-- Dynamically rendered -->
       </div>
     </div>
 
     <!-- Tech Stack Tags -->
-    <div class="mb-5">
+    <div class="mb-4">
       <div class="flex items-center justify-between mb-2">
-        <span class="font-satoshi text-xs uppercase tracking-[0.14em] text-white/60 font-medium">CORE ARCHITECTURE & TECH STACK</span>
-        <a href="stories.html" class="font-satoshi text-[11px] text-brand-neon hover:underline">View Architecture Case Study →</a>
+        <span class="font-satoshi text-[11px] uppercase tracking-[0.14em] text-white/60 font-medium">CORE ARCHITECTURE & TECH STACK</span>
+        <span class="font-mono text-[9px] text-brand-neon">VERIFIED IN PROD</span>
       </div>
       <div id="size-picker-grid" class="flex flex-wrap gap-1.5">
         <!-- Badges dynamically populated -->
       </div>
     </div>
 
+    <!-- Included Deliverables -->
+    <div class="mb-4 p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
+      <span class="font-satoshi text-[11px] uppercase tracking-[0.14em] text-brand-neon font-semibold block mb-2.5">DELIVERABLES INCLUDED WITH THIS ARCHITECTURE</span>
+      <ul id="size-sheet-deliverables" class="space-y-2 text-xs text-white/80 font-satoshi">
+        <!-- Dynamically rendered checklist -->
+      </ul>
+    </div>
+
+    <!-- WhatsApp Consultation Hotline Banner -->
+    <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between mb-5">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        </div>
+        <div>
+          <span class="font-mono text-[9px] uppercase tracking-wider text-emerald-400 font-bold block">DIRECT ARCHITECT HOTLINE</span>
+          <span class="font-satoshi text-xs text-white font-bold">WhatsApp: 01600676875</span>
+        </div>
+      </div>
+      <a id="size-sheet-wa-btn" href="https://wa.me/8801600676875?text=Hi%20APPIEX,%20I%20am%20interested%20in%20an%20architecture%20like%20this" target="_blank" rel="noopener noreferrer" class="btn-pill bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold tracking-wider px-3.5 py-1.5 shrink-0 transition-all flex items-center space-x-1 shadow-md">
+        <span>CHAT NOW</span>
+        <span>→</span>
+      </a>
+    </div>
+
     <!-- Bottom Actions -->
-    <div class="flex flex-col sm:flex-row gap-2.5 pt-2 border-t border-white/10">
+    <div class="flex flex-col sm:flex-row gap-2.5 pt-3 border-t border-white/10 sticky bottom-0 bg-[#0C0C0C]/95 backdrop-blur-md pb-1 z-20">
       <a id="size-sheet-primary-visit" href="https://timedune.vercel.app" target="_blank" rel="noopener noreferrer" class="flex-1 btn-pill bg-brand-red hover:bg-brand-red-mid text-white py-3.5 font-bold text-xs tracking-[0.14em] text-center shadow-lg shadow-brand-red/30 transition-all flex items-center justify-center space-x-2">
         <span>OPEN LIVE WEBSITE</span>
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
       </a>
-      <a href="https://wa.me/8801700000000?text=Hi%20APPIEX,%20I%20want%20a%20website%20architecture%20like%20this" target="_blank" rel="noopener noreferrer" class="flex-1 btn-pill border border-white/20 hover:border-brand-neon text-white py-3.5 font-bold text-xs tracking-[0.14em] text-center hover:bg-white/5 transition-all flex items-center justify-center space-x-1.5">
-        <span>GET ARCHITECTURE LIKE THIS</span>
-        <span>→</span>
+      <a id="size-sheet-contact-wa" href="https://wa.me/8801600676875?text=Hi%20APPIEX,%20I%20want%20a%20website%20architecture%20like%20this" target="_blank" rel="noopener noreferrer" class="flex-1 btn-pill border border-emerald-500/50 hover:border-emerald-400 bg-emerald-500/10 text-emerald-300 py-3.5 font-bold text-xs tracking-[0.14em] text-center hover:bg-emerald-500/20 transition-all flex items-center justify-center space-x-1.5">
+        <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        <span>WHATSAPP: 01600676875</span>
       </a>
     </div>
   </div>
@@ -784,120 +836,77 @@
             <svg id="services-nav-chevron" class="w-3 h-3 text-current/70 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </button>
 
-          <!-- SERVICES Mega-Menu Popup (Clean White Compact Design with Headlines Only) -->
-          <div id="services-mega-menu" class="absolute top-full left-0 md:left-1/2 md:-translate-x-[42%] mt-3 w-[580px] max-w-[92vw] bg-white border border-black/10 rounded-2xl p-4 sm:p-5 shadow-[0_25px_65px_rgba(0,0,0,0.12),0_4px_16px_rgba(0,0,0,0.06)] z-[100] text-left normal-case tracking-normal isolate">
-            <!-- Top Status Bar -->
-            <div class="flex items-center justify-between pb-3 mb-3 border-b border-black/[0.08] relative z-10">
-              <div class="flex items-center space-x-2">
-                <span class="w-2 h-2 rounded-full bg-brand-red"></span>
-                <span class="font-mono text-[10px] tracking-[0.18em] text-[#737373] uppercase font-bold">APPIEX SYSTEM ARCHITECTURE · 6 ENGINES</span>
+          <!-- SERVICES Mega-Menu Popup (Clean Luxury Layout matching screenshot media_1791045787822.png) -->
+          <div id="services-mega-menu" class="absolute top-full left-0 md:left-1/2 md:-translate-x-[36%] mt-3 w-[740px] max-w-[94vw] bg-white border border-black/10 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.15),0_4px_16px_rgba(0,0,0,0.06)] z-[100] text-left normal-case tracking-normal overflow-hidden flex flex-col md:flex-row">
+            <!-- Left Panel (Exclusive Overview) -->
+            <div class="w-full md:w-[36%] bg-[#FBFBF9] border-b md:border-b-0 md:border-r border-black/[0.08] p-7 flex flex-col justify-between">
+              <div>
+                <span class="font-mono text-[10px] tracking-[0.2em] text-brand-red font-bold uppercase block mb-3">EXCLUSIVE</span>
+                <h3 class="font-anton text-2xl uppercase tracking-wide text-[#0A0A0A] leading-tight mb-4">
+                  EXPLORE OUR ARCHITECTURES
+                </h3>
+                <p class="font-satoshi text-xs text-[#737373] leading-relaxed">
+                  High-velocity web engineering forged for modern conversion biomechanics.
+                </p>
               </div>
-              <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-mono text-emerald-700 font-semibold">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>ALL SYSTEMS ACTIVE</span>
+              <div class="pt-6">
+                <a href="services.html" class="inline-flex items-center justify-center btn-pill bg-white hover:bg-[#0A0A0A] text-[#0A0A0A] hover:text-white border border-black/15 px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all shadow-sm">
+                  SEE OVERVIEW
+                </a>
               </div>
             </div>
 
-            <!-- 6 Compact Headline Cards Grid (Clean White, Headline Only) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 relative z-10">
-              <!-- Service 1: Digital Strategy & Consulting -->
-              <a href="services.html#strategy" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 100 20 10 10 0 000-20zm3.5 6.5l-2 5.5-5.5 2 2-5.5 5.5-2z"/></svg>
+            <!-- Right Panel (6 Options in 3 Brand-Style Columns) -->
+            <div class="w-full md:w-[64%] bg-white p-7 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between pb-3 mb-5 border-b border-black/[0.06]">
+                  <span class="font-mono text-[10px] tracking-[0.2em] text-[#737373] uppercase font-bold">APPIEX ENGINES</span>
+                  <span class="inline-flex items-center space-x-1.5 text-[9px] font-mono text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>ALL ENGINES ACTIVE</span>
+                  </span>
                 </div>
-                <div class="flex-1 min-w-0">
-                  <span class="font-mono text-[9px] tracking-wider text-amber-700 uppercase font-bold block leading-none mb-1">01 // STRATEGY</span>
-                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
-                    Digital Strategy & Consulting
-                  </h4>
-                </div>
-                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
-              </a>
 
-              <!-- Service 2: UI/UX Design & Product Design -->
-              <a href="services.html#uiux" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/25 text-purple-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 5h16M10 10v10"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <span class="font-mono text-[9px] tracking-wider text-purple-700 uppercase font-bold block leading-none mb-1">02 // 3D & UI/UX</span>
-                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
-                    UI/UX Design & Product Design
-                  </h4>
-                </div>
-                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
-              </a>
-
-              <!-- Service 3: Web & Software Development -->
-              <a href="services.html#development" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/25 text-cyan-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <span class="font-mono text-[9px] tracking-wider text-cyan-700 uppercase font-bold block leading-none mb-1">03 // FULL-STACK</span>
-                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
-                    Web & Software Development
-                  </h4>
-                </div>
-                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
-              </a>
-
-              <!-- Service 4: AI Development & Automation -->
-              <a href="services.html#ai-automation" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-lg bg-teal-500/10 border border-teal-500/25 text-teal-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center space-x-1.5 mb-1">
-                    <span class="font-mono text-[9px] tracking-wider text-teal-700 uppercase font-bold leading-none">04 // AI AGENTS</span>
-                    <span class="bg-sky-100 text-sky-700 border border-sky-300 text-[8px] font-bold px-1 rounded uppercase leading-tight">NEW</span>
+                <!-- 3 Columns of 6 Service Options -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-y-4 gap-x-5">
+                  <div class="space-y-4">
+                    <a href="services.html#strategy" class="group block">
+                      <span class="font-satoshi font-bold text-[12px] text-[#1E293B] group-hover:text-brand-red uppercase tracking-wider transition-colors block">DIGITAL STRATEGY</span>
+                      <span class="font-mono text-[9px] text-[#94A3B8] block mt-0.5">01 // ADVISORY</span>
+                    </a>
+                    <a href="services.html#uiux" class="group block">
+                      <span class="font-satoshi font-bold text-[12px] text-[#1E293B] group-hover:text-brand-red uppercase tracking-wider transition-colors block">UI/UX & 3D DESIGN</span>
+                      <span class="font-mono text-[9px] text-[#94A3B8] block mt-0.5">02 // SPATIAL</span>
+                    </a>
                   </div>
-                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
-                    AI Development & Automation
-                  </h4>
-                </div>
-                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
-              </a>
-
-              <!-- Service 5: SEO & Digital Marketing -->
-              <a href="services.html#seo-marketing" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center space-x-1.5 mb-1">
-                    <span class="font-mono text-[9px] tracking-wider text-emerald-700 uppercase font-bold leading-none">05 // VISIBILITY</span>
-                    <span class="bg-emerald-100 text-emerald-700 border border-emerald-300 text-[8px] font-bold px-1 rounded uppercase leading-tight">GEO & AEO</span>
+                  <div class="space-y-4">
+                    <a href="services.html#development" class="group block">
+                      <span class="font-satoshi font-bold text-[12px] text-[#1E293B] group-hover:text-brand-red uppercase tracking-wider transition-colors block">WEB DEVELOPMENT</span>
+                      <span class="font-mono text-[9px] text-[#94A3B8] block mt-0.5">03 // FULL-STACK</span>
+                    </a>
+                    <a href="services.html#ai-automation" class="group block">
+                      <span class="font-satoshi font-bold text-[12px] text-[#1E293B] group-hover:text-brand-red uppercase tracking-wider transition-colors block">AI AUTOMATION</span>
+                      <span class="font-mono text-[9px] text-[#94A3B8] block mt-0.5">04 // AGENTS</span>
+                    </a>
                   </div>
-                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
-                    SEO & Digital Marketing
-                  </h4>
+                  <div class="space-y-4">
+                    <a href="services.html#seo-marketing" class="group block">
+                      <span class="font-satoshi font-bold text-[12px] text-[#1E293B] group-hover:text-brand-red uppercase tracking-wider transition-colors block">SEO & MARKETING</span>
+                      <span class="font-mono text-[9px] text-[#94A3B8] block mt-0.5">05 // VISIBILITY</span>
+                    </a>
+                    <a href="services.html#branding" class="group block">
+                      <span class="font-satoshi font-bold text-[12px] text-[#1E293B] group-hover:text-brand-red uppercase tracking-wider transition-colors block">BRANDING & CREATIVE</span>
+                      <span class="font-mono text-[9px] text-[#94A3B8] block mt-0.5">06 // IDENTITY</span>
+                    </a>
+                  </div>
                 </div>
-                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
-              </a>
+              </div>
 
-              <!-- Service 6: Branding & Creative Services -->
-              <a href="services.html#branding" class="service-bento-tile group relative p-3 rounded-xl border border-black/[0.06] bg-[#FAFAFA] hover:bg-[#F4F5F6] hover:border-black/20 hover:shadow-sm transition-all duration-200 flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-lg bg-rose-500/10 border border-rose-500/25 text-rose-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 5 5 0 015-5c1 0 2-1 2-2a3 3 0 013-3 5 5 0 015 5 4 4 0 01-4 4h-2a2 2 0 00-2 2 3 3 0 01-3 3z"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <span class="font-mono text-[9px] tracking-wider text-rose-700 uppercase font-bold block leading-none mb-1">06 // BRANDING</span>
-                  <h4 class="font-satoshi font-bold text-[13px] text-[#0A0A0A] group-hover:text-brand-red transition-colors leading-tight truncate">
-                    Branding & Creative Services
-                  </h4>
-                </div>
-                <span class="text-black/30 group-hover:text-brand-red group-hover:translate-x-0.5 transition-all text-xs font-bold shrink-0">→</span>
-              </a>
-            </div>
-
-            <!-- Bottom Action HUD -->
-            <div class="mt-3 pt-2.5 border-t border-black/[0.08] flex items-center justify-between text-xs font-satoshi relative z-10">
-              <span class="text-[#737373] tracking-wider uppercase font-mono text-[10px] font-semibold">⚡ SUB-0.4s PRODUCTION PERFORMANCE</span>
-              <a href="services.html" class="btn-pill bg-[#0A0A0A] hover:bg-brand-red text-white font-bold text-[10px] tracking-wider uppercase px-3.5 py-1.5 transition-all flex items-center space-x-1.5 shadow-sm">
-                <span>VIEW FULL DIRECTORY</span>
-                <span>→</span>
-              </a>
+              <!-- Bottom Bar -->
+              <div class="mt-6 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[10px] font-mono text-[#737373]">
+                <span>⚡ SUB-0.4s PRODUCTION PERFORMANCE</span>
+                <a href="services.html" class="text-brand-red font-bold hover:underline">VIEW DIRECTORY →</a>
+              </div>
             </div>
           </div>
         </div>
@@ -1087,7 +1096,7 @@
             <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-red uppercase font-bold">HEADLESS E-COMMERCE · 3D STORE</span>
             <div class="flex items-center justify-between">
               <h3 class="font-satoshi font-bold text-lg text-text-primary">TIMEDUNE</h3>
-              <span class="font-oswald font-bold text-xl text-text-primary">৳19,999</span>
+              <span class="font-mono text-[10px] font-bold text-brand-red bg-brand-red/10 border border-brand-red/25 px-2.5 py-0.5 rounded-full uppercase tracking-wider">LIVE PRODUCTION</span>
             </div>
             <p class="font-satoshi text-xs text-text-muted">timedune.vercel.app · Sub-0.3s Checkout</p>
             <button class="add-to-cart-btn btn-pill border border-text-primary hover:bg-brand-red hover:border-brand-red hover:text-white text-text-primary py-3 w-full text-xs font-bold tracking-[0.12em] mt-2 transition-all flex items-center justify-center space-x-1.5" data-product-id="timedune">
@@ -1113,7 +1122,7 @@
             <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-red uppercase font-bold">SAAS DASHBOARD · ISP BILLING PORTAL</span>
             <div class="flex items-center justify-between">
               <h3 class="font-satoshi font-bold text-lg text-text-primary">MAMUNWIFI</h3>
-              <span class="font-oswald font-bold text-xl text-text-primary">৳17,499</span>
+              <span class="font-mono text-[10px] font-bold text-emerald-700 bg-emerald-500/10 border border-emerald-500/25 px-2.5 py-0.5 rounded-full uppercase tracking-wider">LIVE PORTAL</span>
             </div>
             <p class="font-satoshi text-xs text-text-muted">mamunwifi.net · MikroTik API & Real-time Telemetry</p>
             <button class="add-to-cart-btn btn-pill border border-text-primary hover:bg-brand-red hover:border-brand-red hover:text-white text-text-primary py-3 w-full text-xs font-bold tracking-[0.12em] mt-2 transition-all flex items-center justify-center space-x-1.5" data-product-id="mamunwifi">
@@ -1139,7 +1148,7 @@
             <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-red uppercase font-bold">3D CREATIVE STUDIO · TIMEPIECE MARKETPLACE</span>
             <div class="flex items-center justify-between">
               <h3 class="font-satoshi font-bold text-lg text-text-primary">WATCHSHOPBD</h3>
-              <span class="font-oswald font-bold text-xl text-text-primary">৳21,999</span>
+              <span class="font-mono text-[10px] font-bold text-amber-700 bg-amber-500/10 border border-amber-500/25 px-2.5 py-0.5 rounded-full uppercase tracking-wider">FLAGSHIP COMMERCE</span>
             </div>
             <p class="font-satoshi text-xs text-text-muted">watchshopbd.com · Algolia Search & Edge Commerce</p>
             <button class="add-to-cart-btn btn-pill border border-text-primary hover:bg-brand-red hover:border-brand-red hover:text-white text-text-primary py-3 w-full text-xs font-bold tracking-[0.12em] mt-2 transition-all flex items-center justify-center space-x-1.5" data-product-id="watchshopbd">
@@ -1298,9 +1307,127 @@
           <p class="font-satoshi text-base text-white/60 leading-relaxed max-w-lg mb-8">
             APPIEX architectures don't negotiate with server latency. They don't ask permission from bloated backend frameworks. Uncompromising client-side velocity forged in modern web engineering.
           </p>
-          <a href="#product-grid" class="btn-pill border border-brand-red text-brand-neon hover:bg-brand-red hover:text-white px-8 py-3.5 text-xs tracking-[0.14em] font-bold">
+          <a href="#build-form-section" class="btn-pill border border-brand-red text-brand-neon hover:bg-brand-red hover:text-white px-8 py-3.5 text-xs tracking-[0.14em] font-bold">
             UNLEASH YOUR PLATFORM →
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUILD YOUR PLATFORM / SPECIFICATION FORM FILL-UP SECTION -->
+    <section id="build-form-section" class="bg-[#050505] text-white py-16 md:py-24 px-6 md:px-12 border-t border-b border-white/10 relative overflow-hidden">
+      <!-- Ambient Glow Gradients -->
+      <div class="absolute top-0 right-1/4 w-96 h-96 bg-brand-red/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-0 left-1/4 w-80 h-80 bg-brand-neon/5 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-4xl mx-auto relative z-10">
+        <!-- Section Header -->
+        <div class="text-center space-y-3 mb-10">
+          <div class="inline-flex items-center space-x-2 bg-brand-red/15 border border-brand-red/35 px-3.5 py-1 rounded-full text-brand-neon font-mono text-[10px] uppercase font-bold tracking-widest">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>FAST-TRACK ARCHITECTURE DISCOVERY</span>
+          </div>
+          <h2 class="font-anton text-4xl sm:text-5xl md:text-6xl uppercase tracking-tight text-white">
+            UNLEASH YOUR <span class="text-brand-red">NEXT PLATFORM</span>
+          </h2>
+          <p class="font-satoshi text-sm sm:text-base text-white/70 max-w-xl mx-auto leading-relaxed">
+            Fill in your project specifications below for rapid engineering assessment, or chat live with Lead Architect Rafsan on WhatsApp at <a href="https://wa.me/8801600676875" target="_blank" rel="noopener noreferrer" class="text-brand-neon underline font-bold">01600676875</a>.
+          </p>
+        </div>
+
+        <!-- Interactive Form Box -->
+        <div class="p-6 sm:p-10 md:p-12 rounded-3xl bg-[#0D0D0D]/90 border border-white/12 shadow-[0_20px_70px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+          <form id="build-project-form" class="space-y-6" onsubmit="event.preventDefault(); window.submitBuildForm();">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <!-- Full Name / Brand -->
+              <div class="space-y-2">
+                <label for="bf-name" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+                  YOUR NAME / BRAND NAME <span class="text-brand-red">*</span>
+                </label>
+                <input id="bf-name" type="text" required placeholder="e.g. Rafsan / Horology Lab" class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none transition-all">
+              </div>
+
+              <!-- WhatsApp Phone Number -->
+              <div class="space-y-2">
+                <label for="bf-whatsapp" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+                  WHATSAPP / PHONE NUMBER <span class="text-brand-red">*</span>
+                </label>
+                <div class="relative">
+                  <input id="bf-whatsapp" type="tel" required placeholder="01600676875" class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none transition-all">
+                  <span class="absolute right-3.5 top-3.5 text-emerald-400 font-mono text-xs font-bold flex items-center space-x-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                    <span>DIRECT</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <!-- Platform Category -->
+              <div class="space-y-2">
+                <label for="bf-category" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+                  ARCHITECTURE SPECIFICATION <span class="text-brand-red">*</span>
+                </label>
+                <select id="bf-category" class="w-full bg-[#111] border border-white/15 focus:border-brand-red rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all">
+                  <option value="Headless E-Commerce 3D Store (TimeDune Edition)">Headless E-Commerce 3D Store (TimeDune Edition)</option>
+                  <option value="ISP Network & SaaS Billing Portal (MamunWiFi Edition)">ISP Network & SaaS Billing Portal (MamunWiFi Edition)</option>
+                  <option value="Multi-Brand Commerce & Algolia Engine (WatchShop Edition)">Multi-Brand Commerce & Algolia Engine (WatchShop Edition)</option>
+                  <option value="High-Impact 3D Corporate & Brand Showcase">High-Impact 3D Corporate & Brand Showcase</option>
+                  <option value="Custom AI Agent Automation & Backend API">Custom AI Agent Automation & Backend API</option>
+                  <option value="Search Engine Dominance (BeyondSEO Engine)">Search Engine Dominance (BeyondSEO Engine)</option>
+                </select>
+              </div>
+
+              <!-- Timeline & Urgency -->
+              <div class="space-y-2">
+                <label for="bf-timeline" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+                  TARGET LAUNCH TIMELINE
+                </label>
+                <select id="bf-timeline" class="w-full bg-[#111] border border-white/15 focus:border-brand-red rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all">
+                  <option value="Urgent Protocol (7 - 14 Business Days)">⚡ Urgent Protocol (7 - 14 Business Days)</option>
+                  <option value="Standard Production (2 - 4 Weeks)" selected>Standard Production (2 - 4 Weeks)</option>
+                  <option value="Enterprise Custom Build (1 - 2 Months)">Enterprise Custom Build (1 - 2 Months)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Project Details / Vision -->
+            <div class="space-y-2">
+              <label for="bf-details" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+                PROJECT OBJECTIVES & KEY FEATURES <span class="text-brand-red">*</span>
+              </label>
+              <textarea id="bf-details" rows="3" required placeholder="Describe your product line, target market, specific integrations (bKash, MikroTik, 3D Canvas, etc.), and reference URLs..." class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none transition-all"></textarea>
+            </div>
+
+            <!-- Submit and Actions -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
+              <button type="submit" id="bf-submit-btn" class="w-full sm:flex-1 btn-pill bg-brand-red hover:bg-brand-red-mid text-white font-satoshi font-bold text-xs tracking-[0.14em] uppercase py-4 shadow-xl shadow-brand-red/30 transition-all flex items-center justify-center space-x-2">
+                <span id="bf-btn-label">SUBMIT ARCHITECTURE SPECIFICATIONS</span>
+                <span>→</span>
+              </button>
+              <a href="https://wa.me/8801600676875?text=Hi%20APPIEX,%20I%20want%20to%20discuss%20a%20new%20web%20project" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto btn-pill border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-satoshi font-bold text-xs tracking-[0.14em] uppercase py-4 px-6 text-center transition-all flex items-center justify-center space-x-2">
+                <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                <span>WHATSAPP: 01600676875</span>
+              </a>
+            </div>
+
+            <!-- Instant Feedback Banner -->
+            <div id="bf-success-msg" class="hidden p-5 rounded-2xl bg-emerald-500/15 border border-emerald-500/35 text-center space-y-2 mt-4">
+              <div class="flex items-center justify-center space-x-2 text-emerald-400 font-bold font-satoshi text-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>SPECIFICATIONS DISPATCHED SUCCESSFULLY!</span>
+              </div>
+              <p class="font-satoshi text-xs text-white/80">
+                Lead Architect Rafsan will review your architecture requirements and reach out via WhatsApp (<span id="bf-resp-wa">01600676875</span>) within 2 hours.
+              </p>
+              <div class="pt-2">
+                <a id="bf-wa-direct-link" href="https://wa.me/8801600676875" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-full transition-all">
+                  <span>PING OUR WHATSAPP NOW</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -1401,6 +1528,37 @@
       </div>
     </section>
 
+    <!-- REFER & EARN OPTION (Directly Below Creators Section with Compact Gap) -->
+    <section id="creator-refer-section" class="bg-[#080808] text-white py-8 md:py-10 px-6 md:px-12 border-t border-b border-white/10 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
+        <!-- Left: Partner Badge & Headline -->
+        <div class="space-y-2 text-center lg:text-left max-w-2xl">
+          <div class="inline-flex items-center space-x-2 bg-brand-red/15 border border-brand-red/35 px-3 py-1 rounded-full text-brand-neon font-mono text-[10px] uppercase font-bold tracking-widest">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>APPIEX PARTNER NETWORK · REFER & EARN</span>
+          </div>
+          <h3 class="font-anton text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white leading-tight">
+            REFER A CLIENT. <span class="text-brand-red">EARN UP TO 15%</span> COMMISSION.
+          </h3>
+          <p class="font-satoshi text-xs sm:text-sm text-white/70 leading-relaxed">
+            Know a founder, startup, or business needing ultra-fast 3D web architecture? Connect them directly to Rafsan, Adil, and Fayaj. Once the project begins, receive instant referral payout via bKash or Bank.
+          </p>
+        </div>
+
+        <!-- Right: Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full lg:w-auto">
+          <a href="refer.html" class="w-full sm:w-auto btn-pill bg-brand-red hover:bg-brand-red-mid text-white font-satoshi font-bold text-xs uppercase tracking-[0.14em] px-7 py-3.5 text-center shadow-lg shadow-brand-red/30 transition-all flex items-center justify-center space-x-2">
+            <span>BECOME A PARTNER</span>
+            <span>→</span>
+          </a>
+          <a href="https://wa.me/8801600676875?text=Hi%20APPIEX,%20I%20want%20to%20refer%20a%20client%20and%20join%20the%20partner%20network" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto btn-pill border border-emerald-500/40 hover:border-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-satoshi font-bold text-xs uppercase tracking-[0.14em] px-6 py-3.5 text-center transition-all flex items-center justify-center space-x-2">
+            <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            <span>WHATSAPP: 01600676875</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- 15. ESSENTIALS GRID: WEB ACCESSORIES & PERFORMANCE MODULES -->
     <section id="essentials" class="bg-[#F5F5F5] text-text-primary section-pad px-6 md:px-12 border-t border-hairline">
       <div class="max-w-7xl mx-auto">
@@ -1425,10 +1583,10 @@
               <div>
                 <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-neon uppercase">EDGE HARDWARE ADD-ON</span>
                 <h3 class="font-satoshi font-bold text-lg">CLOUD TURBO BLADE</h3>
-                <span class="font-oswald text-sm text-white/70">৳14,999 · INSTANT CDN</span>
+                <span class="font-oswald text-sm text-white/70">ENTERPRISE ADD-ON · INSTANT CDN</span>
               </div>
               <button class="add-to-cart-btn font-satoshi font-bold text-xs uppercase tracking-widest text-brand-neon hover:underline" data-product-id="savanna">
-                QUICK ADD →
+                VIEW DETAILS →
               </button>
             </div>
           </article>
@@ -1441,10 +1599,10 @@
               <div>
                 <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-neon uppercase">DESIGN SYSTEM</span>
                 <h3 class="font-satoshi font-bold text-lg">3D COMPONENT MATRIX</h3>
-                <span class="font-oswald text-sm text-white/70">৳14,999 · 200+ WIDGETS</span>
+                <span class="font-oswald text-sm text-white/70">PRODUCTION READY · 200+ WIDGETS</span>
               </div>
               <button class="add-to-cart-btn font-satoshi font-bold text-xs uppercase tracking-widest text-brand-neon hover:underline" data-product-id="obsidian">
-                QUICK ADD →
+                VIEW DETAILS →
               </button>
             </div>
           </article>
@@ -1457,10 +1615,10 @@
               <div>
                 <span class="font-oswald text-[10px] tracking-[0.18em] text-brand-neon uppercase">CYBER SECURITY</span>
                 <h3 class="font-satoshi font-bold text-lg">BIOMETRIC SHIELD SUITE</h3>
-                <span class="font-oswald text-sm text-white/70">৳14,999 · ZERO TRUST</span>
+                <span class="font-oswald text-sm text-white/70">ZERO TRUST · PRODUCTION SECURITY</span>
               </div>
               <button class="add-to-cart-btn font-satoshi font-bold text-xs uppercase tracking-widest text-brand-neon hover:underline" data-product-id="arctic">
-                QUICK ADD →
+                VIEW DETAILS →
               </button>
             </div>
           </article>
@@ -1772,12 +1930,23 @@
           url: 'https://timedune.vercel.app',
           category: 'HEADLESS E-COMMERCE · 3D STORE',
           color: 'timedune.vercel.app · Sub-0.3s Checkout',
-          price: 19999,
           badge: 'BESTSELLER',
           img: './images/web_obsidian_black.png?v=dune_final',
-          desc: 'High-conversion luxury timepiece e-commerce architecture engineered with interactive 3D watch viewing, silk-smooth GSAP micro-interactions, instantaneous page transitions, and sub-0.3s headless checkout velocity.',
-          metrics: { perf: '99+', lcp: '0.3s', cls: '0.00' },
-          stacks: ['Next.js 15', 'Tailwind CSS', 'GSAP Motion', 'Three.js 3D', 'Stripe / bKash', 'Vercel Edge']
+          desc: 'High-conversion luxury timepiece e-commerce architecture engineered with interactive 3D WebGL watch viewing, silk-smooth GSAP micro-interactions, instantaneous page transitions, and sub-0.3s headless checkout velocity.',
+          metrics: { perf: '99+', lcp: '0.3s', cls: '0.00', ttfb: '18ms' },
+          stacks: ['Next.js 15', 'Tailwind CSS', 'GSAP Motion', 'Three.js 3D', 'Stripe / bKash PGW', 'Vercel Edge Cloud', 'Algolia Search', 'TypeScript'],
+          highlights: [
+            { icon: '⚡', title: 'Sub-0.3s Headless Checkout Velocity', desc: 'Pre-computed edge caching and zero redirect latency reducing cart abandonment by over 42%.' },
+            { icon: '💎', title: 'Interactive 3D WebGL Timepiece Canvas', desc: 'Real-time 60fps timepiece inspection powered by Three.js shaders with buttery raycast rotation.' },
+            { icon: '🌐', title: 'Global Edge Caching & Micro-routing', desc: 'Autonomous edge routing across 300+ CDN nodes for instant page delivery worldwide.' }
+          ],
+          deliverables: [
+            'Complete Next.js 15 production repository with full TypeScript',
+            'Full commercial transfer & automated CI/CD Vercel deployment pipeline',
+            'Integrated bKash, Nagad, SSLCommerz & Stripe multi-currency checkout',
+            'Automated Google SEO rich snippets (JSON-LD) and dynamic OpenGraph cards',
+            '30-day technical warranty with free engineer support from Rafsan & Fayaj'
+          ]
         },
         mamunwifi: {
           id: 'mamunwifi',
@@ -1786,12 +1955,23 @@
           url: 'https://mamunwifi.net',
           category: 'SAAS DASHBOARD · ISP BILLING PORTAL',
           color: 'mamunwifi.net · MikroTik API & Real-time Telemetry',
-          price: 17499,
           badge: 'LIVE PORTAL',
           img: './images/web_arctic_white.png',
           desc: 'High-throughput enterprise ISP network automation and subscriber portal with live MikroTik router sync, automated bill collection via bKash/Nagad PGW, bandwidth telemetry, and instant user provisioning.',
-          metrics: { perf: '98+', lcp: '0.4s', cls: '99.99%' },
-          stacks: ['React + Vite', 'Node.js / Express', 'MikroTik API', 'PostgreSQL', 'Tailwind CSS', 'bKash / Nagad PGW']
+          metrics: { perf: '98+', lcp: '0.4s', cls: '99.99%', ttfb: '24ms' },
+          stacks: ['React + Vite', 'Node.js / Express', 'MikroTik RouterOS API', 'PostgreSQL / Prisma', 'Tailwind CSS', 'bKash / Nagad MFS Webhooks', 'Redis Queue'],
+          highlights: [
+            { icon: '📡', title: 'MikroTik RouterOS API Sync', desc: 'Bi-directional real-time telemetry, queue management, and automated user hotspot/PPPoE provisioning.' },
+            { icon: '💳', title: 'Automated bKash / Nagad PGW Billing', desc: 'Instant subscription renewal with automated MFS webhooks and zero human intervention.' },
+            { icon: '📊', title: 'Real-Time Bandwidth Monitoring', desc: 'Live visual bandwidth utilization charts and automated subscriber speed throttling.' }
+          ],
+          deliverables: [
+            'Full React + Node.js full-stack repository with MikroTik client module',
+            'PostgreSQL relational database schema with automated daily cloud backups',
+            'High-availability webhook listener service for automated payment reconciliation',
+            'Complete admin dashboard with user management, traffic charts, and billing reports',
+            '30-day dedicated deployment & network integration support'
+          ]
         },
         watchshopbd: {
           id: 'watchshopbd',
@@ -1800,12 +1980,23 @@
           url: 'https://watchshopbd.com',
           category: '3D CREATIVE STUDIO · TIMEPIECE MARKETPLACE',
           color: 'watchshopbd.com · Algolia Search & Edge Commerce',
-          price: 21999,
           badge: 'FLAGSHIP COMMERCE',
           img: './images/web_savanna_gold.png',
           desc: 'Premier Bangladeshi multi-brand timepiece commerce ecosystem engineered with instant Algolia faceted search, real-time multi-branch inventory tracking, ultra-fast mobile checkout, and automated SEO schema indexing.',
-          metrics: { perf: '99+', lcp: '0.35s', cls: '100% SEO' },
-          stacks: ['Next.js 15', 'Tailwind CSS', 'Algolia Search', 'Cart Engine', 'Cloudflare CDN', 'JSON-LD Schema']
+          metrics: { perf: '99+', lcp: '0.35s', cls: '100% SEO', ttfb: '16ms' },
+          stacks: ['Next.js 15', 'Tailwind CSS', 'Algolia InstantSearch', 'Cart Engine', 'Cloudflare Edge CDN', 'JSON-LD Schema', 'PostgreSQL'],
+          highlights: [
+            { icon: '🔍', title: 'Sub-15ms Algolia Faceted Search', desc: 'Instant multi-attribute search across thousands of SKUs with typographical error tolerance.' },
+            { icon: '🏪', title: 'Multi-Branch Inventory Sync', desc: 'Real-time stock reservation preventing overselling across physical stores and web portal.' },
+            { icon: '📈', title: '100% SEO & Rich Schema Indexing', desc: 'Automatic product schema markup generating Google Merchant rich snippets.' }
+          ],
+          deliverables: [
+            'Production Next.js 15 enterprise commerce codebase',
+            'Algolia index synchronization engine & webhook endpoints',
+            'Multi-vendor / multi-branch inventory management backend',
+            'Optimized image pipeline with Next/Image and WebP conversion',
+            '30-day post-launch technical warranty and maintenance'
+          ]
         },
         // Compatibility Aliases
         obsidian: {
@@ -1815,12 +2006,23 @@
           url: 'https://timedune.vercel.app',
           category: 'HEADLESS E-COMMERCE · 3D STORE',
           color: 'timedune.vercel.app · Sub-0.3s Checkout',
-          price: 19999,
           badge: 'BESTSELLER',
           img: './images/web_obsidian_black.png?v=dune_final',
-          desc: 'High-conversion luxury timepiece e-commerce architecture engineered with interactive 3D watch viewing, silk-smooth GSAP micro-interactions, instantaneous page transitions, and sub-0.3s headless checkout velocity.',
-          metrics: { perf: '99+', lcp: '0.3s', cls: '0.00' },
-          stacks: ['Next.js 15', 'Tailwind CSS', 'GSAP Motion', 'Three.js 3D', 'Stripe / bKash', 'Vercel Edge']
+          desc: 'High-conversion luxury timepiece e-commerce architecture engineered with interactive 3D WebGL watch viewing, silk-smooth GSAP micro-interactions, instantaneous page transitions, and sub-0.3s headless checkout velocity.',
+          metrics: { perf: '99+', lcp: '0.3s', cls: '0.00', ttfb: '18ms' },
+          stacks: ['Next.js 15', 'Tailwind CSS', 'GSAP Motion', 'Three.js 3D', 'Stripe / bKash PGW', 'Vercel Edge Cloud', 'Algolia Search', 'TypeScript'],
+          highlights: [
+            { icon: '⚡', title: 'Sub-0.3s Headless Checkout Velocity', desc: 'Pre-computed edge caching and zero redirect latency reducing cart abandonment by over 42%.' },
+            { icon: '💎', title: 'Interactive 3D WebGL Timepiece Canvas', desc: 'Real-time 60fps timepiece inspection powered by Three.js shaders with buttery raycast rotation.' },
+            { icon: '🌐', title: 'Global Edge Caching & Micro-routing', desc: 'Autonomous edge routing across 300+ CDN nodes for instant page delivery worldwide.' }
+          ],
+          deliverables: [
+            'Complete Next.js 15 production repository with full TypeScript',
+            'Full commercial transfer & automated CI/CD Vercel deployment pipeline',
+            'Integrated bKash, Nagad, SSLCommerz & Stripe multi-currency checkout',
+            'Automated Google SEO rich snippets (JSON-LD) and dynamic OpenGraph cards',
+            '30-day technical warranty with free engineer support from Rafsan & Fayaj'
+          ]
         },
         arctic: {
           id: 'mamunwifi',
@@ -1829,12 +2031,23 @@
           url: 'https://mamunwifi.net',
           category: 'SAAS DASHBOARD · ISP BILLING PORTAL',
           color: 'mamunwifi.net · MikroTik API & Real-time Telemetry',
-          price: 17499,
           badge: 'LIVE PORTAL',
           img: './images/web_arctic_white.png',
           desc: 'High-throughput enterprise ISP network automation and subscriber portal with live MikroTik router sync, automated bill collection via bKash/Nagad PGW, bandwidth telemetry, and instant user provisioning.',
-          metrics: { perf: '98+', lcp: '0.4s', cls: '99.99%' },
-          stacks: ['React + Vite', 'Node.js / Express', 'MikroTik API', 'PostgreSQL', 'Tailwind CSS', 'bKash / Nagad PGW']
+          metrics: { perf: '98+', lcp: '0.4s', cls: '99.99%', ttfb: '24ms' },
+          stacks: ['React + Vite', 'Node.js / Express', 'MikroTik RouterOS API', 'PostgreSQL / Prisma', 'Tailwind CSS', 'bKash / Nagad MFS Webhooks', 'Redis Queue'],
+          highlights: [
+            { icon: '📡', title: 'MikroTik RouterOS API Sync', desc: 'Bi-directional real-time telemetry, queue management, and automated user hotspot/PPPoE provisioning.' },
+            { icon: '💳', title: 'Automated bKash / Nagad PGW Billing', desc: 'Instant subscription renewal with automated MFS webhooks and zero human intervention.' },
+            { icon: '📊', title: 'Real-Time Bandwidth Monitoring', desc: 'Live visual bandwidth utilization charts and automated subscriber speed throttling.' }
+          ],
+          deliverables: [
+            'Full React + Node.js full-stack repository with MikroTik client module',
+            'PostgreSQL relational database schema with automated daily cloud backups',
+            'High-availability webhook listener service for automated payment reconciliation',
+            'Complete admin dashboard with user management, traffic charts, and billing reports',
+            '30-day dedicated deployment & network integration support'
+          ]
         },
         savanna: {
           id: 'watchshopbd',
@@ -1843,12 +2056,23 @@
           url: 'https://watchshopbd.com',
           category: '3D CREATIVE STUDIO · TIMEPIECE MARKETPLACE',
           color: 'watchshopbd.com · Algolia Search & Edge Commerce',
-          price: 21999,
           badge: 'FLAGSHIP COMMERCE',
           img: './images/web_savanna_gold.png',
           desc: 'Premier Bangladeshi multi-brand timepiece commerce ecosystem engineered with instant Algolia faceted search, real-time multi-branch inventory tracking, ultra-fast mobile checkout, and automated SEO schema indexing.',
-          metrics: { perf: '99+', lcp: '0.35s', cls: '100% SEO' },
-          stacks: ['Next.js 15', 'Tailwind CSS', 'Algolia Search', 'Cart Engine', 'Cloudflare CDN', 'JSON-LD Schema']
+          metrics: { perf: '99+', lcp: '0.35s', cls: '100% SEO', ttfb: '16ms' },
+          stacks: ['Next.js 15', 'Tailwind CSS', 'Algolia InstantSearch', 'Cart Engine', 'Cloudflare Edge CDN', 'JSON-LD Schema', 'PostgreSQL'],
+          highlights: [
+            { icon: '🔍', title: 'Sub-15ms Algolia Faceted Search', desc: 'Instant multi-attribute search across thousands of SKUs with typographical error tolerance.' },
+            { icon: '🏪', title: 'Multi-Branch Inventory Sync', desc: 'Real-time stock reservation preventing overselling across physical stores and web portal.' },
+            { icon: '📈', title: '100% SEO & Rich Schema Indexing', desc: 'Automatic product schema markup generating Google Merchant rich snippets.' }
+          ],
+          deliverables: [
+            'Production Next.js 15 enterprise commerce codebase',
+            'Algolia index synchronization engine & webhook endpoints',
+            'Multi-vendor / multi-branch inventory management backend',
+            'Optimized image pipeline with Next/Image and WebP conversion',
+            '30-day post-launch technical warranty and maintenance'
+          ]
         }
       };
 
@@ -2005,7 +2229,7 @@
       // Cart Functions
       function renderCart() {
         const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        const subtotal = cart.reduce((sum, item) => sum + ((item.price || 0) * item.qty), 0);
 
         if (cartBadge) {
           if (totalItems > 0) {
@@ -2017,7 +2241,7 @@
         }
 
         if (cartDrawerCount) cartDrawerCount.textContent = totalItems;
-        if (cartSubtotal) cartSubtotal.textContent = '৳' + subtotal.toLocaleString('en-BD');
+        if (cartSubtotal) cartSubtotal.textContent = subtotal > 0 ? ('৳' + subtotal.toLocaleString('en-BD')) : 'CUSTOM QUOTE';
 
         if (cart.length === 0) {
           cartItemsContainer.innerHTML = '';
@@ -2037,7 +2261,7 @@
             <div class="flex-1 min-w-0">
               <h4 class="font-satoshi font-bold text-sm truncate text-white">${item.name}</h4>
               <p class="font-satoshi text-xs text-white/50">${item.color} · <span class="text-brand-neon font-semibold">${item.size}</span></p>
-              <div class="font-oswald font-bold text-sm text-white mt-1">৳${item.price.toLocaleString('en-BD')}</div>
+              <div class="font-mono text-xs font-bold text-brand-neon mt-1">${item.price ? ('৳' + item.price.toLocaleString('en-BD')) : 'ENTERPRISE ARCHITECTURE'}</div>
               <div class="flex items-center justify-between mt-2">
                 <div class="flex items-center space-x-2">
                   <button onclick="window.appiexChangeQty('${item.id}', -1)" class="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-xs hover:border-brand-neon hover:text-brand-neon transition">−</button>
@@ -2118,7 +2342,6 @@
         const prod = PRODUCTS[productId] || PRODUCTS.timedune || PRODUCTS.obsidian;
 
         if (sizeSheetTitle) sizeSheetTitle.textContent = prod.name;
-        if (sizeSheetPrice) sizeSheetPrice.textContent = `৳${prod.price.toLocaleString('en-BD')}`;
 
         const sizeSheetBadge = document.getElementById('size-sheet-badge');
         if (sizeSheetBadge) sizeSheetBadge.textContent = prod.badge || 'LIVE ARCHITECTURE';
@@ -2141,10 +2364,27 @@
         const m1 = document.getElementById('size-sheet-metric1');
         const m2 = document.getElementById('size-sheet-metric2');
         const m3 = document.getElementById('size-sheet-metric3');
+        const m4 = document.getElementById('size-sheet-metric4');
         if (m1 && prod.metrics) m1.textContent = prod.metrics.perf;
         if (m2 && prod.metrics) m2.textContent = prod.metrics.lcp;
         if (m3 && prod.metrics) m3.textContent = prod.metrics.cls;
+        if (m4 && prod.metrics) m4.textContent = prod.metrics.ttfb || '18ms';
 
+        // Render Engineering Highlights
+        const highlightsEl = document.getElementById('size-sheet-highlights');
+        if (highlightsEl && prod.highlights) {
+          highlightsEl.innerHTML = prod.highlights.map(h => `
+            <div class="flex items-start space-x-3 p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-colors">
+              <span class="text-base shrink-0 mt-0.5">${h.icon}</span>
+              <div class="min-w-0 flex-1">
+                <h5 class="font-satoshi font-bold text-xs text-white leading-tight">${h.title}</h5>
+                <p class="font-satoshi text-[11px] text-white/60 leading-relaxed mt-0.5">${h.desc}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Render Core Tech Stack Badges
         if (sizePickerGrid) {
           const stacks = prod.stacks || SIZES;
           sizePickerGrid.innerHTML = stacks.map(s => `
@@ -2154,15 +2394,29 @@
           `).join('');
         }
 
-        if (confirmAddCartBtn) {
-          confirmAddCartBtn.disabled = false;
-          confirmAddCartBtn.classList.remove('opacity-30', 'cursor-not-allowed');
-          confirmAddCartBtn.textContent = 'VISIT LIVE SITE';
+        // Render Deliverables
+        const deliverablesEl = document.getElementById('size-sheet-deliverables');
+        if (deliverablesEl && prod.deliverables) {
+          deliverablesEl.innerHTML = prod.deliverables.map(d => `
+            <li class="flex items-center space-x-2">
+              <svg class="w-3.5 h-3.5 text-brand-neon shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span>${d}</span>
+            </li>
+          `).join('');
         }
+
+        // Configure WhatsApp Hotline to 01600676875
+        const waMsg = encodeURIComponent(`Hi APPIEX, I want to build a platform like ${prod.name} (${prod.domain})`);
+        const waUrl = `https://wa.me/8801600676875?text=${waMsg}`;
+        const waBtn = document.getElementById('size-sheet-wa-btn');
+        const waContact = document.getElementById('size-sheet-contact-wa');
+        if (waBtn) waBtn.href = waUrl;
+        if (waContact) waContact.href = waUrl;
 
         closeCart();
         closeSearch();
         if (lenis) lenis.stop();
+        sizeSheet.scrollTop = 0;
         sizeSheet.classList.add('open');
         modalOverlay.classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -2177,13 +2431,75 @@
         }
       }
 
-      if (confirmAddCartBtn) {
-        confirmAddCartBtn.addEventListener('click', () => {
-          const prod = PRODUCTS[pendingProductId] || PRODUCTS.timedune;
-          if (prod && prod.url) window.open(prod.url, '_blank');
-          closeSizeSheet();
-        });
+      if (sizeSheet) {
+        sizeSheet.addEventListener('wheel', (e) => {
+          e.stopPropagation();
+        }, { passive: true });
       }
+
+      // Build Form Submission Handler (Integrated with Firestore Backend & WhatsApp 01600676875)
+      window.submitBuildForm = async function () {
+        const nameInput = document.getElementById('bf-name');
+        const waInput = document.getElementById('bf-whatsapp');
+        const categoryInput = document.getElementById('bf-category');
+        const timelineInput = document.getElementById('bf-timeline');
+        const detailsInput = document.getElementById('bf-details');
+        const submitBtn = document.getElementById('bf-submit-btn');
+        const btnLabel = document.getElementById('bf-btn-label');
+        const successMsg = document.getElementById('bf-success-msg');
+        const respWa = document.getElementById('bf-resp-wa');
+        const waDirectLink = document.getElementById('bf-wa-direct-link');
+
+        const name = nameInput ? nameInput.value.trim() : '';
+        const wa = waInput ? waInput.value.trim() : '';
+        const category = categoryInput ? categoryInput.value : '';
+        const timeline = timelineInput ? timelineInput.value : '';
+        const details = detailsInput ? detailsInput.value.trim() : '';
+
+        if (!name || !wa) return;
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          if (btnLabel) btnLabel.textContent = 'DISPATCHING TO ARCHITECTS...';
+        }
+
+        const payload = {
+          name,
+          whatsapp: wa,
+          category,
+          timeline,
+          details,
+          source: 'build_form_unleash',
+          timestamp: new Date().toISOString()
+        };
+
+        try {
+          if (window.appiexBackend && window.appiexBackend.saveInquiry) {
+            await window.appiexBackend.saveInquiry(payload);
+          }
+        } catch (err) {
+          console.warn('Backend save notice:', err);
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          if (btnLabel) btnLabel.textContent = 'SUBMIT ARCHITECTURE SPECIFICATIONS';
+        }
+
+        if (respWa) respWa.textContent = wa || '01600676875';
+        const chatMsg = encodeURIComponent(`Hi Rafsan & APPIEX Team! I submitted project specs on the website:\n• Name: ${name}\n• WhatsApp: ${wa}\n• Platform: ${category}\n• Timeline: ${timeline}\n• Scope: ${details}`);
+        if (waDirectLink) waDirectLink.href = `https://wa.me/8801600676875?text=${chatMsg}`;
+
+        if (successMsg) {
+          successMsg.classList.remove('hidden');
+          successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Direct WhatsApp trigger
+        setTimeout(() => {
+          window.open(`https://wa.me/8801600676875?text=${chatMsg}`, '_blank');
+        }, 1200);
+      };
 
       window.openSizeSheet = openSizeSheet;
       window.closeSizeSheet = closeSizeSheet;
@@ -2241,8 +2557,8 @@
               <h5 class="font-satoshi font-bold text-xs truncate text-white">${p.name}</h5>
               <p class="font-satoshi text-[11px] text-white/50">${p.color}</p>
               <div class="flex items-center justify-between mt-1">
-                <span class="font-oswald text-xs font-bold text-white">৳${p.price.toLocaleString('en-BD')}</span>
-                <span class="text-[10px] text-brand-neon font-bold uppercase tracking-wider">+ ADD</span>
+                <span class="font-mono text-[10px] font-bold text-brand-neon uppercase tracking-wider">${p.badge || 'PROD ARCHITECTURE'}</span>
+                <span class="text-[10px] text-brand-red font-bold uppercase tracking-wider">VIEW SPECS →</span>
               </div>
             </div>
           </div>
