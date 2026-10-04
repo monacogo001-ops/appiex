@@ -455,6 +455,55 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    #unleash-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(780px, 94vw);
+      max-height: 90vh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      background: #0A0A0A;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      z-index: 9200;
+      transform: translate(-50%, -46%) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      transition: transform 340ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease, visibility 260ms;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 50px rgba(220, 38, 38, 0.3);
+    }
+    #unleash-modal::-webkit-scrollbar {
+      width: 6px;
+    }
+    #unleash-modal::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    #unleash-modal::-webkit-scrollbar-thumb {
+      background: rgba(220, 38, 38, 0.6);
+      border-radius: 3px;
+    }
+    #unleash-modal::-webkit-scrollbar-thumb:hover {
+      background: rgba(220, 38, 38, 1);
+    }
+    #unleash-modal.open {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+    @media (max-width: 640px) {
+      #unleash-modal {
+        width: 96vw;
+        max-height: 92vh;
+        border-radius: 20px;
+        padding: 1.25rem !important;
+      }
+    }
+
     #search-panel {
       position: fixed;
       top: 0;
@@ -751,6 +800,121 @@
     </div>
   </div>
 
+  <!-- UNLEASH YOUR NEXT PLATFORM - SPECIFICATION MODAL -->
+  <div id="unleash-modal" role="dialog" aria-modal="true" aria-label="Unleash Your Next Platform" class="p-6 md:p-8 text-white" data-lenis-prevent="true">
+    <!-- Header -->
+    <div class="flex items-start justify-between pb-4 border-b border-white/10 mb-6">
+      <div>
+        <div class="inline-flex items-center space-x-2 bg-brand-red/15 border border-brand-red/35 px-3 py-0.5 rounded-full text-brand-neon font-mono text-[10px] uppercase font-bold tracking-widest mb-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>FAST-TRACK ARCHITECTURE DISCOVERY</span>
+        </div>
+        <h2 class="font-anton text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white leading-tight">
+          UNLEASH YOUR <span class="text-brand-red">NEXT PLATFORM</span>
+        </h2>
+        <p class="font-satoshi text-xs sm:text-sm text-white/70 mt-1 max-w-xl">
+          Fill in your project specifications for instant engineering assessment, or chat live with Lead Architect Rafsan on WhatsApp (<a href="https://wa.me/8801600676875" target="_blank" rel="noopener noreferrer" class="text-brand-neon font-bold underline">01600676875</a>).
+        </p>
+      </div>
+      <button id="close-unleash-modal-btn" onclick="closeUnleashModal()" aria-label="Close form" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-brand-neon transition shrink-0 ml-4 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Form Body -->
+    <form id="build-project-form" class="space-y-5" onsubmit="event.preventDefault(); window.submitBuildForm();">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <!-- Full Name / Brand -->
+        <div class="space-y-1.5">
+          <label for="bf-name" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+            YOUR NAME / BRAND NAME <span class="text-brand-red">*</span>
+          </label>
+          <input id="bf-name" type="text" required placeholder="e.g. Rafsan / Horology Lab" class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none transition-all">
+        </div>
+
+        <!-- WhatsApp Phone Number -->
+        <div class="space-y-1.5">
+          <label for="bf-whatsapp" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+            WHATSAPP / PHONE NUMBER <span class="text-brand-red">*</span>
+          </label>
+          <div class="relative">
+            <input id="bf-whatsapp" type="tel" required placeholder="01600676875" class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none transition-all">
+            <span class="absolute right-3.5 top-3 text-emerald-400 font-mono text-xs font-bold flex items-center space-x-1">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              <span>DIRECT</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <!-- Architecture Specification -->
+        <div class="space-y-1.5">
+          <label for="bf-category" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+            ARCHITECTURE SPECIFICATION <span class="text-brand-red">*</span>
+          </label>
+          <select id="bf-category" class="w-full bg-[#111] border border-white/15 focus:border-brand-red rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition-all">
+            <option value="Headless E-Commerce 3D Store (TimeDune Edition)">Headless E-Commerce 3D Store (TimeDune Edition)</option>
+            <option value="ISP Network & SaaS Billing Portal (MamunWiFi Edition)">ISP Network & SaaS Billing Portal (MamunWiFi Edition)</option>
+            <option value="Multi-Brand Commerce & Algolia Engine (WatchShop Edition)">Multi-Brand Commerce & Algolia Engine (WatchShop Edition)</option>
+            <option value="High-Impact 3D Corporate & Brand Showcase">High-Impact 3D Corporate & Brand Showcase</option>
+            <option value="Custom AI Agent Automation & Backend API">Custom AI Agent Automation & Backend API</option>
+            <option value="Search Engine Dominance (BeyondSEO Engine)">Search Engine Dominance (BeyondSEO Engine)</option>
+          </select>
+        </div>
+
+        <!-- Target Launch Timeline -->
+        <div class="space-y-1.5">
+          <label for="bf-timeline" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+            TARGET LAUNCH TIMELINE
+          </label>
+          <select id="bf-timeline" class="w-full bg-[#111] border border-white/15 focus:border-brand-red rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition-all">
+            <option value="Urgent Protocol (7 - 14 Business Days)">⚡ Urgent Protocol (7 - 14 Business Days)</option>
+            <option value="Standard Production (2 - 4 Weeks)" selected>Standard Production (2 - 4 Weeks)</option>
+            <option value="Enterprise Custom Build (1 - 2 Months)">Enterprise Custom Build (1 - 2 Months)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Project Details / Vision -->
+      <div class="space-y-1.5">
+        <label for="bf-details" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
+          PROJECT OBJECTIVES & KEY FEATURES <span class="text-brand-red">*</span>
+        </label>
+        <textarea id="bf-details" rows="3" required placeholder="Describe your product line, target market, specific integrations (bKash, MikroTik, 3D Canvas, etc.), and reference URLs..." class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none transition-all"></textarea>
+      </div>
+
+      <!-- Submit and Actions -->
+      <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
+        <button type="submit" id="bf-submit-btn" class="w-full sm:flex-1 btn-pill bg-brand-red hover:bg-brand-red-mid text-white font-satoshi font-bold text-xs tracking-[0.14em] uppercase py-3.5 shadow-xl shadow-brand-red/30 transition-all flex items-center justify-center space-x-2 cursor-pointer">
+          <span id="bf-btn-label">SUBMIT ARCHITECTURE SPECIFICATIONS</span>
+          <span>→</span>
+        </button>
+        <a href="https://wa.me/8801600676875?text=Hi%20APPIEX,%20I%20want%20to%20discuss%20a%20new%20web%20project" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto btn-pill border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-satoshi font-bold text-xs tracking-[0.14em] uppercase py-3.5 px-5 text-center transition-all flex items-center justify-center space-x-2">
+          <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <span>WHATSAPP: 01600676875</span>
+        </a>
+      </div>
+
+      <!-- Instant Feedback Banner -->
+      <div id="bf-success-msg" class="hidden p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/35 text-center space-y-2 mt-3">
+        <div class="flex items-center justify-center space-x-2 text-emerald-400 font-bold font-satoshi text-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span>SPECIFICATIONS DISPATCHED SUCCESSFULLY!</span>
+        </div>
+        <p class="font-satoshi text-xs text-white/80">
+          Lead Architect Rafsan will review your requirements and reach out via WhatsApp (<span id="bf-resp-wa">01600676875</span>) within 2 hours.
+        </p>
+        <div class="pt-1">
+          <a id="bf-wa-direct-link" href="https://wa.me/8801600676875" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-full transition-all">
+            <span>PING OUR WHATSAPP NOW</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+
   <!-- MOBILE FULLSCREEN OVERLAY -->
   <div id="mobile-nav-overlay" class="flex flex-col justify-between p-8 text-white">
     <div class="flex items-center justify-between">
@@ -825,7 +989,7 @@
           </button>
 
           <!-- SERVICES Mega-Menu Popup (Clean Luxury Layout matching screenshot) -->
-          <div id="services-mega-menu" class="absolute top-full left-0 md:left-auto md:-right-24 mt-3 w-[740px] max-w-[94vw] bg-white border border-black/10 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.15),0_4px_16px_rgba(0,0,0,0.06)] z-[100] text-left normal-case tracking-normal overflow-hidden flex flex-col md:flex-row">
+          <div id="services-mega-menu" class="absolute top-full left-0 mt-3 w-[740px] max-w-[92vw] bg-white border border-black/10 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.15),0_4px_16px_rgba(0,0,0,0.06)] z-[100] text-left normal-case tracking-normal overflow-hidden flex flex-col md:flex-row">
             <!-- Left Panel (Exclusive Overview) -->
             <div class="w-full md:w-[36%] bg-[#FBFBF9] border-b md:border-b-0 md:border-r border-black/[0.08] p-7 flex flex-col justify-between">
               <div>
@@ -1295,130 +1459,16 @@
           <p class="font-satoshi text-base text-white/60 leading-relaxed max-w-lg mb-8">
             APPIEX architectures don't negotiate with server latency. They don't ask permission from bloated backend frameworks. Uncompromising client-side velocity forged in modern web engineering.
           </p>
-          <a href="#build-form-section" class="btn-pill border border-brand-red text-brand-neon hover:bg-brand-red hover:text-white px-8 py-3.5 text-xs tracking-[0.14em] font-bold">
-            UNLEASH YOUR PLATFORM →
-          </a>
+          <button type="button" onclick="openUnleashModal()" class="btn-pill border border-brand-red text-brand-neon hover:bg-brand-red hover:text-white px-8 py-3.5 text-xs tracking-[0.14em] font-bold cursor-pointer transition-all inline-flex items-center space-x-2 shadow-lg shadow-brand-red/20 hover:scale-[1.02]">
+            <span>UNLEASH YOUR PLATFORM</span>
+            <span>→</span>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- BUILD YOUR PLATFORM / SPECIFICATION FORM FILL-UP SECTION -->
-    <section id="build-form-section" class="bg-[#050505] text-white py-16 md:py-24 px-6 md:px-12 border-t border-b border-white/10 relative overflow-hidden">
-      <!-- Ambient Glow Gradients -->
-      <div class="absolute top-0 right-1/4 w-96 h-96 bg-brand-red/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute bottom-0 left-1/4 w-80 h-80 bg-brand-neon/5 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="max-w-4xl mx-auto relative z-10">
-        <!-- Section Header -->
-        <div class="text-center space-y-3 mb-10">
-          <div class="inline-flex items-center space-x-2 bg-brand-red/15 border border-brand-red/35 px-3.5 py-1 rounded-full text-brand-neon font-mono text-[10px] uppercase font-bold tracking-widest">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>FAST-TRACK ARCHITECTURE DISCOVERY</span>
-          </div>
-          <h2 class="font-anton text-4xl sm:text-5xl md:text-6xl uppercase tracking-tight text-white">
-            UNLEASH YOUR <span class="text-brand-red">NEXT PLATFORM</span>
-          </h2>
-          <p class="font-satoshi text-sm sm:text-base text-white/70 max-w-xl mx-auto leading-relaxed">
-            Fill in your project specifications below for rapid engineering assessment, or chat live with Lead Architect Rafsan on WhatsApp at <a href="https://wa.me/8801600676875" target="_blank" rel="noopener noreferrer" class="text-brand-neon underline font-bold">01600676875</a>.
-          </p>
-        </div>
-
-        <!-- Interactive Form Box -->
-        <div class="p-6 sm:p-10 md:p-12 rounded-3xl bg-[#0D0D0D]/90 border border-white/12 shadow-[0_20px_70px_rgba(0,0,0,0.8)] backdrop-blur-xl">
-          <form id="build-project-form" class="space-y-6" onsubmit="event.preventDefault(); window.submitBuildForm();">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <!-- Full Name / Brand -->
-              <div class="space-y-2">
-                <label for="bf-name" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
-                  YOUR NAME / BRAND NAME <span class="text-brand-red">*</span>
-                </label>
-                <input id="bf-name" type="text" required placeholder="e.g. Rafsan / Horology Lab" class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none transition-all">
-              </div>
-
-              <!-- WhatsApp Phone Number -->
-              <div class="space-y-2">
-                <label for="bf-whatsapp" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
-                  WHATSAPP / PHONE NUMBER <span class="text-brand-red">*</span>
-                </label>
-                <div class="relative">
-                  <input id="bf-whatsapp" type="tel" required placeholder="01600676875" class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none transition-all">
-                  <span class="absolute right-3.5 top-3.5 text-emerald-400 font-mono text-xs font-bold flex items-center space-x-1">
-                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-                    <span>DIRECT</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <!-- Platform Category -->
-              <div class="space-y-2">
-                <label for="bf-category" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
-                  ARCHITECTURE SPECIFICATION <span class="text-brand-red">*</span>
-                </label>
-                <select id="bf-category" class="w-full bg-[#111] border border-white/15 focus:border-brand-red rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all">
-                  <option value="Headless E-Commerce 3D Store (TimeDune Edition)">Headless E-Commerce 3D Store (TimeDune Edition)</option>
-                  <option value="ISP Network & SaaS Billing Portal (MamunWiFi Edition)">ISP Network & SaaS Billing Portal (MamunWiFi Edition)</option>
-                  <option value="Multi-Brand Commerce & Algolia Engine (WatchShop Edition)">Multi-Brand Commerce & Algolia Engine (WatchShop Edition)</option>
-                  <option value="High-Impact 3D Corporate & Brand Showcase">High-Impact 3D Corporate & Brand Showcase</option>
-                  <option value="Custom AI Agent Automation & Backend API">Custom AI Agent Automation & Backend API</option>
-                  <option value="Search Engine Dominance (BeyondSEO Engine)">Search Engine Dominance (BeyondSEO Engine)</option>
-                </select>
-              </div>
-
-              <!-- Timeline & Urgency -->
-              <div class="space-y-2">
-                <label for="bf-timeline" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
-                  TARGET LAUNCH TIMELINE
-                </label>
-                <select id="bf-timeline" class="w-full bg-[#111] border border-white/15 focus:border-brand-red rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all">
-                  <option value="Urgent Protocol (7 - 14 Business Days)">⚡ Urgent Protocol (7 - 14 Business Days)</option>
-                  <option value="Standard Production (2 - 4 Weeks)" selected>Standard Production (2 - 4 Weeks)</option>
-                  <option value="Enterprise Custom Build (1 - 2 Months)">Enterprise Custom Build (1 - 2 Months)</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Project Details / Vision -->
-            <div class="space-y-2">
-              <label for="bf-details" class="font-satoshi font-bold text-xs uppercase tracking-wider text-white/80 block">
-                PROJECT OBJECTIVES & KEY FEATURES <span class="text-brand-red">*</span>
-              </label>
-              <textarea id="bf-details" rows="3" required placeholder="Describe your product line, target market, specific integrations (bKash, MikroTik, 3D Canvas, etc.), and reference URLs..." class="w-full bg-white/[0.04] border border-white/15 focus:border-brand-red focus:bg-white/[0.07] rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none transition-all"></textarea>
-            </div>
-
-            <!-- Submit and Actions -->
-            <div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
-              <button type="submit" id="bf-submit-btn" class="w-full sm:flex-1 btn-pill bg-brand-red hover:bg-brand-red-mid text-white font-satoshi font-bold text-xs tracking-[0.14em] uppercase py-4 shadow-xl shadow-brand-red/30 transition-all flex items-center justify-center space-x-2">
-                <span id="bf-btn-label">SUBMIT ARCHITECTURE SPECIFICATIONS</span>
-                <span>→</span>
-              </button>
-              <a href="https://wa.me/8801600676875?text=Hi%20APPIEX,%20I%20want%20to%20discuss%20a%20new%20web%20project" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto btn-pill border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-satoshi font-bold text-xs tracking-[0.14em] uppercase py-4 px-6 text-center transition-all flex items-center justify-center space-x-2">
-                <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-                <span>WHATSAPP: 01600676875</span>
-              </a>
-            </div>
-
-            <!-- Instant Feedback Banner -->
-            <div id="bf-success-msg" class="hidden p-5 rounded-2xl bg-emerald-500/15 border border-emerald-500/35 text-center space-y-2 mt-4">
-              <div class="flex items-center justify-center space-x-2 text-emerald-400 font-bold font-satoshi text-sm">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                <span>SPECIFICATIONS DISPATCHED SUCCESSFULLY!</span>
-              </div>
-              <p class="font-satoshi text-xs text-white/80">
-                Lead Architect Rafsan will review your architecture requirements and reach out via WhatsApp (<span id="bf-resp-wa">01600676875</span>) within 2 hours.
-              </p>
-              <div class="pt-2">
-                <a id="bf-wa-direct-link" href="https://wa.me/8801600676875" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-full transition-all">
-                  <span>PING OUR WHATSAPP NOW</span>
-                  <span>↗</span>
-                </a>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
+    <!-- Fallback anchor for #build-form-section hash links -->
+    <div id="build-form-section" class="sr-only"></div>
 
     <!-- 13. PUMAS IN JUNGLE (Black Panthers in Mist) -->
     <section id="jungle-section" class="relative h-[80vh] w-full overflow-hidden bg-black flex items-end">
@@ -2170,6 +2220,7 @@
       const searchPanel = document.getElementById('search-panel');
       const searchInput = document.getElementById('search-input');
       const searchResults = document.getElementById('search-results');
+      const unleashModal = document.getElementById('unleash-modal');
       const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
       const hamburger = document.getElementById('hamburger');
 
@@ -2320,7 +2371,7 @@
 
       function closeCart() {
         cartDrawer.classList.remove('open');
-        if (!sizeSheet.classList.contains('open') && !searchPanel.classList.contains('open')) {
+        if (!sizeSheet.classList.contains('open') && !searchPanel.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open'))) {
           modalOverlay.classList.remove('open');
           document.body.style.overflow = '';
           if (lenis) lenis.start();
@@ -2417,7 +2468,7 @@
 
       function closeSizeSheet() {
         sizeSheet.classList.remove('open');
-        if (!cartDrawer.classList.contains('open') && !searchPanel.classList.contains('open')) {
+        if (!cartDrawer.classList.contains('open') && !searchPanel.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open'))) {
           modalOverlay.classList.remove('open');
           document.body.style.overflow = '';
           if (lenis) lenis.start();
@@ -2485,7 +2536,11 @@
 
         if (successMsg) {
           successMsg.classList.remove('hidden');
-          successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          if (unleashModal) {
+            unleashModal.scrollTo({ top: unleashModal.scrollHeight, behavior: 'smooth' });
+          } else {
+            successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
         }
 
         // Direct WhatsApp trigger
@@ -2520,12 +2575,54 @@
 
       function closeSearch() {
         searchPanel.classList.remove('open');
-        if (!cartDrawer.classList.contains('open') && !sizeSheet.classList.contains('open')) {
+        if (!cartDrawer.classList.contains('open') && !sizeSheet.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open'))) {
           modalOverlay.classList.remove('open');
           document.body.style.overflow = '';
           if (lenis) lenis.start();
         }
       }
+
+      // Unleash Specification Form Modal Handlers
+      function openUnleashModal() {
+        closeCart();
+        closeSizeSheet();
+        closeSearch();
+        if (lenis) lenis.stop();
+        if (unleashModal) {
+          unleashModal.scrollTop = 0;
+          unleashModal.classList.add('open');
+        }
+        if (modalOverlay) modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeUnleashModal() {
+        if (unleashModal) unleashModal.classList.remove('open');
+        if (!cartDrawer.classList.contains('open') && !sizeSheet.classList.contains('open') && !searchPanel.classList.contains('open')) {
+          if (modalOverlay) modalOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+          if (lenis) lenis.start();
+        }
+      }
+
+      window.openUnleashModal = openUnleashModal;
+      window.closeUnleashModal = closeUnleashModal;
+
+      if (unleashModal) {
+        unleashModal.addEventListener('wheel', (e) => {
+          e.stopPropagation();
+        }, { passive: true });
+      }
+
+      // Check URL hash for direct links to #build-form-section
+      if (window.location.hash === '#build-form-section') {
+        setTimeout(openUnleashModal, 400);
+      }
+      window.addEventListener('hashchange', () => {
+        if (window.location.hash === '#build-form-section') {
+          openUnleashModal();
+        }
+      });
 
       function renderSearchResults(query) {
         const q = query.toLowerCase().trim();
@@ -2574,6 +2671,7 @@
         closeCart();
         closeSizeSheet();
         closeSearch();
+        closeUnleashModal();
       });
 
       // Checkout Demo
@@ -2587,6 +2685,7 @@
           closeCart();
           closeSizeSheet();
           closeSearch();
+          closeUnleashModal();
           if (servicesMegaMenu) {
             servicesMegaMenu.classList.remove('open');
             if (servicesChevron) servicesChevron.style.transform = 'rotate(0deg)';
