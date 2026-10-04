@@ -198,6 +198,12 @@
       pointer-events: none;
       transition: transform 400ms var(--ease-spring), opacity 400ms ease;
     }
+    #top-nav-bar.scrolled-far #nav-logo-hero {
+      display: none !important;
+    }
+    #top-nav-bar.scrolled-far #nav-logo-scrolled {
+      display: block !important;
+    }
 
     #sticky-nav {
       position: relative;
@@ -502,6 +508,92 @@
         border-radius: 20px;
         padding: 1.25rem !important;
       }
+    }
+
+    /* Tech Stack Bento Dock & Interactive Capsule Popups */
+    @keyframes techPulseGlow {
+      0%, 100% {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(220, 38, 38, 0.15);
+      }
+      50% {
+        box-shadow: 0 25px 75px rgba(0, 0, 0, 0.95), 0 0 50px rgba(220, 38, 38, 0.3);
+      }
+    }
+    .tech-dock-card {
+      animation: techPulseGlow 5s ease-in-out infinite;
+    }
+    .tech-capsule-btn {
+      position: relative;
+      transition: all 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .tech-capsule-btn:hover {
+      transform: translateY(-6px) scale(1.14);
+      z-index: 50;
+    }
+    .tech-capsule-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px) scale(0.92);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 60;
+      white-space: nowrap;
+    }
+    .tech-capsule-btn:hover .tech-capsule-tooltip {
+      transform: translateX(-50%) translateY(0) scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+    .tech-capsule-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px;
+      border-style: solid;
+      border-color: rgba(10, 10, 12, 0.96) transparent transparent transparent;
+    }
+
+    #tech-specs-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(720px, 94vw);
+      max-height: 88vh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      background: #0B0D13;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      z-index: 9350;
+      transform: translate(-50%, -46%) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      transition: transform 340ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease, visibility 260ms;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 50px rgba(220, 38, 38, 0.35);
+    }
+    #tech-specs-modal::-webkit-scrollbar {
+      width: 6px;
+    }
+    #tech-specs-modal::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    #tech-specs-modal::-webkit-scrollbar-thumb {
+      background: rgba(220, 38, 38, 0.6);
+      border-radius: 3px;
+    }
+    #tech-specs-modal.open {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
     }
 
     #search-panel {
@@ -915,6 +1007,69 @@
     </form>
   </div>
 
+  <!-- TECH SPECS & ARCHITECTURE ENGINE MODAL -->
+  <div id="tech-specs-modal" role="dialog" aria-modal="true" aria-label="Tech Specs Engine" class="p-6 md:p-8 text-white" data-lenis-prevent="true">
+    <div class="flex items-start justify-between pb-4 border-b border-white/10 mb-6">
+      <div>
+        <div class="inline-flex items-center space-x-2 bg-brand-red/15 border border-brand-red/35 px-3 py-0.5 rounded-full text-brand-neon font-mono text-[10px] uppercase font-bold tracking-widest mb-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="ts-modal-category">APPIEX PRODUCTION TECH STACK</span>
+        </div>
+        <h2 id="ts-modal-title" class="font-anton text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white leading-tight">
+          NEXT.JS 15 <span class="text-brand-red">TURBOPACK</span>
+        </h2>
+        <p id="ts-modal-subtitle" class="font-satoshi text-xs sm:text-sm text-white/70 mt-1 max-w-xl">
+          High-performance client & server architecture powering sub-second hydration and enterprise SSR.
+        </p>
+      </div>
+      <button id="close-tech-specs-modal-btn" onclick="closeTechSpecsModal()" aria-label="Close tech modal" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-brand-neon transition shrink-0 ml-4 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Tech Specs Body -->
+    <div class="space-y-6">
+      <!-- 4 Quick Metric Badges -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-center">
+          <span class="font-mono text-[10px] text-white/50 uppercase block">CORE LATENCY</span>
+          <span id="ts-metric-latency" class="font-anton text-xl text-brand-neon block mt-0.5">0.38s</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-center">
+          <span class="font-mono text-[10px] text-white/50 uppercase block">EDGE TTFB</span>
+          <span id="ts-metric-ttfb" class="font-anton text-xl text-white block mt-0.5">18ms</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-center">
+          <span class="font-mono text-[10px] text-white/50 uppercase block">PAGESPEED</span>
+          <span id="ts-metric-score" class="font-anton text-xl text-emerald-400 block mt-0.5">99/100</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 text-center">
+          <span class="font-mono text-[10px] text-white/50 uppercase block">RELIABILITY</span>
+          <span id="ts-metric-uptime" class="font-anton text-xl text-brand-red block mt-0.5">99.99%</span>
+        </div>
+      </div>
+
+      <!-- Deep Architecture Highlights -->
+      <div class="p-5 rounded-2xl bg-[#07080C] border border-white/10 space-y-3">
+        <span class="font-mono text-[10px] uppercase font-bold text-brand-neon tracking-wider block">ENTERPRISE IMPLEMENTATION SPECIFICATIONS</span>
+        <div id="ts-modal-features" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-white/80">
+          <!-- Dynamic feature items inserted by JS -->
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
+        <a id="ts-modal-wa-btn" href="https://wa.me/8801600676875?text=Hi%20APPIEX,%20I%20want%20to%20consult%20about%20your%20production%20tech%20stack" target="_blank" rel="noopener noreferrer" class="w-full sm:flex-1 btn-pill bg-brand-red hover:bg-brand-red-mid text-white font-satoshi font-bold text-xs tracking-[0.14em] uppercase py-3.5 shadow-xl shadow-brand-red/30 transition-all flex items-center justify-center space-x-2">
+          <span>CONSULT LEAD ARCHITECT (WHATSAPP)</span>
+          <span>→</span>
+        </a>
+        <button type="button" onclick="closeTechSpecsModal(); openUnleashModal();" class="w-full sm:w-auto btn-pill border border-white/20 hover:border-brand-neon text-white font-satoshi font-bold text-xs tracking-[0.14em] uppercase py-3.5 px-6 transition-all cursor-pointer">
+          BUILD THIS ARCHITECTURE
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MOBILE FULLSCREEN OVERLAY -->
   <div id="mobile-nav-overlay" class="flex flex-col justify-between p-8 text-white">
     <div class="flex items-center justify-between">
@@ -972,9 +1127,10 @@
 
   <!-- 3. TOP NAVIGATION (Logo on Left + Capsule Navbar on Right) -->
   <header id="top-nav-bar" class="fixed top-3.5 md:top-5 left-1/2 -translate-x-1/2 w-[calc(100%-24px)] md:w-[calc(100%-48px)] max-w-[1240px] z-50 flex items-center justify-between pointer-events-none transition-all duration-300">
-    <!-- Left Logo (1st Pic Panther Logo without bg, positioned at appiex er okhane) -->
+    <!-- Left Logo: Hero Banner uses 2nd Pic White Panther; Scrolled uses 1st Pic Black Panther -->
     <a href="index.html" class="pointer-events-auto flex items-center shrink-0 group transition-transform duration-300 hover:scale-105" aria-label="APPIEX Home">
-      <img src="./assets/appiex-panther-logo.png" alt="APPIEX" class="h-[36px] sm:h-[42px] md:h-[48px] w-auto object-contain filter drop-shadow-[0_0_16px_rgba(255,42,77,0.45)]">
+      <img id="nav-logo-hero" src="./assets/appiex-logo-white.png" alt="APPIEX" class="h-[48px] sm:h-[58px] md:h-[66px] w-auto object-contain filter drop-shadow-[0_0_20px_rgba(255,42,77,0.55)] transition-all duration-300">
+      <img id="nav-logo-scrolled" src="./assets/appiex-panther-logo.png" alt="APPIEX" class="h-[44px] sm:h-[54px] md:h-[60px] w-auto object-contain filter drop-shadow-[0_0_12px_rgba(255,42,77,0.35)] transition-all duration-300 hidden">
     </a>
 
     <!-- Right Capsule Navbar (Marked Size from SERVICES to GET A WEBSITE) -->
@@ -1171,12 +1327,13 @@
             <span>NEW ARCHITECTURES — SPRING 2026</span>
           </div>
 
-          <h1 class="font-anton text-[46px] sm:text-[68px] lg:text-[92px] leading-[0.9] tracking-[0.02em] uppercase overflow-hidden">
-            <span class="stagger-word inline-block">NITRO</span>
-            <span class="stagger-word inline-block">ELITE</span>
+          <h1 class="font-anton text-[38px] sm:text-[54px] lg:text-[72px] leading-[0.94] tracking-[0.02em] uppercase overflow-hidden">
+            <span class="stagger-word inline-block">BUILD</span>
+            <span class="stagger-word inline-block">YOUR</span>
+            <span class="stagger-word inline-block">DREAM</span>
             <br>
-            <span class="stagger-word inline-block text-brand-red">WEB</span>
-            <span class="stagger-word inline-block">DESIGNS</span>
+            <span class="stagger-word inline-block text-brand-red">WITH CARE</span>
+            <span class="stagger-word inline-block">AND FULLFIL.</span>
           </h1>
 
           <p id="intro-paragraph-box" class="font-satoshi text-[17px] text-text-muted leading-[1.7] max-w-xl min-h-[92px]">
@@ -1190,11 +1347,11 @@
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </span>
             </a>
-            <a href="running.html" class="btn-anim-stack px-8 py-4 rounded-full font-satoshi font-bold text-xs tracking-[0.14em] uppercase shadow-sm">
+            <button type="button" onclick="openTechDetailModal('overview')" class="btn-anim-stack px-8 py-4 rounded-full font-satoshi font-bold text-xs tracking-[0.14em] uppercase shadow-sm cursor-pointer">
               <span class="btn-text-content">
                 EXPLORE TECH STACK
               </span>
-            </a>
+            </button>
           </div>
 
           <div class="pt-2 flex items-center space-x-3 text-text-faint font-satoshi text-xs">
@@ -1203,15 +1360,245 @@
           </div>
         </div>
 
-        <!-- Right 3D Visual (45%) -->
-        <div class="w-full lg:w-[45%] flex items-center justify-center relative">
+        <!-- Right Bento Tech Dock Showcase (45%) -->
+        <div class="w-full lg:w-[45%] flex flex-col items-center justify-center relative">
+          <!-- Ambient Glow Background -->
           <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_60%_50%,#FEE2E2_0%,transparent_68%)] pointer-events-none"></div>
-          <div class="relative z-10 w-full max-w-[540px] transform hover:scale-105 transition-transform duration-500 cursor-pointer" onclick="openSizeSheet('obsidian')">
-            <img src="./images/web_obsidian_black.png?v=dune_final" alt="APPIEX Nitro Commerce 3D Mockup" class="w-full h-auto object-contain filter drop-shadow-[0_40px_80px_rgba(220,38,38,0.22)] -rotate-3 -translate-y-2 hover:rotate-0 transition-transform duration-700 ease-out rounded-2xl">
-            <div class="absolute bottom-2 right-4 bg-black/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-brand-red/40 text-white font-oswald text-xs tracking-wider flex items-center space-x-2 shadow-lg">
-              <span class="w-2 h-2 rounded-full bg-brand-neon animate-ping"></span>
-              <span>CLICK FOR TECH SPECS</span>
+
+          <!-- Master Cyber Bento Dock Card -->
+          <div class="tech-dock-card relative z-10 w-full max-w-[560px] p-5 sm:p-6 lg:p-7 rounded-3xl bg-[#0B0D13]/95 border border-white/15 shadow-[0_25px_80px_rgba(0,0,0,0.85),0_0_40px_rgba(220,38,38,0.2)] backdrop-blur-2xl">
+            
+            <!-- Dock Top Bar -->
+            <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-white/10">
+              <div class="flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-mono text-[11px] font-bold text-white uppercase tracking-wider">PRODUCTION TECH STACK</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="font-mono text-[9px] text-brand-neon bg-brand-red/15 border border-brand-red/35 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                  14 ACTIVE ENGINES
+                </span>
+                <button type="button" onclick="openTechDetailModal('overview')" class="text-[10px] font-mono text-white/60 hover:text-white underline cursor-pointer transition">
+                  SPECS ↗
+                </button>
+              </div>
             </div>
+
+            <!-- ROW 1 (3rd Pic — 7 Backend & App Engines) -->
+            <div class="space-y-1.5 mb-3.5">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-[9px] uppercase tracking-[0.16em] text-white/50 font-bold">
+                  01 // FRAMEWORKS & APPLICATION
+                </span>
+                <span class="font-mono text-[8px] text-emerald-400">7 ENGINES</span>
+              </div>
+
+              <!-- 7 Icons Grid (Next.js, Node.js, NestJS, PHP, Laravel, Docker, Kubernetes) -->
+              <div class="grid grid-cols-7 gap-1.5 sm:gap-2">
+                
+                <!-- 1. Next.js -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="nextjs" onmouseenter="inspectTech('nextjs')" onclick="openTechDetailModal('nextjs')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-white/50 hover:bg-white/[0.08] p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/nextjs.png" alt="Next.js" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <!-- Tooltip Popup -->
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-white/20 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Next.js 15</span>
+                    <span class="font-mono text-[8px] text-emerald-400 block mt-0.5">⚡ Sub-0.4s FCP</span>
+                  </div>
+                </div>
+
+                <!-- 2. Node.js -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="nodejs" onmouseenter="inspectTech('nodejs')" onclick="openTechDetailModal('nodejs')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/nodejs.png" alt="Node.js" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-emerald-500/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Node.js V8</span>
+                    <span class="font-mono text-[8px] text-emerald-400 block mt-0.5">🚀 100k+ RPS</span>
+                  </div>
+                </div>
+
+                <!-- 3. NestJS -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="nestjs" onmouseenter="inspectTech('nestjs')" onclick="openTechDetailModal('nestjs')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-rose-500/50 hover:bg-rose-500/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/nestjs.png" alt="NestJS" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-rose-500/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">NestJS</span>
+                    <span class="font-mono text-[8px] text-rose-400 block mt-0.5">🛡️ Microservices</span>
+                  </div>
+                </div>
+
+                <!-- 4. PHP -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="php" onmouseenter="inspectTech('php')" onclick="openTechDetailModal('php')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-indigo-400/50 hover:bg-indigo-400/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/php.png" alt="PHP 8.3" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-indigo-400/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">PHP 8.3 JIT</span>
+                    <span class="font-mono text-[8px] text-indigo-300 block mt-0.5">⚡ JIT 3.0 Engine</span>
+                  </div>
+                </div>
+
+                <!-- 5. Laravel -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="laravel" onmouseenter="inspectTech('laravel')" onclick="openTechDetailModal('laravel')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/laravel.png" alt="Laravel 11" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-red-500/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Laravel 11</span>
+                    <span class="font-mono text-[8px] text-red-400 block mt-0.5">📦 Redis Jobs</span>
+                  </div>
+                </div>
+
+                <!-- 6. Docker -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="docker" onmouseenter="inspectTech('docker')" onclick="openTechDetailModal('docker')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-sky-400/50 hover:bg-sky-400/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/docker.png" alt="Docker" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-sky-400/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Docker</span>
+                    <span class="font-mono text-[8px] text-sky-400 block mt-0.5">🐳 Multi-Stage</span>
+                  </div>
+                </div>
+
+                <!-- 7. Kubernetes -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="kubernetes" onmouseenter="inspectTech('kubernetes')" onclick="openTechDetailModal('kubernetes')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-blue-500/50 hover:bg-blue-500/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/kubernetes.png" alt="Kubernetes" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-blue-500/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Kubernetes</span>
+                    <span class="font-mono text-[8px] text-blue-400 block mt-0.5">☸️ 99.99% Uptime</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Glowing Fiber-Optic Connecting Conduit -->
+            <div class="my-3 sm:my-3.5 relative flex items-center justify-center">
+              <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-brand-red/50 to-transparent"></div>
+              <div class="absolute px-3 py-0.5 rounded-full bg-[#0B0D13] border border-brand-red/40 text-[9px] font-mono text-brand-neon font-bold flex items-center space-x-1 shadow-sm">
+                <span>CONNECTING INFRASTRUCTURE</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-neon animate-ping"></span>
+              </div>
+            </div>
+
+            <!-- ROW 2 (4th Pic — 7 Database & Cloud Infrastructure Engines) -->
+            <div class="space-y-1.5 mt-2">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-[9px] uppercase tracking-[0.16em] text-white/50 font-bold">
+                  02 // DATABASE & CLOUD CLUSTER
+                </span>
+                <span class="font-mono text-[8px] text-brand-neon">7 ENGINES</span>
+              </div>
+
+              <!-- 7 Icons Grid (PostgreSQL, Prisma, AWS, Cloudflare, Linux, Nginx, Redis) -->
+              <div class="grid grid-cols-7 gap-1.5 sm:gap-2">
+
+                <!-- 8. PostgreSQL -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="postgresql" onmouseenter="inspectTech('postgresql')" onclick="openTechDetailModal('postgresql')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-blue-400/50 hover:bg-blue-400/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/postgresql.png" alt="PostgreSQL" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-blue-400/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">PostgreSQL 16</span>
+                    <span class="font-mono text-[8px] text-blue-300 block mt-0.5">🗄️ ACID Relational DB</span>
+                  </div>
+                </div>
+
+                <!-- 9. Prisma -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="prisma" onmouseenter="inspectTech('prisma')" onclick="openTechDetailModal('prisma')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-amber-400/50 hover:bg-amber-400/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/prisma.png" alt="Prisma ORM" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-amber-400/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Prisma ORM</span>
+                    <span class="font-mono text-[8px] text-amber-300 block mt-0.5">💎 Zero-Leak Types</span>
+                  </div>
+                </div>
+
+                <!-- 10. AWS -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="aws" onmouseenter="inspectTech('aws')" onclick="openTechDetailModal('aws')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-amber-500/50 hover:bg-amber-500/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/aws.png" alt="AWS Cloud" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-amber-500/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">AWS Cloud</span>
+                    <span class="font-mono text-[8px] text-amber-400 block mt-0.5">☁️ S3 & Compute</span>
+                  </div>
+                </div>
+
+                <!-- 11. Cloudflare -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="cloudflare" onmouseenter="inspectTech('cloudflare')" onclick="openTechDetailModal('cloudflare')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/cloudflare.png" alt="Cloudflare" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-orange-500/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Cloudflare</span>
+                    <span class="font-mono text-[8px] text-orange-400 block mt-0.5">⚡ 18ms Edge TTFB</span>
+                  </div>
+                </div>
+
+                <!-- 12. Linux -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="linux" onmouseenter="inspectTech('linux')" onclick="openTechDetailModal('linux')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-yellow-400/50 hover:bg-yellow-400/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/linux.png" alt="Linux OS" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-yellow-400/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Linux Kernel</span>
+                    <span class="font-mono text-[8px] text-yellow-300 block mt-0.5">🐧 Bare-Metal Base</span>
+                  </div>
+                </div>
+
+                <!-- 13. Nginx -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="nginx" onmouseenter="inspectTech('nginx')" onclick="openTechDetailModal('nginx')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-emerald-400/50 hover:bg-emerald-400/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/nginx.png" alt="Nginx" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-emerald-400/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Nginx HTTP/3</span>
+                    <span class="font-mono text-[8px] text-emerald-400 block mt-0.5">🌐 High-Concurrency</span>
+                  </div>
+                </div>
+
+                <!-- 14. Redis -->
+                <div class="tech-capsule-btn group/cap cursor-pointer" data-tech="redis" onmouseenter="inspectTech('redis')" onclick="openTechDetailModal('redis')">
+                  <div class="w-full aspect-square rounded-xl sm:rounded-2xl bg-[#141622] border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 p-1.5 sm:p-2 flex items-center justify-center shadow-md transition-all">
+                    <img src="./assets/tech/redis.png" alt="Redis Cache" class="w-full h-full object-contain filter drop-shadow">
+                  </div>
+                  <div class="tech-capsule-tooltip bg-[#0D0F17]/95 border border-red-500/30 p-2 rounded-xl text-center shadow-2xl backdrop-blur-md">
+                    <span class="font-satoshi font-bold text-[11px] text-white block">Redis Cache</span>
+                    <span class="font-mono text-[8px] text-red-400 block mt-0.5">⚡ Sub-1ms Latency</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Dynamic Live Inspector Status Bar -->
+            <div id="tech-inspector-bar" class="mt-4 p-3 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-xs transition-all">
+              <div class="flex items-center space-x-2.5 min-w-0">
+                <span id="inspector-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                <div class="truncate">
+                  <span id="inspector-name" class="font-satoshi font-bold text-white">Full-Stack Biomechanics</span>
+                  <span id="inspector-desc" class="font-satoshi text-white/60 ml-2 hidden sm:inline text-[11px]">Hover any capsule to inspect speed metrics</span>
+                </div>
+              </div>
+              <button type="button" onclick="openTechDetailModal('overview')" class="shrink-0 ml-2 text-[10px] font-mono font-bold text-brand-neon hover:text-white uppercase tracking-wider flex items-center space-x-1 cursor-pointer">
+                <span>VIEW SPECS</span>
+                <span>→</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Bottom Device Preview Pill Toggle -->
+          <div class="mt-3.5 flex items-center justify-center space-x-3 text-xs text-text-faint font-satoshi">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-neon"></span>
+            <span>Click any engine for enterprise architectural benchmark</span>
           </div>
         </div>
       </div>
@@ -2147,11 +2534,30 @@
           infinite: false
         });
 
-        lenis.on('scroll', () => {
+        function updateNavState(scrollY) {
+          const topBar = document.getElementById('top-nav-bar');
+          const sNav = document.getElementById('sticky-nav');
+          const productIntro = document.getElementById('product-intro');
+          const threshold = productIntro ? (productIntro.offsetTop - 140) : 500;
+          if (scrollY > threshold) {
+            if (topBar) topBar.classList.add('scrolled-far');
+            if (sNav) sNav.classList.add('scrolled-far');
+          } else {
+            if (topBar) topBar.classList.remove('scrolled-far');
+            if (sNav) sNav.classList.remove('scrolled-far');
+          }
+        }
+
+        lenis.on('scroll', (e) => {
           if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.update();
           }
+          updateNavState(e.scroll || window.scrollY || 0);
         });
+
+        window.addEventListener('scroll', () => {
+          updateNavState(window.scrollY || 0);
+        }, { passive: true });
 
         if (typeof gsap !== 'undefined') {
           gsap.ticker.add((time) => {
@@ -2221,6 +2627,7 @@
       const searchInput = document.getElementById('search-input');
       const searchResults = document.getElementById('search-results');
       const unleashModal = document.getElementById('unleash-modal');
+      const techSpecsModal = document.getElementById('tech-specs-modal');
       const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
       const hamburger = document.getElementById('hamburger');
 
@@ -2371,7 +2778,7 @@
 
       function closeCart() {
         cartDrawer.classList.remove('open');
-        if (!sizeSheet.classList.contains('open') && !searchPanel.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open'))) {
+        if (!sizeSheet.classList.contains('open') && !searchPanel.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open')) && (!techSpecsModal || !techSpecsModal.classList.contains('open'))) {
           modalOverlay.classList.remove('open');
           document.body.style.overflow = '';
           if (lenis) lenis.start();
@@ -2468,7 +2875,7 @@
 
       function closeSizeSheet() {
         sizeSheet.classList.remove('open');
-        if (!cartDrawer.classList.contains('open') && !searchPanel.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open'))) {
+        if (!cartDrawer.classList.contains('open') && !searchPanel.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open')) && (!techSpecsModal || !techSpecsModal.classList.contains('open'))) {
           modalOverlay.classList.remove('open');
           document.body.style.overflow = '';
           if (lenis) lenis.start();
@@ -2575,7 +2982,7 @@
 
       function closeSearch() {
         searchPanel.classList.remove('open');
-        if (!cartDrawer.classList.contains('open') && !sizeSheet.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open'))) {
+        if (!cartDrawer.classList.contains('open') && !sizeSheet.classList.contains('open') && (!unleashModal || !unleashModal.classList.contains('open')) && (!techSpecsModal || !techSpecsModal.classList.contains('open'))) {
           modalOverlay.classList.remove('open');
           document.body.style.overflow = '';
           if (lenis) lenis.start();
@@ -2598,7 +3005,7 @@
 
       function closeUnleashModal() {
         if (unleashModal) unleashModal.classList.remove('open');
-        if (!cartDrawer.classList.contains('open') && !sizeSheet.classList.contains('open') && !searchPanel.classList.contains('open')) {
+        if (!cartDrawer.classList.contains('open') && !sizeSheet.classList.contains('open') && !searchPanel.classList.contains('open') && (!techSpecsModal || !techSpecsModal.classList.contains('open'))) {
           if (modalOverlay) modalOverlay.classList.remove('open');
           document.body.style.overflow = '';
           if (lenis) lenis.start();
@@ -2623,6 +3030,323 @@
           openUnleashModal();
         }
       });
+
+      // 14 PRODUCTION TECH ENGINES METRICS & SPECIFICATIONS
+      const TECH_DATA = {
+        overview: {
+          category: 'APPIEX FULL-STACK ARCHITECTURE ECOSYSTEM',
+          title: '14 CORE PRODUCTION ENGINES',
+          subtitle: 'Multi-tiered reactive web stack engineered for sub-second velocity, high-volume transactional scale, and sub-1ms in-memory caching.',
+          latency: '0.38s',
+          ttfb: '18ms',
+          score: '99/100',
+          uptime: '99.99%',
+          features: [
+            '⚡ Next.js 15 Turbopack & React Server Components for zero client-bundle bloat',
+            '🚀 Node.js V8 & NestJS Microservices handling 100,000+ concurrent requests',
+            '📦 PHP 8.3 JIT & Laravel 11 Redis Queue pipeline for real-time background jobs',
+            '🐳 Multi-stage Docker containerization with Kubernetes auto-scaling clusters',
+            '🗄️ PostgreSQL 16 distributed ACID relational database with Prisma type safety',
+            '☁️ AWS Multi-Region S3 Edge Storage with Cloudflare 18ms TTFB Global Anycast CDN',
+            '🐧 Bare-metal Linux kernel hardening with Nginx HTTP/3 QUIC reverse proxy',
+            '⚡ Redis sub-1ms in-memory session caching and automated inventory locks'
+          ]
+        },
+        nextjs: {
+          category: 'FRONTEND & SERVER-SIDE RENDERING',
+          title: 'NEXT.JS 15 (TURBOPACK)',
+          subtitle: 'The modern gold standard in web performance. Server Components, static ISR, and instant edge hydration.',
+          latency: '0.38s',
+          ttfb: '18ms',
+          score: '100/100',
+          uptime: '99.99%',
+          features: [
+            '⚡ React Server Components: Zero client JS for static and pre-rendered blocks',
+            '⚡ Turbopack bundler: 700x faster hot reloads and sub-second builds',
+            '⚡ Incremental Static Regeneration (ISR): Instant page loads with live updates',
+            '⚡ Edge Middleware: Geolocation routing and sub-millisecond bot defense'
+          ]
+        },
+        nodejs: {
+          category: 'BACKEND RUNTIME ENGINE',
+          title: 'NODE.JS ENTERPRISE (V8)',
+          subtitle: 'Event-driven, non-blocking I/O runtime powering ultra-scalable API services and real-time websockets.',
+          latency: '1.2ms',
+          ttfb: '14ms',
+          score: '99/100',
+          uptime: '99.99%',
+          features: [
+            '🚀 Non-blocking event loop handling 100,000+ concurrent connections',
+            '🚀 Native clustering across bare-metal multi-core CPU threads',
+            '🚀 Ultra-low RAM consumption with lightweight streams and buffer pipes',
+            '🚀 Direct Redis and Postgres connection pools with zero idle leaks'
+          ]
+        },
+        nestjs: {
+          category: 'MODULAR ENTERPRISE API',
+          title: 'NESTJS ARCHITECTURE',
+          subtitle: 'Strictly typed TypeScript framework providing enterprise modularity, dependency injection, and microservices.',
+          latency: '2.4ms',
+          ttfb: '22ms',
+          score: '99/100',
+          uptime: '99.98%',
+          features: [
+            '🛡️ Strict TypeScript architecture with clean dependency injection patterns',
+            '🛡️ gRPC, Redis Pub/Sub, and RabbitMQ microservice transports',
+            '🛡️ Built-in Swagger API contract verification and automated validation pipes',
+            '🛡️ Guard-level JWT authentication and RBAC permission enforcement'
+          ]
+        },
+        php: {
+          category: 'JIT BACKEND ENGINE',
+          title: 'PHP 8.3 (JIT COMPILED)',
+          subtitle: 'Modern compiled PHP with JIT 3.0, opcache optimization, and high-velocity server execution.',
+          latency: '3.1ms',
+          ttfb: '26ms',
+          score: '98/100',
+          uptime: '99.99%',
+          features: [
+            '⚡ Native JIT Compilation turning opcodes into native x86 machine instructions',
+            '⚡ OPcache preloading for sub-millisecond cold boot execution',
+            '⚡ Typed properties and read-only classes preventing runtime state mutation',
+            '⚡ Optimized FPM pooling tuned for high-concurrency peak traffic spikes'
+          ]
+        },
+        laravel: {
+          category: 'FULL-STACK APPLICATION FRAMEWORK',
+          title: 'LARAVEL 11 SPEED ENGINE',
+          subtitle: 'Expressive enterprise framework featuring Redis queue pipelines, Eloquent ORM, and automated scheduler.',
+          latency: '4.8ms',
+          ttfb: '28ms',
+          score: '98/100',
+          uptime: '99.99%',
+          features: [
+            '📦 Horizon-managed Redis queues dispatching millions of background jobs',
+            '📦 Eloquent ORM with eager-loading query guards preventing N+1 leaks',
+            '📦 Native API rate limiting and DDoS request throttling',
+            '📦 Secure automated webhook listeners and billing reconciliation'
+          ]
+        },
+        docker: {
+          category: 'CONTAINERIZATION & REPRODUCIBILITY',
+          title: 'DOCKER PRODUCTION ENGINE',
+          subtitle: 'Lightweight multi-stage container images guaranteeing 100% environment parity from dev to live production.',
+          latency: '0.0ms',
+          ttfb: 'Native',
+          score: '100/100',
+          uptime: '99.99%',
+          features: [
+            '🐳 Multi-stage Alpine builds reducing image sizes from 1GB to under 60MB',
+            '🐳 Zero environment drift: Identical execution across local and AWS clouds',
+            '🐳 Read-only root filesystems and non-root user execution for hardened security',
+            '🐳 Instant container spin-up and healthcheck self-healing'
+          ]
+        },
+        kubernetes: {
+          category: 'CONTAINER ORCHESTRATION',
+          title: 'KUBERNETES CLUSTER (K8S)',
+          subtitle: 'Automated horizontal pod autoscaling, rolling zero-downtime updates, and fault-tolerant cluster management.',
+          latency: '0.5ms',
+          ttfb: 'Native',
+          score: '99/100',
+          uptime: '99.99%',
+          features: [
+            '☸️ Horizontal Pod Autoscaler (HPA) reacting to traffic surges in seconds',
+            '☸️ Rolling zero-downtime deployments with instant rollback safety',
+            '☸️ Ingress controller with automated SSL termination and load balancing',
+            '☸️ Self-healing liveness and readiness probes guaranteeing service uptime'
+          ]
+        },
+        postgresql: {
+          category: 'CORE RELATIONAL DATABASE',
+          title: 'POSTGRESQL 16 (ACID)',
+          subtitle: 'Battle-tested distributed relational database with JSONB indexing, connection pooling, and pgvector.',
+          latency: '1.8ms',
+          ttfb: '8ms',
+          score: '99/100',
+          uptime: '99.99%',
+          features: [
+            '🗄️ Full ACID compliance with row-level locks and transactional safety',
+            '🗄️ pgvector integration for lightning-fast AI semantic search embeddings',
+            '🗄️ Automated replication, point-in-time recovery, and connection pooling',
+            '🗄️ GIN and GiST indexing delivering sub-2ms query execution on millions of rows'
+          ]
+        },
+        prisma: {
+          category: 'TYPE-SAFE DATA LAYER',
+          title: 'PRISMA ORM ENGINE',
+          subtitle: 'Type-safe query builder and database migration engine eliminating SQL injection and schema drift.',
+          latency: '0.8ms',
+          ttfb: 'Native',
+          score: '100/100',
+          uptime: '99.99%',
+          features: [
+            '💎 End-to-end TypeScript types generated directly from database schemas',
+            '💎 Automated declarative schema migrations with zero manual data corruption',
+            '💎 Rust-powered query engine optimizing SQL plans for speed',
+            '💎 Real-time database pulse and event stream hooks'
+          ]
+        },
+        aws: {
+          category: 'CLOUD INFRASTRUCTURE',
+          title: 'AMAZON WEB SERVICES (AWS)',
+          subtitle: 'Tier-1 global cloud platform providing durable S3 media storage, EC2 compute nodes, and CloudFront CDN.',
+          latency: '12ms',
+          ttfb: '15ms',
+          score: '99/100',
+          uptime: '99.99%',
+          features: [
+            '☁️ S3 Bucket storage with 99.999999999% data durability guarantee',
+            '☁️ IAM least-privilege security policies and VPC private networking',
+            '☁️ Global edge distribution points accelerating media assets worldwide',
+            '☁️ Automated daily encrypted backups and disaster recovery failover'
+          ]
+        },
+        cloudflare: {
+          category: 'GLOBAL EDGE & DDOS SHIELD',
+          title: 'CLOUDFLARE EDGE NETWORK',
+          subtitle: 'Ultra-low 18ms TTFB edge caching, Layer 7 DDoS mitigation, HTTP/3 protocol, and Anycast routing.',
+          latency: '18ms',
+          ttfb: '18ms',
+          score: '100/100',
+          uptime: '100%',
+          features: [
+            '⚡ 300+ city global Anycast edge network caching assets next to buyers',
+            '⚡ Enterprise DDoS armor absorbing terabit-scale attacks automatically',
+            '⚡ Early Hints (103) & HTTP/3 QUIC connection multiplexing',
+            '⚡ Web Application Firewall (WAF) blocking SQLi, XSS, and malicious bots'
+          ]
+        },
+        linux: {
+          category: 'OPERATING SYSTEM KERNEL',
+          title: 'LINUX ENTERPRISE SERVER',
+          subtitle: 'Hardened Debian/Ubuntu Linux distributions tuned for bare-metal sysctl networking and low-latency TCP.',
+          latency: '0.1ms',
+          ttfb: 'Native',
+          score: '100/100',
+          uptime: '99.99%',
+          features: [
+            '🐧 Kernel sysctl tuning: BBR congestion control and enlarged TCP buffers',
+            '🐧 Minimalist headless images stripped of background daemon bloat',
+            '🐧 SSH key-only access, UFW firewall, and fail2ban brute-force protection',
+            '🐧 Native cgroup resource isolation preventing container memory starvation'
+          ]
+        },
+        nginx: {
+          category: 'HIGH-PERFORMANCE REVERSE PROXY',
+          title: 'NGINX HTTP/3 PROXY',
+          subtitle: 'Event-driven, asynchronous web server managing SSL termination, gzip/brotli compression, and proxy caching.',
+          latency: '0.4ms',
+          ttfb: '12ms',
+          score: '100/100',
+          uptime: '99.99%',
+          features: [
+            '🌐 Asynchronous epoll architecture handling 50,000+ RPS per core',
+            '🌐 Native Brotli and Gzip dynamic compression reducing payload by 75%',
+            '🌐 Zero-downtime configuration reload and automated Let\'s Encrypt SSL',
+            '🌐 Micro-caching layer absorbing repeat dynamic requests at RAM speed'
+          ]
+        },
+        redis: {
+          category: 'IN-MEMORY CACHE & DATA STORE',
+          title: 'REDIS ULTRA-CACHE',
+          subtitle: 'Sub-millisecond in-memory data store managing sessions, rate limiting, and full-page caching.',
+          latency: '0.4ms',
+          ttfb: '2ms',
+          score: '100/100',
+          uptime: '99.99%',
+          features: [
+            '⚡ Sub-1ms latency for key-value reads, user sessions, and cart storage',
+            '⚡ Distributed lock mechanism preventing double-spend and race conditions',
+            '⚡ Pub/Sub message broker enabling instantaneous websocket push updates',
+            '⚡ Redis Persistence (AOF & RDB) preventing any cached state loss'
+          ]
+        }
+      };
+
+      // Live Inspector Hover Function
+      window.inspectTech = function (key) {
+        const item = TECH_DATA[key];
+        const nameEl = document.getElementById('inspector-name');
+        const descEl = document.getElementById('inspector-desc');
+        const dotEl = document.getElementById('inspector-dot');
+        if (item && nameEl && descEl) {
+          nameEl.textContent = item.title;
+          descEl.textContent = `${item.subtitle.slice(0, 75)}... (${item.latency})`;
+          if (dotEl) {
+            dotEl.className = 'w-2 h-2 rounded-full bg-brand-neon animate-ping shrink-0';
+            setTimeout(() => {
+              if (dotEl) dotEl.className = 'w-2 h-2 rounded-full bg-emerald-400 shrink-0';
+            }, 600);
+          }
+        }
+      };
+
+      // Tech Detail Modal Handlers
+      window.openTechDetailModal = function (key = 'overview') {
+        const item = TECH_DATA[key] || TECH_DATA.overview;
+        
+        closeCart();
+        closeSizeSheet();
+        closeSearch();
+        closeUnleashModal();
+        if (lenis) lenis.stop();
+
+        const catEl = document.getElementById('ts-modal-category');
+        const titleEl = document.getElementById('ts-modal-title');
+        const subEl = document.getElementById('ts-modal-subtitle');
+        const latEl = document.getElementById('ts-metric-latency');
+        const ttfbEl = document.getElementById('ts-metric-ttfb');
+        const scoreEl = document.getElementById('ts-metric-score');
+        const upEl = document.getElementById('ts-metric-uptime');
+        const featEl = document.getElementById('ts-modal-features');
+        const waBtn = document.getElementById('ts-modal-wa-btn');
+
+        if (catEl) catEl.textContent = item.category;
+        if (titleEl) {
+          const parts = item.title.split(' ');
+          if (parts.length > 1) {
+            titleEl.innerHTML = `${parts[0]} <span class="text-brand-red">${parts.slice(1).join(' ')}</span>`;
+          } else {
+            titleEl.textContent = item.title;
+          }
+        }
+        if (subEl) subEl.textContent = item.subtitle;
+        if (latEl) latEl.textContent = item.latency;
+        if (ttfbEl) ttfbEl.textContent = item.ttfb;
+        if (scoreEl) scoreEl.textContent = item.score;
+        if (upEl) upEl.textContent = item.uptime;
+
+        if (featEl && item.features) {
+          featEl.innerHTML = item.features.map(f => `
+            <div class="p-3 rounded-xl bg-white/[0.03] border border-white/8 flex items-start space-x-2.5">
+              <span class="text-brand-neon font-bold mt-0.5">•</span>
+              <span class="leading-relaxed text-white/90">${f}</span>
+            </div>
+          `).join('');
+        }
+
+        if (waBtn) {
+          const msg = encodeURIComponent(`Hi APPIEX Lead Architect Rafsan! I am interested in building a high-speed web architecture using ${item.title} (${item.category}). Please share deployment specs.`);
+          waBtn.href = `https://wa.me/8801600676875?text=${msg}`;
+        }
+
+        if (techSpecsModal) {
+          techSpecsModal.scrollTop = 0;
+          techSpecsModal.classList.add('open');
+        }
+        if (modalOverlay) modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      };
+
+      window.closeTechSpecsModal = function () {
+        if (techSpecsModal) techSpecsModal.classList.remove('open');
+        if (!cartDrawer?.classList.contains('open') && !sizeSheet?.classList.contains('open') && !searchPanel?.classList.contains('open') && !unleashModal?.classList.contains('open')) {
+          if (modalOverlay) modalOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+          if (lenis) lenis.start();
+        }
+      };
 
       function renderSearchResults(query) {
         const q = query.toLowerCase().trim();
@@ -2672,6 +3396,7 @@
         closeSizeSheet();
         closeSearch();
         closeUnleashModal();
+        closeTechSpecsModal();
       });
 
       // Checkout Demo
@@ -2686,6 +3411,7 @@
           closeSizeSheet();
           closeSearch();
           closeUnleashModal();
+          closeTechSpecsModal();
           if (servicesMegaMenu) {
             servicesMegaMenu.classList.remove('open');
             if (servicesChevron) servicesChevron.style.transform = 'rotate(0deg)';
@@ -2988,7 +3714,7 @@
           }
         });
 
-        // 1. NITRO ELITE WEB DESIGNS: Slower, cinematic bottom-to-top scroll scrub
+        // 1. BUILD YOUR DREAM WITH CARE AND FULLFIL: Cinematic bottom-to-top scroll scrub
         gsap.fromTo('#product-intro .stagger-word', 
           { y: 120, opacity: 0 },
           {
@@ -3001,6 +3727,23 @@
               start: 'top 85%',
               end: 'top 25%',
               scrub: 2.8
+            }
+          }
+        );
+
+        // 1a. Tech Stack 14 Capsules Stagger Spring Popup Entry
+        gsap.fromTo('.tech-capsule-btn',
+          { y: 35, opacity: 0, scale: 0.75 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            stagger: 0.045,
+            ease: 'back.out(2)',
+            scrollTrigger: {
+              trigger: '#product-intro',
+              start: 'top 80%',
+              once: true
             }
           }
         );
